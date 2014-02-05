@@ -1,0 +1,5 @@
+changed the order in which nested loops are traversed. It now goes over all nsigmas for a single data point.
+Done.
+
+Now unrolling the loop in this one.
+Unrolled 4 times. Working. Time consumed = 0.44ms average
