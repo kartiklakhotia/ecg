@@ -1,4 +1,0 @@
-hermite_function_pipe 16
-sample_data_pipe 16
-best_sigma_pipe 2
-fit_coefficient_pipe 4
