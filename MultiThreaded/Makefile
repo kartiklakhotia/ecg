@@ -26,7 +26,7 @@ LLVM2AAOPTS=-extract_do_while=true --storageinit=true -pipedepths=pipedepths.txt
 #PROGDEFS=-DUNROLL
 PROGDEFS=
 
-TOPMODULES=-T bestFit 
+TOPMODULES=-T bestFit -T computeMSE 
 
 
 # compile with SW defined.

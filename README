@@ -5,3 +5,6 @@ Now unrolling the loop in this one.
 Unrolled 4 times. Working. Time consumed = 0.44ms average
 
 Created threads for computing MSE and inner products. Both run in parallel now.
+Software check Done. Working
+
+Hardware Check -> to be done. 
