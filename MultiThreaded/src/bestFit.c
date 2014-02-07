@@ -12,8 +12,6 @@ void __loop_pipelining_on__(int A,int B,int C) {}
 void __loop_pipelining_on__(int,int,int); 
 #endif	
 
-double best_mse;
-int best_sigma_index ;
 
 void initHF()
 {
@@ -47,7 +45,7 @@ void initHF()
 		hF1[idx] = hFall[offset1+idx];
 		hF2[idx] = hFall[offset2+idx];	
 		hF3[idx] = hFall[offset3+idx];
-		hF4[idx] = hFall[offset4 + idx];
+		hF4[idx] = hFall[offset4+idx];
 		hF5[idx] = hFall[offset5+idx];
 	}
 #ifdef SW
@@ -200,8 +198,9 @@ void RxAndComputeInnerProducts()
 //
 void computeMSE()
 {
-	int I;
-	int SI;
+	int I, SI;
+	double best_mse;
+	int best_sigma_index ;
 	uint32_t start;
 	while (1){
 		start = read_uint32("startSignalPipe");
@@ -324,7 +323,7 @@ void computeMSE()
 			}
 		}
 	
-		write_uint32("doneSignalPipe", 1); 
+		write_uint32("doneSignalPipe", best_sigma_index); 
 	}
 }
 
@@ -344,19 +343,17 @@ void bestFit()
 		// At this point you have the projections.  Calculate
 		// MSE for each projection..
 //		computeMSE();
-		uint32_t a = read_uint32("doneSignalPipe");
+		uint32_t best_sigma_index = read_uint32("doneSignalPipe");
 		// At this point, we have the best SI.
 		double SI = best_sigma_index;
 		write_float64("out0_data", SI);
-//		write_float64("out1_data", dotP0[0]);
 
-		int I;
-			write_float64("out1_data", dotP0[best_sigma_index]);
-			write_float64("out1_data", dotP1[best_sigma_index]);
-			write_float64("out1_data", dotP2[best_sigma_index]);
-			write_float64("out1_data", dotP3[best_sigma_index]);
-			write_float64("out1_data", dotP4[best_sigma_index]);
-			write_float64("out1_data", dotP5[best_sigma_index]);
+		write_float64("out1_data", dotP0[best_sigma_index]);
+		write_float64("out1_data", dotP1[best_sigma_index]);
+		write_float64("out1_data", dotP2[best_sigma_index]);
+		write_float64("out1_data", dotP3[best_sigma_index]);
+		write_float64("out1_data", dotP4[best_sigma_index]);
+		write_float64("out1_data", dotP5[best_sigma_index]);
 //		}
 //		uint32_t end_time = getClockTime();
 

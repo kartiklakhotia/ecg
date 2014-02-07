@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
 {
 	float result;
 	int I, J;
-
+	
 	if(argc < 2)
 	{
 		fprintf(stderr,"Supply data set file.\n");
@@ -120,25 +120,33 @@ int main(int argc, char* argv[])
 	{
 		double X;
 		fscanf(fp, "%le", &X);
-		write_float64("in0_data", X);
+//		write_float64("in0_data", X);
 		samples[I] = X;
 	}
 	fprintf(stderr," Sent samples.\n");
 	fclose(fp);
 
-//	calculateReferenceFit();
-	double best_sigma_index = read_float64("out0_data");
+
+	for (J=0; J<10; J++)
+	{
+		for(I = 0; I < NSAMPLES; I++)
+		{
+			write_float64("in0_data",samples[I]);
+		}
+		
+	//	calculateReferenceFit();
+		double best_sigma_index = read_float64("out0_data");
+		
+		fprintf(stdout, " Best sigma= %f (index = %le).\n", (MIN_SIGMA + (best_sigma_index*(MAX_SIGMA - MIN_SIGMA)/NSIGMAS)), best_sigma_index);
+		double p0 = read_float64("out1_data");
+		double p1 = read_float64("out1_data");
+		double p2 = read_float64("out1_data");
+		double p3 = read_float64("out1_data");
+		double p4 = read_float64("out1_data");
+		double p5 = read_float64("out1_data");
 	
-	fprintf(stdout, " Best sigma= %f (index = %le).\n", (MIN_SIGMA + (best_sigma_index*(MAX_SIGMA - MIN_SIGMA)/NSIGMAS)), best_sigma_index);
-	double p0 = read_float64("out1_data");
-	double p1 = read_float64("out1_data");
-	double p2 = read_float64("out1_data");
-	double p3 = read_float64("out1_data");
-	double p4 = read_float64("out1_data");
-	double p5 = read_float64("out1_data");
-
-	fprintf(stdout, "best fit coeffs are = %le,%le,%le,%le,%le,%le\n", p0, p1, p2, p3, p4, p5);
-
+		fprintf(stdout, "best fit coeffs are = %le,%le,%le,%le,%le,%le\n", p0, p1, p2, p3, p4, p5);
+	}
 //	uint32_t elapsed_time = read_uint32("elapsed_time_pipe");
 //	fprintf(stdout,"Elapsed time = %d.\n", elapsed_time);
 
