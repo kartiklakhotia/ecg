@@ -166,6 +166,7 @@ void RxAndComputeInnerProducts()
 		// should finish in 100K cycles.  not likely
 		// to be critical.
 	}
+	write_uint32("startSignalPipe", 1);
 	for (I=0; I<NSIGMAS; I++){
 		__InnerProduct__(I);
 		write_uint32("startSignalPipe", 1);
@@ -200,129 +201,131 @@ void RxAndComputeInnerProducts()
 void computeMSE()
 {
 	int I;
-
-	best_mse = 1.0e+20;
-	best_sigma_index = -1;
-
 	int SI;
-	double projection[NSAMPLES];
-	for(SI = 0; SI < NSIGMAS; SI++)
-	{
-		double err = 0.0;
-		uint32_t start = read_uint32("startSignalPipe");
-
-		double s0 = dotP0[SI];
-		double s1 = dotP1[SI];
-		double s2 = dotP2[SI];
-		double s3 = dotP3[SI];
-		double s4 = dotP4[SI];
-		double s5 = dotP5[SI];
-
-		int Offset = (SI * NSAMPLES);
-
-		for(I = 0; I < NSAMPLES; I=I+4)
-		{
-			__loop_pipelining_on__(15,2,0);
-			int base = I + Offset;
-			int fetchIndex0 = base;
-			int fetchIndex1 = (base + 1);
-			int fetchIndex2 = (base + 2);
-			int fetchIndex3 = (base + 3);
-
-			double p00 = (s0*hF0[fetchIndex0]);
-			double p10 = (s1*hF1[fetchIndex0]);
-			double sum_00_10 = p00 + p10;
+	uint32_t start;
+	while (1){
+		start = read_uint32("startSignalPipe");
+		best_mse = 1.0e+20;
+		best_sigma_index = -1;
 	
-
-			double p20 = (s2*hF2[fetchIndex0]);
-			double p30 = (s3*hF3[fetchIndex0]);
-			double sum_20_30 = p20 + p30;
-
-
-			double p40 = (s4*hF4[fetchIndex0]);
-			double p50 = (s5*hF5[fetchIndex0]);
-			double sum_40_50 = p40 + p50;
-
-
-			double diff0 = ((inputData[I] - sum_00_10) - (sum_20_30 + sum_40_50)); 
-
-			double x0 = (diff0*diff0);
-
-
-			double p01 = (s0*hF0[fetchIndex1]);
-			double p11 = (s1*hF1[fetchIndex1]);
-			double sum_01_11 = p01 + p11;
-
-
-			double p21 = (s2*hF2[fetchIndex1]);
-			double p31 = (s3*hF3[fetchIndex1]);
-			double sum_21_31 = p21 + p31;
-
-
-			double p41 = (s4*hF4[fetchIndex1]);
-			double p51 = (s5*hF5[fetchIndex1]);
-			double sum_41_51 = p41 + p51;
-
-			double diff1 = ((inputData[I+1] - sum_01_11) - (sum_21_31 + sum_41_51));
-
-			double x1 = (diff1*diff1);
-			
-			double p02 = (s0*hF0[fetchIndex2]);
-			double p12 = (s1*hF1[fetchIndex2]);
-			double sum_02_12 = p02 + p12;
-
-
-			double p22 = (s2*hF2[fetchIndex2]);
-			double p32 = (s3*hF3[fetchIndex2]);
-			double sum_22_32 = p22 + p32;
-
-
-			double p42 = (s4*hF4[fetchIndex2]);
-			double p52 = (s5*hF5[fetchIndex2]);
-			double sum_42_52 = p42 + p52;
-
-			double diff2 = ((inputData[I+2] - sum_02_12) - (sum_22_32 + sum_42_52));
-
-			double x2 = (diff2*diff2);
-
-			double p03 = (s0*hF0[fetchIndex3]);
-			double p13 = (s1*hF1[fetchIndex3]);
-			double sum_03_13 = p03 + p13;
-
-
-			double p23 = (s2*hF2[fetchIndex3]);
-			double p33 = (s3*hF3[fetchIndex3]);
-			double sum_23_33 = p23 + p33;
-
-
-			double p43 = (s4*hF4[fetchIndex3]);
-			double p53 = (s5*hF5[fetchIndex3]);
-			double sum_43_53 = p43 + p53;
-
-			double diff3 = ((inputData[I+3] - sum_03_13) - (sum_23_33 + sum_43_53));
-
-			double x3 = (diff3*diff3);
-
-
-
-
-			err += (x0 + x1) + (x2 + x3);
-		}
-
-#ifdef SW
-		fprintf(stdout,"HW: Error for %d-th sigma is %f.\n", SI, err);
-#endif
-//		best_mse = err;
-		//write_uint32("logger_pipe", SI);
-
-		if(err <  best_mse)
+		for(SI = 0; SI < NSIGMAS; SI++)
 		{
-			best_mse = err;
-			best_sigma_index = SI;
+			double err = 0.0;
+			start = read_uint32("startSignalPipe");
+	
+			double s0 = dotP0[SI];
+			double s1 = dotP1[SI];
+			double s2 = dotP2[SI];
+			double s3 = dotP3[SI];
+			double s4 = dotP4[SI];
+			double s5 = dotP5[SI];
+	
+			int Offset = (SI * NSAMPLES);
+	
+			for(I = 0; I < NSAMPLES; I=I+4)
+			{
+				__loop_pipelining_on__(15,2,0);
+				int base = I + Offset;
+				int fetchIndex0 = base;
+				int fetchIndex1 = (base + 1);
+				int fetchIndex2 = (base + 2);
+				int fetchIndex3 = (base + 3);
+	
+				double p00 = (s0*hF0[fetchIndex0]);
+				double p10 = (s1*hF1[fetchIndex0]);
+				double sum_00_10 = p00 + p10;
+		
+	
+				double p20 = (s2*hF2[fetchIndex0]);
+				double p30 = (s3*hF3[fetchIndex0]);
+				double sum_20_30 = p20 + p30;
+	
+	
+				double p40 = (s4*hF4[fetchIndex0]);
+				double p50 = (s5*hF5[fetchIndex0]);
+				double sum_40_50 = p40 + p50;
+	
+	
+				double diff0 = ((inputData[I] - sum_00_10) - (sum_20_30 + sum_40_50)); 
+	
+				double x0 = (diff0*diff0);
+	
+	
+				double p01 = (s0*hF0[fetchIndex1]);
+				double p11 = (s1*hF1[fetchIndex1]);
+				double sum_01_11 = p01 + p11;
+	
+	
+				double p21 = (s2*hF2[fetchIndex1]);
+				double p31 = (s3*hF3[fetchIndex1]);
+				double sum_21_31 = p21 + p31;
+	
+	
+				double p41 = (s4*hF4[fetchIndex1]);
+				double p51 = (s5*hF5[fetchIndex1]);
+				double sum_41_51 = p41 + p51;
+	
+				double diff1 = ((inputData[I+1] - sum_01_11) - (sum_21_31 + sum_41_51));
+	
+				double x1 = (diff1*diff1);
+				
+				double p02 = (s0*hF0[fetchIndex2]);
+				double p12 = (s1*hF1[fetchIndex2]);
+				double sum_02_12 = p02 + p12;
+	
+	
+				double p22 = (s2*hF2[fetchIndex2]);
+				double p32 = (s3*hF3[fetchIndex2]);
+				double sum_22_32 = p22 + p32;
+	
+	
+				double p42 = (s4*hF4[fetchIndex2]);
+				double p52 = (s5*hF5[fetchIndex2]);
+				double sum_42_52 = p42 + p52;
+	
+				double diff2 = ((inputData[I+2] - sum_02_12) - (sum_22_32 + sum_42_52));
+	
+				double x2 = (diff2*diff2);
+	
+				double p03 = (s0*hF0[fetchIndex3]);
+				double p13 = (s1*hF1[fetchIndex3]);
+				double sum_03_13 = p03 + p13;
+	
+	
+				double p23 = (s2*hF2[fetchIndex3]);
+				double p33 = (s3*hF3[fetchIndex3]);
+				double sum_23_33 = p23 + p33;
+	
+	
+				double p43 = (s4*hF4[fetchIndex3]);
+				double p53 = (s5*hF5[fetchIndex3]);
+				double sum_43_53 = p43 + p53;
+	
+				double diff3 = ((inputData[I+3] - sum_03_13) - (sum_23_33 + sum_43_53));
+	
+				double x3 = (diff3*diff3);
+	
+	
+	
+	
+				err += (x0 + x1) + (x2 + x3);
+			}
+	
+#ifdef SW
+			fprintf(stdout,"HW: Error for %d-th sigma is %f.\n", SI, err);
+#endif
+	//		best_mse = err;
+			//write_uint32("logger_pipe", SI);
+	
+			if(err <  best_mse)
+			{
+				best_mse = err;
+				best_sigma_index = SI;
+			}
 		}
+	
+		write_uint32("doneSignalPipe", 1); 
 	}
-
-	write_uint32("doneSignalPipe", 1); 
 }
 
 void bestFit()
