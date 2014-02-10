@@ -1,0 +1,450 @@
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to 
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it 
+% to a new file with a new name and use it as the basis
+% for your article. 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\graphicspath{{./FIGURES/}}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{rotating}
+
+
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\urldef{\mailsa}\path|kartik@ee.iitb.ac.in|
+\urldef{\mailsb}\path|gabriel.caffarena@ceu.es|
+\urldef{\mailsc}\path|madhav@ee.iitb.ac.in|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+
+\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounter{ALG@line}{-1}}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Low-latency Hermite Polynomial Characterization of Heartbeats using a Field-Programmable Gate Array}
+
+% a short form should be given in case it is too long for the running head 
+\titlerunning{Low-latency Hermite Polynomial Characterization using an FPGA}
+
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Kartik Lakhotia\inst{1} \and
+ Gabriel Caffarena\inst{2} \and 
+ Madhav P. Desai \inst{1}}
+
+% if the list of authors exceeds the space for a headline,
+% an abbreviated author list is needed
+\authorrunning{Kartik Lakhotia et al.}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+
+
+% the affiliations are given next
+\institute{Indian Institute of Technology (Bombay), \\
+Powai, Mumbai 400076, \\
+India\\
+\and 
+University CEU-San Pablo,\\
+Urb. Monteprincipe, 28668, Madrid, Spain\\
+%\mailsa\\
+\mailsb\\
+%\mailsd\\
+\url{http://biolab.uspceu.com}\\
+%\mailsc\\
+}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem" 
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+
+\begin{abstract}
+The characterization of ECG heartbeats is a computationally intensive problem, and
+both off-line and on-line (real-time) solutions to this problem are of great interest.
+In this paper, we consider the use of a field-programmable gate-array (FPGA) to solve
+a critical component of this problem. We describe an implementation of
+a best-fit Hermite approximation of a heartbeat using six Hermite polynomials.  
+The implementation is generated using an algorithm-to-hardware compiler tool-chain
+and the resulting hardware is characterized using an off-the-shelf FPGA card.
+The single beat best-fit computation latency is under $0.5ms$ with a power dissipation of under 10 watts. 
+
+\keywords{Hermite approximation, ECG, QRS, Arrhythmia,  FPGA, Parallelization}
+\end{abstract}
+
+
+\section{Introduction}
+
+Automatic ECG analysis and characterization can help in 
+identifying anomalies in a long-term ECG recording. 
+In particular, the characterization of the QRS complex by means of Hermite functions 
+seems to be a reliable mechanism  for automatic classification of heartbeats \cite{j:lagerholm00}. 
+The main advantages seem to be the low sensitivity to noise and artifacts, and the
+compactness of the representation (e.g. a 144-sample QRS can be characterized with 7 parameters \cite{c:marquez13}). 
+These advantages have made the Hermite representation a very common tool for characterizing the 
+morphology of the beats \cite{j:lagerholm00,c:marquez13,c:braccini97,j:linh03a,j:linh03b}. 
+
+The ECG analysis using Hermite functions has a
+substantial amount of parallelism.  Solutions to the problem have been investigated
+using processors (and multi-cores) and graphics processing units (GPU's). 
+In this paper, we consider the alternative route of using an FPGA to implement
+the computations.  In particular, our work is motivated by the potential
+of an FPGA (or eventually, a dedicated application-specific circuit) for low-latency
+efficient computation of the best-fit of heart-beat data.
+
+%\begin{itemize}
+%\item The assessment of the capabilities of GPUs for the off-line characterization of heartbeats using Hermite functions approximations
+%\item The assessment of the capabilities of GPUs for the on-line characterization of heartbeats using Hermite functions approximations
+%\end{itemize}
+
+In Section \ref{s:arr}, we give a brief description of
+the characterization of heartbeats based on Hermite functions. The results are presented in Section \ref{s:results} and, finally, the conclusions are drawn in Section \ref{s:conclusions}.
+
+\section{QRS approximation by means of Hermite polynomials}\label{s:arr}
+The aim of using the Hermite approximation to estimate heartbeats is to reduce the number of dimensions required to carry out the ECG classification, without sacrificing accuracy. The benchmarks used in this work come from the MIT-BIH arrhythmia database \cite{j:moody01} which is made up of 48 ECG recordings whose beats  have been manually
+annotated by two cardiologists. Each file from the database contains 2 ECG channels, sampled at a frequency of 360 Hz and with a duration of approximately 2000 beats. In particular, here we are addressing the characterization of the morphology of the QRS complexes since this morphology, together with the distance between each pair of consecutive heartbeats, permits the identification of the majority of arrhythmias.
+
+Firstly,  the ECG files are preprocessed to remove baseline drift. Secondly, the QRS complexes for each heartbeat are extracted by finding the peak of the beat (e.g. the R wave) and selecting a  window of 200 ms centered on the heartbeat. Given that all the Hermite functions converge to zero both in $t=\infty$ and $t=-\infty$, the original QRS signal is extended to 400 ms by adding 100-ms sequences of zeros at each side of the complex. Thus, the QRS data are stored in a 144-sample vector $\vec{x}=\{x(t)\}$. This vector can be estimated with a linear combination of $N$ Hermite basis functions
+
+\begin{equation}\label{eqn:hat}
+\hat{x}(t)=\sum_{n=0}^{N-1}c_n(\sigma )\phi_n(t,\sigma),
+\end{equation}
+
+\noindent with
+
+\begin{equation}\label{eqn:phi}
+\phi_n(t,\sigma )=\frac{1}{\sqrt{\sigma 2^n n!\sqrt{\pi}}}e^{-t^2/2\sigma^2}H_n(t/\sigma) 
+\end{equation}
+
+\noindent being $H(t/\sigma)$ the Hermite polynomials. These polynomials can be computed recursively as
+
+\begin{equation}
+H_n(x)=2xH_{n-1}(x)-2(n-1)H_{n-2}(x),
+\end{equation}
+
+\noindent where $H_0(x)=1$ and $H_1(x)=2x$.
+
+Parameter $\sigma$ controls the width of the polynomials. In \cite{j:lagerholm00} the maximum value of $\sigma$ for a given order $n$ is computed and it holds that the bigger $n$ is the smaller $\sigma_{MAX}$ becomes.
+
+The optimal coefficients that minimize the estimation error for a given $\sigma$ are
+
+\begin{equation}\label{eqn:c}
+c_n(\sigma)=\sum_{t} x(t)\cdot \phi_n(t,\sigma) \textrm{~\cite{j:lagerholm00}.}
+\end{equation}
+
+Once the suitable set of $\sigma$ and $\vec{c}=\{c_n(\sigma)\}$  \mbox{$(n\in [0,N-1])$} are found for each heartbeat, it is possible to use only these figures to perform morphological classification of the heartbeats. Section \ref{s:CUDA} details how this characterization is carried out with a computer and a GPU.
+ 
+
+\section{GPU acceleration}\label{s:GPU}
+
+GPUs enable the massive parallelization of algorithms and they reach speedups ranging from x10 to x300 \cite{j:nickolls10} keeping a low power consumption  \cite{j:brodt10}. Internally, they are formed of hundreds of processor cores that work in parallel, executing the same task (\emph{kernel}). They have been welcomed by the scientific community due to their low cost, their relatively programming simplicity and their suitability for floating-point computations -- widely adopted in scientific computation. They have been applied to many disciplines, being well accepted among bioengineering research projects \cite{b:kirk10,j:nickolls10}. Currently, the most popular GPUs are connected to the PC by means of a PCIe connection, opening the door to low cost high-performance computing.
+  Basically, they are tuned for executing the same task using a huge volume of data. If we move apart from this situation (data dependency, conditional flows, etc.) they do not provide perceptible performance gains. C-like programming languages, such as CUDA \cite{b:kirk10}, can be used to program the GPUs. They provide fast compilation and easy integration with traditional  programs executed by the CPU.
+
+The programming model of CUDA is intended for encapsulating the inner hardware details of the GPU to the programmer, in order to ease the development process, as well as to facilitate portability to different GPU devices. The GPU is composed of several streaming processors (SP) that possess several cores that can work in parallel. As previously mentioned, the GPU executes the same piece of code (kernel) in parallel using different data sets. A \emph{thread} is a particular execution of the kernel. Each SP handles in parallel a set of \emph{threads} grouped together in the so-called \emph{warps}. The execution of the threads in a warp is parallel as long as there are no conditional branches. If there are different execution paths, the SP executes in parallel all threads that points at the same instruction. This implies, that the SP must first cluster all threads that are in the same execution point, then, execute sequentially each cluster. Thus, the presence of conditional branches can deteriorate  performance considerably.
+
+The programmer has some control on the way that threads work in parallel. Threads are grouped in \emph{blocks} using a 1D, 2D, or 3D mesh. As a result, each thread has a 3-dimension identifier (ID). During scheduling, each block is assigned to an SP, and the SP starts the execution of all of its threads (by means of warps). In a similar fashion, blocks are distributed in a 1D/2D mesh, called a \emph{grid}. Thus, the block also has an identifier, and this identifier is visible to the threads belonging to it. Each thread can use the block and thread IDs to generate the memory locations of the data sets that have to process and/or to output.
+
+Regarding memory, all threads can access \emph{global memory} (DRAM), all threads within a block access \emph{shared memory} (SRAM), and eventually, each individual thread accesses a set of \emph{local registers}. The key point here is that global memory has a high capacity (i.e. 1-6 GB) but it is slow, while shared memory has a small capacity (i.e. 16-48 KB) but it is fast (a couple of orders of magnitude faster than global memory). Global memory must be accessed coalescedly, since the read and write operations work with several consecutive bytes (32, 64, 128, etc.), otherwise, there are prohibitive delays. Shared memory can be accessed randomly. 
+
+As a final remark, given that an algorithm is suitable for parallelization, the key to success in acceleration with a GPU are both the wise selection of the block and grid shapes and sizes, and a correct use of the memory hierarchy.
+
+\section{CUDA implementation}\label{s:CUDA}
+\subsection{Baseline implementation}
+Algorithm \ref{alg:1} shows the computation involved in the characterization of the ECG heartbeats. The inputs to the algorithm are the ECG data and the maximum polynomial order $N$, and the output is the set with the $N+1$ figures used to characterize the QRS complexes.
+
+ First, the QRS complexes are extracted from the  ECG recording, outputting for each heartbeat a 144-sample signal $x_i(t)$. Then, in the first loop (\textit{Loop1}, lines~\ref{alg:loop1b}-\ref{alg:loop1e}), the values of $\phi(t,\sigma)$ are precomputed, aiming at reducing computation time, since these values are used repeatedly during the second loop. The benefit of this precomputation was tested in an Intel i7 leading to a speedup of $\times10^5$. The second loop (\textit{Loop2}, lines~\ref{alg:loop2b}-\ref{alg:loop2e}) is devoted to finding the optimal set of $\sigma$ and coefficients $\vec{c}$ for each heartbeat. It is composed of two nested loops: the outer one traverses all $x_i$ and the inner one finds the optimal coefficient for the set of $\sigma$. A total of $S$ sigmas are tried from the set $\sigma=\{1\ldots \sigma_{max}(N)\}$, where  $\sigma_{max}(n)$ is a function of $n$ \cite{j:lagerholm00}. Typical values of $S$ are smaller than $100$. Thus, for each heartbeat and for different values of $\sigma$, the optimal coefficients ($\vec{c}$) are found and the combination of $\sigma$ and coefficient that reduces the mean squared error (MSE) between estimation $\hat{x_i}$ and the actual QRS complex $x_i$ is selected to characterize the heartbeat. The MSE is defined as
+
+\begin{equation}\label{eqn:mse}
+MSE = \sum{\left( x_i(t)-\hat{x}_i(t) \right)^2} 
+\end{equation}
+
+
+
+\begin{algorithm}[h]
+\caption{QRS characterization} 
+\label{alg:1} 
+\textbf{Input:} ECG data, maximum polynomial order $N$ \\
+\textbf{Output:} Best set of parameters for each heartbeat ($\{\sigma, \vec{c}\}$) \\
+        
+\begin{algorithmic}[1]
+%\STATEX{\# Loop 1}
+%\NoNumber{\# Loop 1}
+
+	\STATE{\# Loop 1}
+	\FORALL{$\sigma$ and $n$} \label{alg:loop1b}
+		\STATE{Compute $\phi_n(t,\sigma )$ (\ref{eqn:phi}) } 
+	\ENDFOR \label{alg:loop1e}
+	%\STATE{}
+	\vspace{3 pt}
+	\STATE Extract QRS complexes from the ECG file ($x_i(t)$)
+	%\nonumber{\STATE{~}}
+	\vspace{3 pt}
+	\STATE{\# Loop 2}
+	\STATE $err_{min} = \infty$ \label{alg:loop2b}
+	\FORALL{$x_i(t)$ } 
+			\FORALL{$\sigma$} 
+				\FORALL{$n$} \STATE Compute $c_n(\sigma)$ \# eqn. (\ref{eqn:c}) \ENDFOR
+				\STATE Compute $\hat{x}_i(t)$ \# eqn. (\ref{eqn:hat})
+				\STATE Compute $err=MSE(\hat{x}_i(t), x_i(t))$ \# eqn. \ref{eqn:mse} 
+				\IF {$err_{min}>err$}
+					\STATE $\sigma_{BEST}=\sigma$
+					\STATE $\vec{c_{BEST}}=\{c_n(\sigma)\}$ 
+				\ENDIF
+			\ENDFOR
+	\ENDFOR \label{alg:loop2e}
+
+\end{algorithmic}
+\end{algorithm} 
+
+\subsection{Parallel implementation}\label{s:parallel}
+
+\begin{algorithm}[h]
+\caption{Host-side code} 
+\label{alg:host} 
+\textbf{Input:} ECG data, polynomial order $N$ \\
+\textbf{Output:} Best set of parameters for each heartbeat ($\{\sigma, \vec{c}\}$) \\
+        
+\begin{algorithmic}[1]
+	\STATE Allocate GPU memory
+	\STATE Call \textit{kernel\_$\phi$} \label{alg:host_phi}
+	\STATE Send all $x_i(t)$ to GPU (Write onto GPU Global memory) \label{alg:host_send}
+	\STATE Call \textit{kernel\_Hermite} \label{alg:host_hermite}
+	\STATE Wait for GPU to finish processing \label{alg:host_wait}
+	\STATE Read $\{\sigma_i , \vec{c_i}\}$ (Write onto Host memory) \label{alg:host_read}
+\end{algorithmic}
+\end{algorithm} 
+
+The approach taken is to parallelize \textit{Loop1} and \textit{Loop2} (Algorithm \ref{alg:1}) using two different kernels: \textit{kernel\_$\phi$} and \textit{kernel\_Hermite}. Algorithm \ref{alg:host} shows the way that the host (CPU) sends data to the GPU, calls the different kernels to do the processing, and finally, retrieves the data and stores it in the computer's RAM. It is worth noting that while the GPU is executing \textit{kernel\_$phi$} (line \ref{alg:host_phi}), the host can send data to the GPU at the same time (line \ref{alg:host_send}). Also, before reading the results (line \ref{alg:host_read}), it is necessary to synchronize with the GPU execution (line \ref{alg:host_wait}) to avoid reading inconsistent data.
+Following, these kernels are explained and also the way to optimize the data transfers for real-time processing as well as for the processing of very long ECG recordings.
+
+\subsubsection{Precomputation of $\phi$\\}
+
+The parallelization of \textit{Loop1} in algorithm \ref{alg:1} is straight forward. The Hermite functions $\phi_n(t,\sigma)$ are composed of 144 samples with disregard of the values of $n$ and $\sigma$. Thus, we can have 144 threads working in parallel, so that each thread evaluates eqn.~(\ref{eqn:phi}) at a different time step $t$. The value $t$ is the same as the thread ID and the values of $n$ and $\sigma$ are derived from the block ID. Hence, a block contains 144 threads and deals with the computation of all the samples of a function $\phi$ for a concrete $(n,\sigma$) couple. Blocks are arranged in a $S\times N$ mesh. The 2-dimensional block ID has as a first component the index of  $\sigma$ and as a second one the weight of the Hermite polynomials. Figure \ref{fig:phi} displays the distribution of threads and blocks.
+
+This scheme results in the parallel computation of as many $\phi$ functions as SPs are in the GPU. 
+
+\begin{figure*}\label{fig:phi}
+	\centering
+		\includegraphics[width=0.75\textwidth]{phi.pdf}
+	\caption{Thread and block distribution for \textit{kernel\_$\phi$}}
+\end{figure*}
+
+
+
+\subsubsection{Search for the optimal coefficients\\}
+\textit{Loop2} in Algorithm \ref{alg:1}  requires a more thorough parallelization.  Now, each block is going to handle a different QRS complex $x_i(t)$, so there are as many blocks as heartbeats in the ECG recording (i.e. approximately $2000$ for MIT-BIH files). Each block holds 144 threads, since most of the time all the treads  are able to work in parallel. So now, a thread can use the block ID to select the heartbeat to work on and the thread ID to know the index of the sample of the heartbeat that is using for the computations. 
+
+The pseudocode for \textit{kernel\_Hermite} is in Algorithm \ref{alg:hermite}. It must be borne in mind that the kernel is executed by all the threads in a block. The number of the heartbeat ($i$) and the sample associated to the thread ($t$) are obtained in lines \ref{alg:hermite_id1}-\ref{alg:hermite_id2} from the block and threads IDs. Then, since the heartbeat data are going to be used several times by the kernel and for each thread, these data are copied onto shared memory (line \ref{alg:hermite_copy}), so from now on, any reference to $x_i(t)$  implies a fast reading from shared memory. As in the original code (Algorithm \ref{alg:1}), a loop traversing all values of $\sigma$ is included (lines \ref{alg:hermite_sigmab}-\ref{alg:hermite_sigmae}). For each $\sigma$ the vector of coefficients $\vec{c}$ is computed (lines \ref{alg:hermite_c1b}-\ref{alg:hermite_c2e}) and the best one is kept. First, the multiplication between the original signal sample ($x_i(t)$) and the Hermite functions ($\phi_n(t,\sigma)$) are computed in parallel -- each thread performs a multiplication on its own (lines \ref{alg:hermite_c1b}-\ref{alg:hermite_c1e}). Then, a reduction technique is applied to carry out the summation \cite{b:kirk10} (lines \ref{alg:hermite_c1b}-\ref{alg:hermite_c1e}). Unfortunately, it is unviable to perform this with full parallelism, so the performance is deteriorated. In order to compute the MSE, it is necessary to have the estimation of the heartbeat for the current coefficients. Lines \ref{alg:hermite_hatb}-\ref{alg:hermite_hate} shows how each thread iterates through the different polynomial orders, computing in parallel the multiplication of the coefficients by the original samples of the QRS complex. The MSE is computed in two steps. The squared error between $x_i(t)$ and $\hat{x}_i(t)$ is computed in parallel and then, the summation is performed by reduction (lines \ref{alg:hermite_mseb}-\ref{alg:hermite_msee}). Finally, thread $0$ updates the best solution if the new MSE computed is the minimum so far.
+
+\begin{algorithm}[h]
+\caption{Pseudocode for \textit{kernel\_Hermite} (executed at the GPU)} 
+\label{alg:hermite} 
+\textbf{Input:} ECG data, polynomial order $N$ \\
+\textbf{Output:} Best set of parameters for each heartbeat ($\{\sigma, \vec{c}\}$) \\
+        
+\begin{algorithmic}[1]
+	\STATE i = block.ID \hspace{30 pt} \# beat index \label{alg:hermite_id1}
+	\STATE t = thread.ID\hspace{30 pt} \# sample index \label{alg:hermite_id2}
+	
+	\vspace{3 pt}
+	\STATE Copy $x_i(t)$ to shared memory \# full parallelization \label{alg:hermite_copy}
+	
+	\vspace{3 pt}
+	\STATE $err=\infty$ \label{alg:hermite_mse1}
+	\FORALL {$\sigma$} \label{alg:hermite_sigmab}
+		\FORALL {n} \label{alg:hermite_c1b}
+			\STATE Compute $sum_t=x_i(t)\cdot \phi_n(t,\sigma)$ \# eqn. (\ref{eqn:c}) -- fully parallel
+		\ENDFOR \label{alg:hermite_c1e}
+\vspace{3 pt}
+		\FORALL {n} \label{alg:hermite_c2b}
+			\STATE Compute $c_n(\sigma)=\sum{sum_t}$ \# eqn. (\ref{eqn:c})) -- reduction technique \cite{b:kirk10} 
+		\ENDFOR \label{alg:hermite_c2e}
+\vspace{3 pt}
+		$\hat{x_i(t)} = 0$ \label{alg:hermite_hatb}
+		\FORALL {n} 
+			\STATE Compute $\hat{x_i(t)} += c_n(\sigma)\cdot x_i(t)$ \# eqn. (\ref{eqn:hat})) -- fully parallel
+		\ENDFOR \label{alg:hermite_hate}
+\vspace{3 pt}		
+		\STATE Compute $err_{tmp}(t)=\left( x_i(t) - \hat{x}_i(t)\right)^2$ \# eqn. (\ref{eqn:mse}) -- fully parallel \label{alg:hermite_mseb}
+		\STATE Compute $MSE=\sum{err_{tmp}(t)}$	\# eqn. (\ref{eqn:mse}) -- reduction technique 	\label{alg:hermite_msee}
+\vspace{3 pt}		\STATE \# This only for thread $0$
+		\IF {$t=0$ and $err>MSE$} \label{alg:hermite_bestb} 
+			\STATE $\sigma_{best}=\sigma$
+			\STATE $\vec{c}_{best}=\vec{c}$
+		\ENDIF \label{alg:hermite_beste}		
+	\ENDFOR \label{alg:hermite_sigmae}		
+\end{algorithmic}
+\end{algorithm} 
+
+
+\subsubsection{Data transfer optimization\\}
+In the event that the amount of heartbeats is too high and there is not enough memory in the GPU to store them, it is necessary to resort to divide the set of data in subsets that can then be computed sequentially. This idea can also be applied to real-time processing, and, in this case, the size of the subsets must be small (e.g. from 10 to 100 beats). Figure \ref{fig:PCIe} shows how it is possible to maximize performance by overlapping data transfer with GPU computation. During the computation of \textit{kernel\_$\phi$} it is possible to also send the first subset of heartbeats (\textit{subset $0$}). While \textit{kernel\_Hermite} is characterizing \textit{subset $0$}, \textit{subset $1$} is being sent to the GPU. During the third kernel call, \textit{subset $1$} is being characterized,  \textit{subset $2$} is being transfered to the GPU, and \textit{subset $0$}  is being transferred to the computer memory. The process continues for the rest of subsets. Thus, it is possible to compute in a pipeline fashion and performance is optimized.
+
+\begin{figure*}\label{fig:PCIe}
+	\centering
+		\includegraphics[width=\textwidth]{PCIe.pdf}
+	\caption{Streaming processing to optimize performance for real-time processing and the processing of very long ECG recordings }
+\end{figure*}
+
+
+\section{Results}\label{s:results}
+Algorithm \ref{alg:1} was coded in C language to be executed on a CPU and also in CUDA for the GPU execution. The test platform was a PC with an Intel-i7 (1,6 GHz and 4 GB of RAM) and graphics processor NVIDIA TESLA C2050 (448 cores, 4 GB of RAM). The baseline was a single-thread execution of the CPU code.
+
+Three different tests were performed:
+\begin{itemize}
+\item \textbf{Test A}: Off-line processing, short recordings
+	\begin{itemize}
+	\item Only one execution
+	\item It is intended to test the ECG recording from the MIT-BIH database
+	\item Tested with Hermite polynomials of order 6 and 9
+	\item The number of heartbeats tested were 10, 100, 1000 and 2273
+	\end{itemize}
+\item \textbf{Test B}: Off-line processing, long recordings 
+	\begin{itemize}
+	\item Stream processing
+	\item Long ECG recordings
+	\item Tested with Hermite polynomials of order 6 and 9
+	\item 200 blocks of $5000$ beats
+	\end{itemize}
+\item \textbf{Test C}: On-line processing
+	\begin{itemize}
+	\item Stream processing
+	\item Real-time
+	\item Tested with Hermite polynomials of order 6 and 9
+	\item 1000 subsets of $10$ and $100$ heartbeats
+	\end{itemize}
+\end{itemize}
+
+The following subsections present the results for these tests.
+
+\subsection{Off-line processing, short recordings}\label{ss:offlineshort}
+%\subsubsection{Processing a small ECG recording (\textbf{Test A})\\}
+Table \ref{tab:A} shows the computation time and speedup for \textbf{Test A}. The first column indicates the number of beats processed. The second column the number of Hermite polynomials used. The third and fourth columns hold the computation time in ms of the baseline (CPU) and \textbf{Test A} (GPU). The last column shows the speedup. 
+
+\begin{table}[h]
+\caption{Performance results for \textbf{Test A}}\label{tab:A}
+\begin{minipage}[b]{\columnwidth}\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+%\begin{tabular}{>{\scriptsize}p{.1 cm}|>{\scriptsize}p{.3 cm} >{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.4 cm}|>{\scriptsize}p{.3 cm}}
+% \begin{tabular}{c|c|c|c|c}
+% \begin{tabular}{c c c c c}
+\begin{tabular}{p{1 cm} p{1 cm} p{2 cm} p{2 cm} p{1 cm}}
+Beats & $N$ & CPU time & GPU time & Speedup\\
+      &     & (ms) & (ms) & \\\hline
+\multirow{2}{*}{10} & 6 & 34 & 163 & $\times 0.21$ \\
+ & 9 & 59 & 164 & $\times 0.37$ \\\hline
+\multirow{2}{*}{100} & 6 & 175 & 163 & $\times 1.11$\\
+ & 9 & 258 & 165 & $\times 1.56$ \\\hline
+\multirow{2}{*}{1000} & 6 & 1603 & 173 & $\times 8.67$ \\
+ & 9 & 2204 & 169 & $\times 11.28$ \\\hline
+\multirow{2}{*}{2273} & 6 & 3592 & 187 & $\times 17.04$ \\
+ & 9 & 4922 & 198 & $\times 23.19$ \\
+\end{tabular}
+\end{center}
+\end{minipage}
+\end{table}
+
+The results yield that the GPU does not provide a significant benefit for a small number of beats (e.g.$N<1000$). The maximum speedup obtained is $23\times$, which might just be in the limit to justify the use of these devices, instead of using a multi-thread implementation with a standard CPU. Also, it is interesting to see that the GPU times for 10 and 100 beats are virtually the same, mainly because the time needed to allocate GPU memory and to transfer data to the GPU are similar and much longer than the kernel computation time.
+
+%\subsubsection{Processing a long ECG recording (\textbf{Test B})\\}
+\subsection{Off-line processing, long recordings}\label{ss:offlinelong}
+\textbf{Test B} is performed processing 200 blocks of 500 heartbeats. Data transfer is optimized following the pipeline scheme from section \ref{s:parallel}. Table \ref{tab:B} shows the computation time and speedup obtained for $N=\{6,9\}$. 
+
+
+%!!!! Poner en msecs
+\begin{table}[h]
+\caption{Performance results for \textbf{Test B}}\label{tab:B}
+\begin{minipage}[b]{\columnwidth}\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+%\begin{tabular}{>{\scriptsize}p{.1 cm}|>{\scriptsize}p{.3 cm} >{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.4 cm}|>{\scriptsize}p{.3 cm}}
+% \begin{tabular}{c|c|c|c|c}
+% \begin{tabular}{c c c c c}
+\begin{tabular}{p{1 cm} p{1 cm} p{2 cm} p{1 cm} p{2 cm} p{2 cm} p{1 cm}}
+Beats & Blocks & Beats/block & $N$ & CPU time & GPU time & Speedup\\
+      & & &     & (msec) & (msec) & \\\hline
+\multirow{2}{*}{$10^6$} & \multirow{2}{*}{$200$} & \multirow{2}{*}{$5000$} & 6 & 1986951 & 11542 & $\times 171$ \\
+& & & 9 & 2639662 & 11550 & $\times 228$ \\
+\end{tabular}
+\end{center}
+\end{minipage}
+\end{table}
+
+The results show that the benefit of using a GPU for the processing of a high number of heartbeats is significant, since speedups up to $\times 228$ are achieved. It is worth noting that the GPU  computation times for $N=6$ and $N=9$ are virtually the same, while the CPU times increases $30\%$. Hence, the GPU enables increasing the accuracy of the heartbeat estimation without increasing computation time. As for the computation time, for a Holter recording of 24 hours, and 6 leads, the characterization of the beats on the CPU would require approximately 25 minutes, while the GPU would need about 12 seconds.
+
+The big difference between the speedups for \textbf{Test A} and \textbf{Test B} is due to the overlapping between GPU computation and data transfer carried out in the latter (see subsection \ref{s:parallel}). Even though the classification stage is not included in this study, the current results already show that for off-line processing the use of a GPU is a real asset. 
+
+
+%\subsection{On-line processing}\label{ss:CUDA2}
+\subsection{On-line processing}\label{ss:online}
+\textbf{Test C} intends to assess the performance of the GPU for real-time processing. The computation performed and the data transfer scheme are the same as for \textbf{Test B}. The only differences are the size and number blocks used. The size must be small to achieve real-time, and the number of blocks must be very high to simulate a continuous ECG processing. The maximum polynomial order selected was $N=6$.
+
+Table \ref{tab:C} contains the results for this third experiment. The first column indicates the number of blocks sent to the GPU (and also the number of kernel executions) and the second the number of beats conforming each block. The third column shows the time that a human heart takes to beat as many times as the number of heartbeats processed, considering a heartrate of 60 Hz. The next two columns hold the computation times for the CPU and GPU. And, finally, column number six displays the speedup obtained with the GPU.
+
+\begin{table}[h]
+\caption{Performance results for \textbf{Test C}}\label{tab:C}
+\begin{minipage}[b]{\columnwidth}\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+%\begin{tabular}{>{\scriptsize}p{.1 cm}|>{\scriptsize}p{.3 cm} >{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.3 cm}>{\scriptsize}p{.4 cm}|>{\scriptsize}p{.3 cm}}
+% \begin{tabular}{c|c|c|c|c}
+% \begin{tabular}{c c c c c}
+\begin{tabular}{p{1 cm} p{2 cm} p{2 cm} p{2 cm} p{1 cm} p{1cm}}
+Blocks & Beats/Block & Heart time & CPU time & GPU time & Speedup\\
+      &     & (sec) & (ms) & (ms) & \\\hline
+\multirow{2}{*}{1000} & 10 & $10^5$ & 153083 & 5474 & $\times 28.96$ \\
+ & 100 & $10^6$ & 1582625 & 15677 & $\times 102$ \\
+\end{tabular}
+\end{center}
+\end{minipage}
+\end{table}
+
+First, the results show that the CPU is able to perform real-time processing, since the computation time required to process a single heart beat is much shorter than the heartbeat period (around 1 second). The GPU outperforms the CPU for blocks of both 10 and 100 beats, with speedups of $\times 28.96$ and $\times 102$, respectively. For off-line processing, it was clear that a GPU reduces the time that the cardiologist needs to analyze a long ECG recording. As aforementioned, for a Holter recording of 24 hours, and 6 leads, the characterization of the beats on the CPU would require approximately 25 minutes, while the GPU would need about 12 seconds. In the case of  real-time processing, both technologies (CPU and GPU) are able to work in real-time, leading to think that the use of a GPU is not justified. However, until the classification stage is not included in the experiment, it is not sensible to make such a statement. Since the GPU is working several orders of magnitude faster than the CPU, everything points at the possibility of applying more complex classification techniques on real time on the GPU than a CPU will be able to handle.
+
+Let us point out that the speedup obtained for 10-beat blocks is much higher than the one obtained in Table \ref{tab:A}, where there was no speedup at all. The reason for that is that the time required for the pipeline processing -- that overlaps data transfer and kernel computation -- along with the time for GPU memory allocation -- that is performed only once -- is negligible compared with the computation time of processing a thousand of beats.
+
+\section{Conclusions}\label{s:conclusions}
+In this paper, a solution for the GPU parallelization of the characterization of heartbeats by means of the use of Hermite functions was presented. The parallel code, based on CUDA, was explained in detail and performance results were presented. Speedups up to $\times 200$ where obtained for both off-line and on-line processing. Regarding the accuracy of the heartbeat characterization, the GPU showed no performance degradation when the order of the Hermite polynomials was increased from 6 to 9, while the CPU computation time increased $30 \%$. The GPU off-line processing of long ECG recordings enables reducing computation time of a 6 leads 24 hours Holter recording from approximately 25 minutes to about 12 seconds. As for on-line processing, both the CPU and GPU are able to work in real-time, although the GPU outperforms the former. It remains to study the impact of using a GPU when also the classification of heartbeats is performed. 
+
+As future research lines, the authors propose: i) the addition of a classification stage \cite{j:barbakhF08}, again for both off-line and on-line processing; and, ii) the assessment of GPU technology for high-order Hermite polynomials QRS estimation.
+
+\subsubsection*{Acknowledgments.} We thank Nvidia University Program for the support given to the Laboratory of Bioengineering, University CEU-San Pablo. %This project has been partially supported by research project XXXX (Ministry of YYY)
+
+
+% Bibliography
+\bibliographystyle{splncs}
+\bibliography{refsQRS}
+
+\end{document}
