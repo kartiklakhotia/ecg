@@ -19,13 +19,13 @@ void initHF()
 {
 	int M = MEM_SIZE;
 	int idx;
-	int shift1, shift2, shift3, shift4, shift5;
+	int offset1, offset2, offset3, offset4, offset5;
 	double hFall[6*M];
-	shift1 = M;
-	shift2 = 2*M;
-	shift3 = 3*M;
-	shift4 = 4*M;
-	shift5 = 5*M;
+	offset1 = M;
+	offset2 = 2*M;
+	offset3 = 3*M;
+	offset4 = 4*M;
+	offset5 = 5*M;
 	for(idx = 0; idx < NSIGMAS; idx++)
 	{
 		__loop_pipelining_on__(15,2,0);
@@ -46,11 +46,11 @@ void initHF()
 	{
 		__loop_pipelining_on__(15,2,0);
 		hF00[idx] = hFall[idx];
-		hF10[idx] = hFall[shift1+idx];
-		hF20[idx] = hFall[shift2+idx];	
-		hF30[idx] = hFall[shift3+idx];
-		hF40[idx] = hFall[shift4+idx];
-		hF50[idx] = hFall[shift5+idx];
+		hF10[idx] = hFall[offset1+idx];
+		hF20[idx] = hFall[offset2+idx];	
+		hF30[idx] = hFall[offset3+idx];
+		hF40[idx] = hFall[offset4+idx];
+		hF50[idx] = hFall[offset5+idx];
 	}
 
 	for(idx = 0; idx < M; idx++)
