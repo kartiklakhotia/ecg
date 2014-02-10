@@ -12,20 +12,23 @@ void __loop_pipelining_on__(int A,int B,int C) {}
 void __loop_pipelining_on__(int,int,int); 
 #endif	
 
+double best_mse;
+int best_sigma_index ;
 
 void initHF()
 {
 	int M = MEM_SIZE;
 	int idx;
-	int offset1, offset2, offset3, offset4, offset5;
-	offset1 = M;
-	offset2 = 2*M;
-	offset3 = 3*M;
-	offset4 = 4*M;
-	offset5 = 5*M;
+	int shift1, shift2, shift3, shift4, shift5;
+	double hFall[6*M];
+	shift1 = M;
+	shift2 = 2*M;
+	shift3 = 3*M;
+	shift4 = 4*M;
+	shift5 = 5*M;
 	for(idx = 0; idx < NSIGMAS; idx++)
 	{
-		__loop_pipelining_on__(8,2,0);
+		__loop_pipelining_on__(15,2,0);
 		dotP0[idx]  = 0;
 		dotP1[idx]  = 0;
 		dotP2[idx]  = 0;
@@ -34,19 +37,31 @@ void initHF()
 		dotP5[idx]  = 0;
 	}
 
+	
 	for (idx = 0; idx < 6*M; idx++){
 		hFall[idx] = read_float64("in1_data");
 	}
 
 	for(idx = 0; idx < M; idx++)
 	{
-		__loop_pipelining_on__(8,2,0);
-		hF0[idx] = hFall[idx];
-		hF1[idx] = hFall[offset1+idx];
-		hF2[idx] = hFall[offset2+idx];	
-		hF3[idx] = hFall[offset3+idx];
-		hF4[idx] = hFall[offset4+idx];
-		hF5[idx] = hFall[offset5+idx];
+		__loop_pipelining_on__(15,2,0);
+		hF00[idx] = hFall[idx];
+		hF10[idx] = hFall[shift1+idx];
+		hF20[idx] = hFall[shift2+idx];	
+		hF30[idx] = hFall[shift3+idx];
+		hF40[idx] = hFall[shift4+idx];
+		hF50[idx] = hFall[shift5+idx];
+	}
+
+	for(idx = 0; idx < M; idx++)
+	{
+		__loop_pipelining_on__(15,2,0);
+		hF01[idx] = hF00[idx];
+		hF11[idx] = hF10[idx];
+		hF21[idx] = hF20[idx];	
+		hF31[idx] = hF30[idx];
+		hF41[idx] = hF40[idx];
+		hF51[idx] = hF50[idx];
 	}
 #ifdef SW
 	fprintf(stderr, "reading Hermite function 6 vals completed\n");
@@ -106,40 +121,40 @@ inline void  __InnerProduct__(int SI) {
 
 
 
-		p00 = dataSample0*hF0[index0];
-		p01 = dataSample1*hF0[index1];
-		p02 = dataSample2*hF0[index2];
-		p03 = dataSample3*hF0[index3];
+		p00 = dataSample0*hF00[index0];
+		p01 = dataSample1*hF00[index1];
+		p02 = dataSample2*hF00[index2];
+		p03 = dataSample3*hF00[index3];
 		dotP0[SI] += (p00 + p01) + (p02 + p03);
 	
-		p10 = dataSample0*hF1[index0];
-		p11 = dataSample1*hF1[index1];
-		p12 = dataSample2*hF1[index2];
-		p13 = dataSample3*hF1[index3];
+		p10 = dataSample0*hF10[index0];
+		p11 = dataSample1*hF10[index1];
+		p12 = dataSample2*hF10[index2];
+		p13 = dataSample3*hF10[index3];
 		dotP1[SI] += (p10 + p11) + (p12 + p13);
 
-		p20 = dataSample0*hF2[index0];
-		p21 = dataSample1*hF2[index1];
-		p22 = dataSample2*hF2[index2];
-		p23 = dataSample3*hF2[index3];
+		p20 = dataSample0*hF20[index0];
+		p21 = dataSample1*hF20[index1];
+		p22 = dataSample2*hF20[index2];
+		p23 = dataSample3*hF20[index3];
 		dotP2[SI] += (p20 + p21) + (p22 + p23);
 
-		p30 = dataSample0*hF3[index0];
-		p31 = dataSample1*hF3[index1];
-		p32 = dataSample2*hF3[index2];
-		p33 = dataSample3*hF3[index3];
+		p30 = dataSample0*hF30[index0];
+		p31 = dataSample1*hF30[index1];
+		p32 = dataSample2*hF30[index2];
+		p33 = dataSample3*hF30[index3];
 		dotP3[SI] += (p30 + p31) + (p32 + p33);
 
-		p40 = dataSample0*hF4[index0];
-		p41 = dataSample1*hF4[index1];
-		p42 = dataSample2*hF4[index2];
-		p43 = dataSample3*hF4[index3];
+		p40 = dataSample0*hF40[index0];
+		p41 = dataSample1*hF40[index1];
+		p42 = dataSample2*hF40[index2];
+		p43 = dataSample3*hF40[index3];
 		dotP4[SI] += (p40 + p41) + (p42 + p43);
 
-		p50 = dataSample0*hF5[index0];
-		p51 = dataSample1*hF5[index1];
-		p52 = dataSample2*hF5[index2];
-		p53 = dataSample3*hF5[index3];
+		p50 = dataSample0*hF50[index0];
+		p51 = dataSample1*hF50[index1];
+		p52 = dataSample2*hF50[index2];
+		p53 = dataSample3*hF50[index3];
 		dotP5[SI] += (p50 + p51) + (p52 + p53);
 	}
 }
@@ -199,8 +214,6 @@ void RxAndComputeInnerProducts()
 void computeMSE()
 {
 	int I, SI;
-	double best_mse;
-	int best_sigma_index ;
 	uint32_t start;
 	while (1){
 		start = read_uint32("startSignalPipe");
@@ -230,18 +243,18 @@ void computeMSE()
 				int fetchIndex2 = (base + 2);
 				int fetchIndex3 = (base + 3);
 	
-				double p00 = (s0*hF0[fetchIndex0]);
-				double p10 = (s1*hF1[fetchIndex0]);
+				double p00 = (s0*hF01[fetchIndex0]);
+				double p10 = (s1*hF11[fetchIndex0]);
 				double sum_00_10 = p00 + p10;
 		
 	
-				double p20 = (s2*hF2[fetchIndex0]);
-				double p30 = (s3*hF3[fetchIndex0]);
+				double p20 = (s2*hF21[fetchIndex0]);
+				double p30 = (s3*hF31[fetchIndex0]);
 				double sum_20_30 = p20 + p30;
 	
 	
-				double p40 = (s4*hF4[fetchIndex0]);
-				double p50 = (s5*hF5[fetchIndex0]);
+				double p40 = (s4*hF41[fetchIndex0]);
+				double p50 = (s5*hF51[fetchIndex0]);
 				double sum_40_50 = p40 + p50;
 	
 	
@@ -250,54 +263,54 @@ void computeMSE()
 				double x0 = (diff0*diff0);
 	
 	
-				double p01 = (s0*hF0[fetchIndex1]);
-				double p11 = (s1*hF1[fetchIndex1]);
+				double p01 = (s0*hF01[fetchIndex1]);
+				double p11 = (s1*hF11[fetchIndex1]);
 				double sum_01_11 = p01 + p11;
 	
 	
-				double p21 = (s2*hF2[fetchIndex1]);
-				double p31 = (s3*hF3[fetchIndex1]);
+				double p21 = (s2*hF21[fetchIndex1]);
+				double p31 = (s3*hF31[fetchIndex1]);
 				double sum_21_31 = p21 + p31;
 	
 	
-				double p41 = (s4*hF4[fetchIndex1]);
-				double p51 = (s5*hF5[fetchIndex1]);
+				double p41 = (s4*hF41[fetchIndex1]);
+				double p51 = (s5*hF51[fetchIndex1]);
 				double sum_41_51 = p41 + p51;
 	
 				double diff1 = ((inputData[I+1] - sum_01_11) - (sum_21_31 + sum_41_51));
 	
 				double x1 = (diff1*diff1);
 				
-				double p02 = (s0*hF0[fetchIndex2]);
-				double p12 = (s1*hF1[fetchIndex2]);
+				double p02 = (s0*hF01[fetchIndex2]);
+				double p12 = (s1*hF11[fetchIndex2]);
 				double sum_02_12 = p02 + p12;
 	
 	
-				double p22 = (s2*hF2[fetchIndex2]);
-				double p32 = (s3*hF3[fetchIndex2]);
+				double p22 = (s2*hF21[fetchIndex2]);
+				double p32 = (s3*hF31[fetchIndex2]);
 				double sum_22_32 = p22 + p32;
 	
 	
-				double p42 = (s4*hF4[fetchIndex2]);
-				double p52 = (s5*hF5[fetchIndex2]);
+				double p42 = (s4*hF41[fetchIndex2]);
+				double p52 = (s5*hF51[fetchIndex2]);
 				double sum_42_52 = p42 + p52;
 	
 				double diff2 = ((inputData[I+2] - sum_02_12) - (sum_22_32 + sum_42_52));
 	
 				double x2 = (diff2*diff2);
 	
-				double p03 = (s0*hF0[fetchIndex3]);
-				double p13 = (s1*hF1[fetchIndex3]);
+				double p03 = (s0*hF01[fetchIndex3]);
+				double p13 = (s1*hF11[fetchIndex3]);
 				double sum_03_13 = p03 + p13;
 	
 	
-				double p23 = (s2*hF2[fetchIndex3]);
-				double p33 = (s3*hF3[fetchIndex3]);
+				double p23 = (s2*hF21[fetchIndex3]);
+				double p33 = (s3*hF31[fetchIndex3]);
 				double sum_23_33 = p23 + p33;
 	
 	
-				double p43 = (s4*hF4[fetchIndex3]);
-				double p53 = (s5*hF5[fetchIndex3]);
+				double p43 = (s4*hF41[fetchIndex3]);
+				double p53 = (s5*hF51[fetchIndex3]);
 				double sum_43_53 = p43 + p53;
 	
 				double diff3 = ((inputData[I+3] - sum_03_13) - (sum_23_33 + sum_43_53));
@@ -323,7 +336,7 @@ void computeMSE()
 			}
 		}
 	
-		write_uint32("doneSignalPipe", best_sigma_index); 
+		write_uint32("doneSignalPipe", 1); 
 	}
 }
 
@@ -343,7 +356,7 @@ void bestFit()
 		// At this point you have the projections.  Calculate
 		// MSE for each projection..
 //		computeMSE();
-		uint32_t best_sigma_index = read_uint32("doneSignalPipe");
+		uint32_t computeMSE_done = read_uint32("doneSignalPipe");
 		// At this point, we have the best SI.
 		double SI = best_sigma_index;
 		write_float64("out0_data", SI);

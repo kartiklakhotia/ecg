@@ -13,13 +13,20 @@
 // and for 16 values of sigma..
 // (the exact values of the sigma's are
 //  not important).
-double hF0[MEM_SIZE];
-double hF1[MEM_SIZE];
-double hF2[MEM_SIZE];
-double hF3[MEM_SIZE];
-double hF4[MEM_SIZE];
-double hF5[MEM_SIZE];
-double hFall[MEM_SIZE*6];
+double hF00[MEM_SIZE];
+double hF10[MEM_SIZE];
+double hF20[MEM_SIZE];
+double hF30[MEM_SIZE];
+double hF40[MEM_SIZE];
+double hF50[MEM_SIZE];
+
+double hF01[MEM_SIZE];
+double hF11[MEM_SIZE];
+double hF21[MEM_SIZE];
+double hF31[MEM_SIZE];
+double hF41[MEM_SIZE];
+double hF51[MEM_SIZE];
+
 
 double dotP0[NSIGMAS];
 double dotP1[NSIGMAS];
