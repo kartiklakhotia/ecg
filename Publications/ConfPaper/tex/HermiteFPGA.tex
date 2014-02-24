@@ -1,0 +1,362 @@
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to 
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it 
+% to a new file with a new name and use it as the basis
+% for your article. 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[runningheads]{llncs}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\graphicspath{{./FIGURES/}}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{rotating}
+
+
+\usepackage[latin1]{inputenc}
+\usepackage{url}
+\urldef{\mailsa}\path|kartik@ee.iitb.ac.in|
+\urldef{\mailsb}\path|gabriel.caffarena@ceu.es|
+\urldef{\mailsc}\path|madhav@ee.iitb.ac.in|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+
+\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounter{ALG@line}{-1}}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Low-latency Hermite Polynomial Characterization of Heartbeats using a Field-Programmable Gate Array}
+
+% a short form should be given in case it is too long for the running head 
+\titlerunning{Low-latency Hermite Polynomial Characterization using an FPGA}
+
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Kartik Lakhotia\inst{1} \and
+ Gabriel Caffarena\inst{2} \and 
+ Madhav P. Desai \inst{1}}
+
+% if the list of authors exceeds the space for a headline,
+% an abbreviated author list is needed
+\authorrunning{Kartik Lakhotia et al.}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+
+
+% the affiliations are given next
+\institute{Indian Institute of Technology (Bombay), \\
+Powai, Mumbai 400076, \\
+India\\
+\and 
+University CEU-San Pablo,\\
+Urb. Monteprincipe, 28668, Madrid, Spain\\
+%\mailsa\\
+\mailsb\\
+%\mailsd\\
+\url{http://biolab.uspceu.com}\\
+%\mailsc\\
+}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem" 
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+
+\begin{abstract}
+The characterization of ECG heartbeats is a computationally intensive problem, and
+both off-line and on-line (real-time) solutions to this problem are of great interest.
+In this paper, we consider the use of a field-programmable gate-array (FPGA) to solve
+a critical component of this problem. We describe an implementation of
+a best-fit Hermite approximation of a heartbeat using six Hermite polynomials.  
+The implementation is generated using an algorithm-to-hardware compiler tool-chain
+and the resulting hardware is characterized using an off-the-shelf FPGA card.
+The single beat best-fit computation latency is under $0.5ms$ with a power dissipation of under 10 watts. 
+
+\keywords{Hermite approximation, ECG, QRS, Arrhythmia,  FPGA, Parallelization}
+\end{abstract}
+
+
+\section{Introduction}
+
+Automatic ECG analysis and characterization can help in 
+identifying anomalies in a long-term ECG recording. 
+In particular, the characterization of the QRS complex by means of Hermite functions 
+seems to be a reliable mechanism  for automatic classification of heartbeats \cite{j:lagerholm00}. 
+The main advantages seem to be the low sensitivity to noise and artifacts, and the
+compactness of the representation (e.g. a 144-sample QRS can be characterized with 7 parameters \cite{c:marquez13}). 
+These advantages have made the Hermite representation a very common tool for characterizing the 
+morphology of the beats \cite{j:lagerholm00,c:marquez13,c:braccini97,j:linh03a,j:linh03b}. 
+
+ECG analysis using Hermite functions has a
+substantial amount of parallelism.  Solutions to the problem have been investigated
+using processors (and multi-cores) and graphics processing units (GPU's). 
+In this paper, we consider the alternative route of using an FPGA to implement
+the computations.  In particular, our work is motivated by the potential
+of an FPGA (or eventually, a dedicated application-specific circuit) for low-latency
+energy efficient heart-beat analysis.  
+
+In generating the hardware for heart-beat analysis, we make extensive use of
+algorithm-to-hardware techniques.  By this we mean that the hardware is
+generated from an algorithmic specification that is written in a
+high-level programming language ({\bf C} in this case), which is then
+transformed to a circuit implementation using a set of compiler tools \cite{c:ahir}.
+The resulting hardware is then mapped to an FPGA card (the ML605 card from Xilinx,
+which uses a Virtex-6 FPGA).  The circuit is then exercised through the PCI-express 
+interface and used to classify beats.  The round-trip latency of a single
+beat classification was found to be under $0.5ms$.
+
+%\begin{itemize}
+%\item The assessment of the capabilities of GPUs for the off-line characterization of heartbeats using Hermite functions approximations
+%\item The assessment of the capabilities of GPUs for the on-line characterization of heartbeats using Hermite functions approximations
+%\end{itemize}
+
+\section{QRS approximation by means of Hermite polynomials}\label{s:arr}
+
+The aim of using the Hermite approximation to estimate heartbeats is to 
+reduce the number of dimensions required to carry out the ECG classification, 
+without sacrificing accuracy. 
+The benchmarks used in this work come from the MIT-BIH arrhythmia database \cite{j:moody01} which is made up of 
+48 ECG recordings whose beats  have been manually annotated by two cardiologists. Each file from the database 
+contains 2 ECG channels, sampled at a frequency of 360 Hz and with a duration of approximately 2000 beats. 
+In particular, here we are addressing the characterization of the morphology of the QRS complexes since this 
+morphology, together with the distance between each pair of consecutive heartbeats, permits the identification of the majority of arrhythmias.
+
+Firstly,  the ECG files are preprocessed to remove baseline drift. Secondly, the QRS complexes for each heartbeat are extracted by finding the peak of the beat (e.g. the R wave) and selecting a  window of 200 ms centered on the heartbeat. Given that all the Hermite functions converge to zero both in $t=\infty$ and $t=-\infty$, the original QRS signal is extended to 400 ms by adding 100-ms sequences of zeros at each side of the complex. Thus, the QRS data are stored in a 144-sample vector $\vec{x}=\{x(t)\}$. This vector can be estimated with a linear combination of $N$ Hermite basis functions
+
+\begin{equation}\label{eqn:hat}
+\hat{x}(t)=\sum_{n=0}^{N-1}c_n(\sigma )\phi_n(t,\sigma),
+\end{equation}
+
+\noindent with
+
+\begin{equation}\label{eqn:phi}
+\phi_n(t,\sigma )=\frac{1}{\sqrt{\sigma 2^n n!\sqrt{\pi}}}e^{-t^2/2\sigma^2}H_n(t/\sigma) 
+\end{equation}
+
+\noindent being $H(t/\sigma)$ the Hermite polynomials. These polynomials can be computed recursively as
+
+\begin{equation}
+H_n(x)=2xH_{n-1}(x)-2(n-1)H_{n-2}(x),
+\end{equation}
+
+\noindent where $H_0(x)=1$ and $H_1(x)=2x$.
+
+The parameter $\sigma$ controls the width of the polynomials. In \cite{j:lagerholm00} the maximum value 
+of $\sigma$ for a given order $n$ is estimated.  As the value of $n$ increases, the value of $\sigma_{MAX}$ decreases.
+
+The optimal coefficients that minimize the estimation error for a given $\sigma$ are
+
+\begin{equation}\label{eqn:c}
+c_n(\sigma)=\sum_{t} x(t)\cdot \phi_n(t,\sigma) \textrm{~\cite{j:lagerholm00}.}
+\end{equation}
+
+Once the suitable set of $\sigma$ and $\vec{c}=\{c_n(\sigma)\}$  \mbox{$(n\in [0,N-1])$} are found for each heartbeat, 
+it is possible to use only these figures to perform morphological classification of the heartbeats. 
+
+\section{Beginning the FPGA implementation: the algorithm}
+
+The algorithm used in the FPGA implementation is as follows: the 
+implementation first receives the values of the Hermite polynomial basis
+functions, and  stores them in distinct arrays in the hardware.  Distinct
+basic functions are needed for each $n$ and $\sigma$.  The current implementation
+uses six values of $n$ (from $0$ to $5$) and ten values of $\sigma$.
+
+After this initialization step, the hardware listens for heart beats. When
+a complete heart-beat (144 samples) is received, the inner products of the
+heart-beat with all the basic functions is calculated in a double loop.  
+After all inner products are calculated, the inner product coefficients
+are used to compute the best fit among the different values of $\sigma$.
+The best-fit $\sigma$ index and the fitted values are then written
+out of the hardware.
+
+\begin{verbatim}
+// Hardware engine algorithm (Daemon)
+void HermiteBestFit()
+{  
+    // stored in 6 distinct arrays
+    // hF0,hF1,.. hF5.  hFn stores
+    // all the basic functions for 
+    // order n (for different values
+    // of sigma).
+    receiveHermiteBasisFunctions();
+
+    while(1)
+    {
+        // received in 144 entry
+        // double precision vector.
+        receiveHeartBeat();
+        // compute inner products
+        // with all basis functions
+        // (across n, sigma).
+        innerProducts();
+        // 
+        // best fit sigma
+        //
+        findBestFit();
+        //
+        // report results
+        //
+        reportResults();
+    }
+}
+\end{verbatim}
+
+The algorithm as described above is purely sequential
+and does not contain any explicit parallelization.  The AHIR compiler
+is intelligent enough to extract parallelism from the two critical
+loops (in the inner-product and best-fit functions).
+
+Even with this simple coding of the hardware algorithm,
+we observe that excellent real-time performance
+is observed (in comparison with CPU/GPU implementations).
+Going further, it is possible to specify explicit parallelism by
+writing the processing as a two step pipeline consisting
+of separate threads for inner-product and best-fit
+computations  These investigations are ongoing.
+
+
+
+\subsection{The inner product loop}
+
+The inner product loop can be described as follows:
+\begin{verbatim}
+void  innerProduct()
+{
+  int I;
+  for (I=0; I < NSAMPLES; I++)
+  {
+     double x = inputData[I];
+     for(SI = 0; SI < NSIGMAS; SI++)
+     {
+        int I0 = I + Offset[SI];
+        double p0 = (x0*hF0[I0]);
+        double p1 = (x0*hF1[I0]);
+        double p2 = (x0*hF2[I0]);
+        double p3 = (x0*hF3[I0]);
+        double p4 = (x0*hF4[I0]);
+        double p5 = (x0*hF5[I0]);
+        dotP0[SI] += p0;
+        dotP1[SI] += p1;
+        dotP2[SI] += p2;
+        dotP3[SI] += p3;
+        dotP4[SI] += p4;
+        dotP5[SI] += p5;
+     }
+}
+\end{verbatim}
+The outer loop is over the samples, and the inner
+loop across the $\sigma$ values.  There is a high-level
+of parallelism in the inner loop which can be further
+boosted by unrolling the outer loop.   The AHIR compiler
+implements this entire function using a single double-precision
+multiplier and a single double-precision adder.  Further
+note that the arrays $hFn$ and $dotPn$ are declared on
+a per-$n$ basis. This allows the AHIR compiler to
+map the arrays to distinct memory spaces, thus increasing
+the memory access bandwidth in the hardware.
+
+\subsection{The minimum-mean-square loop}
+
+This loop is also quite straightforward.
+\begin{verbatim}
+void computeMSE()
+{
+  int I, SI;
+  best_mse = 1.0e+20;
+  best_sigma_index = -1;
+  for (I=0; I<NSAMPLES; I=I+4)
+  {
+     for (SI=0; SI<NSIGMAS; SI++)
+     {
+        int fetchIndex0 = I + Offset[SI]; 
+        double p0 = (dotP0[SI]*hF0[fetchIndex0]);
+        double p1 = (dotP1[SI]*hF1[fetchIndex0]);
+        double p2 = (dotP2[SI]*hF2[fetchIndex0]);
+        double p3 = (dotP3[SI]*hF3[fetchIndex0]);
+        double p4 = (dotP4[SI]*hF4[fetchIndex0]);
+        double p5 = (dotP5[SI]*hF5[fetchIndex0]);
+        double diff = (inputData[I]-
+                         ((p0+p1) + (p2+p3) + (p4+p5)));
+        err[SI] += (diff*diff);
+      }
+    }
+    for (SI=0; SI<NSIGMAS; SI++)
+    {
+        if(err[SI] <  best_mse)
+        {
+           best_mse = err[SI];
+           best_sigma_index = SI;
+        }
+    }
+}
+\end{verbatim}
+
+
+\subsection{Further optimizations}
+
+The current implementation uses a simple sequential specification.
+Further optimizations include: loop-unrolling, explicit pipelining,
+and the use of multiple floating point operators.  All these optimizations
+can be explored entirely at the algorithmic level using the AHIR
+compiler tools.
+
+\section{Hardware Implementation Details}\label{s:results}
+%
+%  Describe the 
+%    - overall system.
+%    - card
+%    - the driver
+%    - the hardware generation process.
+%
+\section{Results}\label{s:results}
+
+The hardware generated out of the algorithmic specification describe
+above was mapped to an ML605 FPGA card from Xilinx.  The RIFFA 
+software drivers and interface infrastructure was used to communicate
+between the host and the FPGA card.  The round-trip delay is
+the time interval between the beginning of transmission of beat-data
+from the host to the hardware and the beginning of reception of best fit
+coefficients from the hardware.
+\begin{verbatim}
+Four-way-unrolled latency = 0.43/0.47 ms (min/max).
+\end{verbatim}
+The estimated power dissipation is 10W (TBD).  The hardware utilization
+is less than $30\%$ of the FPGA resource (TBD).
+
+\subsection{Comparison with GPU/CPU implementations}
+
+\section{Conclusions}\label{s:conclusions}
+
+% Bibliography
+\bibliographystyle{splncs}
+\bibliography{refsQRS}
+
+\end{document}
