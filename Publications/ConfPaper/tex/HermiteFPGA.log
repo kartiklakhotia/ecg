@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.1.8)  6 MAR 2014 11:56
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.1.8)  6 MAR 2014 16:47
 entering extended mode
  %&-line parsing enabled.
 **HermiteFPGA.tex
@@ -278,7 +278,7 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5]
 
-LaTeX Warning: Citation `j:jacobsen13' on page 6 undefined on input line 343.
+LaTeX Warning: Citation `j:jacobsen13' on page 6 undefined on input line 350.
 
 (./HermiteFPGA.bbl [6] [7]) [8] (./HermiteFPGA.aux)
 
@@ -309,7 +309,7 @@ sfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
 -texlive/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-texlive/fon
 ts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts/type1/pu
 blic/amsfonts/cm/cmtt9.pfb>
-Output written on HermiteFPGA.pdf (8 pages, 239576 bytes).
+Output written on HermiteFPGA.pdf (8 pages, 239583 bytes).
 PDF statistics:
  101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
