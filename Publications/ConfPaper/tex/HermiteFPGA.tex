@@ -329,7 +329,31 @@ can be explored entirely at the algorithmic level using the AHIR
 compiler tools.
 
 \section{Hardware Implementation Details}\label{s:results}
-%
+The overall system has 3 major components : Host Computer (for S/W calculations), 
+Communication infrastructure and H/W for Hermite Coefficient Computation.
+
+
+We have used Xilinx ML605 card which features a Virtex-6 FPGA and 8-lane PCI express. 
+THe host computes values of Hermite polynomials, reads Heartbeat samples 
+from a file and sends them to FPGA. H/W running on FPGA then calculates \& selects 
+Hermite coefficients which give best fit to input beat and reports back to Host. 
+
+
+HDL for this design is generated using AHIR HLS toolchain. It is equipped with a library 
+of heavily pipelined Floating Point operators and Loop Pipelining mechanism which 
+enables the final VHDL to extract parallelism in C program. It uses pipes to communicate 
+between testbench and the program, which translate to FIFOs in hardware. A simple integration 
+interface between these FIFOs and RIFFA channels completes the system. 
+
+
+The RIFFA software drivers and interface infrastructure is used to communicate between 
+host and FPGA card \cite{j:jacobsen13}. It supports upto 12 independent
+channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that can operate on 
+different clock domains at either ends. In our design, PCIe core operates at 250MHz 
+while the ECG hardware operation and FIFO accesses are at 100MHz. A simple integration 
+interface bridges RIFFA and AHIR generated FIFOs.
+By incorporating functions provided by RIFFA driver, same testbench used for 
+Software verification can be used for verifying the hardware.
 %  Describe the 
 %    - overall system.
 %    - card
@@ -338,18 +362,32 @@ compiler tools.
 %
 \section{Results}\label{s:results}
 
-The hardware generated out of the algorithmic specification describe
-above was mapped to an ML605 FPGA card from Xilinx.  The RIFFA 
-software drivers and interface infrastructure was used to communicate
-between the host and the FPGA card.  The round-trip delay is
-the time interval between the beginning of transmission of beat-data
-from the host to the hardware and the beginning of reception of best fit
-coefficients from the hardware.
+We calculate round-trip delay and FPGA core power consumption for processing single beat. 
+The round-trip delay is the time interval between the beginning of transmission of 
+beat-data from the host to the hardware and the beginning of reception of best fit
+coefficients from the hardware. We also report the Device Utilization trends observed
+with 2-way and 4-way loop unrolling.
+
+\begin{table}[ht]
+\caption{} %title
+\centering
+\begin{tabular}{c @{\hskip 0.06in}| @{\hskip 0.06in}c@{\hskip 0.2in}c @{\hskip 0.2in} c @{\hskip 0.2in} c} %5 centered columns
+\hline\hline\\[-1.5ex]
+Code Optimzation & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Slice Register  \\Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Processing  \\Latency \end{tabular} & \begin{tabular}[c]{@{}c@{}}FPGA core Power \\ Consumption \end{tabular}\\ [2ex] \hline \\[-1.5ex]%heading
+No Unrolling & 56839 & 65995 & 1.39ms & 2.75W \\
+2-way Unrolled & 65895 & 80709 & 0.80ms & 2.88W \\
+4-way Unrolled & 84331 & 110165 & 0.44ms & 3.09W \\ [1ex]
+\hline
+\end{tabular}
+\end{table}
+
+
+
 \begin{verbatim}
-Four-way-unrolled latency = 0.43/0.47 ms (min/max).
+Minimum latency achieved with Four-way-unrolling = 0.39 ms
 \end{verbatim}
-The estimated power dissipation is 10W (TBD).  The hardware utilization
-is less than $30\%$ of the FPGA resource (TBD).
+The observed power dissipation is 3W.  The hardware utilization
+in 4-way unrolled system is less than $55\%$ of the FPGA resource.
 
 \subsection{Comparison with GPU/CPU implementations}
 
