@@ -328,7 +328,7 @@ and the use of multiple floating point operators.  All these optimizations
 can be explored entirely at the algorithmic level using the AHIR
 compiler tools.
 
-\section{Hardware Implementation Details}\label{s:results}
+\section{Hardware Implementation Details}\label{s:implementation}
 The overall system has 3 major components : Host Computer (for S/W calculations), 
 Communication infrastructure and H/W for Hermite Coefficient Computation.
 
@@ -348,9 +348,8 @@ interface between these FIFOs and RIFFA channels completes the system.
 
 The RIFFA software drivers and interface infrastructure is used to communicate between 
 host and FPGA card \cite{j:jacobsen13}. It supports upto 12 independent
-channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that can operate on 
-different clock domains at either ends. In our design, PCIe core operates at 250MHz 
-while the ECG hardware operation and FIFO accesses are at 100MHz. A simple integration 
+channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that 
+can operate on different clock domains at either ends. A simple integration 
 interface bridges RIFFA and AHIR generated FIFOs.
 By incorporating functions provided by RIFFA driver, same testbench used for 
 Software verification can be used for verifying the hardware.
@@ -362,37 +361,74 @@ Software verification can be used for verifying the hardware.
 %
 \section{Results}\label{s:results}
 
-We calculate round-trip delay and FPGA core power consumption for processing single beat. 
+We calculate round-trip delay and FPGA core power consumption for processing one beat. 
 The round-trip delay is the time interval between the beginning of transmission of 
 beat-data from the host to the hardware and the beginning of reception of best fit
-coefficients from the hardware. We also report the Device Utilization trends observed
-with 2-way and 4-way loop unrolling.
+coefficients from the hardware. 
 
+For targeting real-time performance, size of block should be small. Also, since there 
+is only 1 core operating on FPGA, having multiple beats per block will reduce only the 
+communication time, which is not significant (~0.05ms average). Hence, the test feeds 
+only single beat at a time to the FPGA.
+
+
+
+%%%%%%%% Results Table %%%%%%%%%%%%%
 \begin{table}[ht]
 \caption{} %title
 \centering
 \begin{tabular}{c @{\hskip 0.06in}| @{\hskip 0.06in}c@{\hskip 0.2in}c @{\hskip 0.2in} c @{\hskip 0.2in} c} %5 centered columns
 \hline\hline\\[-1.5ex]
+
 Code Optimzation & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Slice Register  \\Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Processing  \\Latency \end{tabular} & \begin{tabular}[c]{@{}c@{}}FPGA core Power \\ Consumption \end{tabular}\\ [2ex] \hline \\[-1.5ex]%heading
+
 No Unrolling & 56839 & 65995 & 1.39ms & 2.75W \\
+
 2-way Unrolled & 65895 & 80709 & 0.80ms & 2.88W \\
+
 4-way Unrolled & 84331 & 110165 & 0.44ms & 3.09W \\ [1ex]
+
 \hline
 \end{tabular}
 \end{table}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{verbatim}
 Minimum latency achieved with Four-way-unrolling = 0.39 ms
 \end{verbatim}
-The observed power dissipation is 3W.  The hardware utilization
-in 4-way unrolled system is less than $55\%$ of the FPGA resource.
+It is clear that FPGA can be used for real-time processing since the 
+computation time required to process single beat is much lesser than
+average beat period (~1ms). The observed power dissipation is 3W.  
+Hardware utilization in 4-way unrolled system is less than $55\%$ 
+of the FPGA resource.
 
 \subsection{Comparison with GPU/CPU implementations}
+The results show that FPGA clearly outperforms both CPU and GPU in terms 
+of latency of processing {Reference}, with maximum achieved speedups of x35 and x11, 
+respectively. These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz) 
+and NVIDIA TESLA C2050 (1.15GHz). Computation frequency on Virtex-6 was kept at 100MHz which is
+less than one-tenth of that on CPUs and GPUs. 
+
+Further, average power consumption on FPGA is 3W as compared to >100W on Core i7 processors and
+>200W on GPU. This paves a way for such implementations in low-power applications like
+Portable Devices, where both Central and Graphic Processing units cannot be used.
+ 
 
 \section{Conclusions}\label{s:conclusions}
+In this paper, a solution to the problem of Heart Beat characterization using FPGAs is presented.
+The mechanism for Hardware Generation via AHIR HLS tool and communicating with this Hardware have
+been explained in detail. The automated Algorithm to Hardware compilation takes away complexity
+and reduces time taken for Hardware design to a great extent.
 
+This methodology is presented as an alternative to existing Software oriented approaches, 
+targeting concerns in Real-time processing. We obtained speedups of x11 \& x35 in terms of 
+latency of processing and average power consumption less than 30 \& 60 times as compared to CPUs 
+and GPUs, respectively. Hardware Computation is  not only competitive for real-time processing 
+but is also suitable for low-power applications.
+
+%%%% Couple of lines on Future work %%%%
+ 
 % Bibliography
 \bibliographystyle{splncs}
 \bibliography{refsQRS}
