@@ -7,4 +7,7 @@ Unrolled 4 times. Working. Time consumed = 0.44ms average
 Created threads for computing MSE and inner products. Both run in parallel now.
 Software check Done. Working
 
-Hardware Check -> to be done. 
+Hardware Check -> done. Timing improvement from 0.57ms to 0.44ms. Expected better results. Find out the bottleneck. 
+
+Adding Paper contents Kartik wrote, to the git repo.
+
