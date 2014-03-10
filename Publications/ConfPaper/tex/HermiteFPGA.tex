@@ -347,7 +347,7 @@ interface between these FIFOs and RIFFA channels completes the system.
 
 
 The RIFFA software drivers and interface infrastructure is used to communicate between 
-host and FPGA card \cite{j:jacobsen13}. It supports upto 12 independent
+host and FPGA card \cite{c:jacobsen13}. It supports upto 12 independent
 channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that 
 can operate on different clock domains at either ends. A simple integration 
 interface bridges RIFFA and AHIR generated FIFOs.
@@ -399,7 +399,7 @@ Minimum latency achieved with Four-way-unrolling = 0.39 ms
 \end{verbatim}
 It is clear that FPGA can be used for real-time processing since the 
 computation time required to process single beat is much lesser than
-average beat period (~1ms). The observed power dissipation is 3W.  
+average beat period (~1ms). The observed power dissipation is 3.1W.  
 Hardware utilization in 4-way unrolled system is less than $55\%$ 
 of the FPGA resource.
 
