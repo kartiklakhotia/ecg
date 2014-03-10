@@ -127,7 +127,7 @@ In generating the hardware for heart-beat analysis, we make extensive use of
 algorithm-to-hardware techniques.  By this we mean that the hardware is
 generated from an algorithmic specification that is written in a
 high-level programming language ({\bf C} in this case), which is then
-transformed to a circuit implementation using a set of compiler tools \cite{c:ahir}.
+transformed to a circuit implementation using a set of compiler tools \cite{c:ahir_thesis2009,c:ahir_dsd2010,c:ahir_usenix2012}.
 The resulting hardware is then mapped to an FPGA card (the ML605 card from Xilinx,
 which uses a Virtex-6 FPGA).  The circuit is then exercised through the PCI-express 
 interface and used to classify beats.  The round-trip latency of a single
@@ -244,7 +244,7 @@ computations  These investigations are ongoing.
 
 
 
-\subsection{The inner product loop}
+\subsection{The inner product loop} \label{sec:InnerProduct}
 
 The inner product loop can be described as follows:
 \begin{verbatim}
@@ -283,7 +283,7 @@ a per-$n$ basis. This allows the AHIR compiler to
 map the arrays to distinct memory spaces, thus increasing
 the memory access bandwidth in the hardware.
 
-\subsection{The minimum-mean-square loop}
+\subsection{The minimum-mean-square loop} \label{sec:MMSE}
 
 This loop is also quite straightforward.
 \begin{verbatim}
@@ -329,30 +329,46 @@ can be explored entirely at the algorithmic level using the AHIR
 compiler tools.
 
 \section{Hardware Implementation Details}\label{s:implementation}
-The overall system has 3 major components : Host Computer (for S/W calculations), 
-Communication infrastructure and H/W for Hermite Coefficient Computation.
+
+The overall system has 3 major components:
+\begin{itemize}
+\item A host computer, which is used to calculate the Hermite basis functions,
+initialize the FPGA card, send beat data to the FPGA card and receive
+the best-fit coefficients from the FPGA card.
+\item The FPGA card, on which the best-fit algorithm is implemented.   We use the
+Xilinx ML605 card which features a Virtex-6 FPGA and an 8-lane PCI express interface.
+\item The FPGA card driver, which is based on the RIFFA infrastructure \cite{j:jacobsen13}. 
+Up to 12 independent channels for data transmission between FPGA card and the host
+computer are supported. Corresponding to each channel, separate Receive/Transmit FIFOs
+are provided on the FPGA card. 
+\end{itemize}
+
+The algorithm mapped to the FPGA 
+is first described in a C program (code fragments descibed in Sections \ref{sec:InnerProduct} and \ref{sec:MMSE}).
+To summarize:
+\begin{enumerate}
+\item In the initialization phase, the hardware-side listens on an input FIFO to acquire
+the Hermite polynomials.  After the initialization, the hardware moves to the run-phase.
+\item In the run-phase, the hardware listens on the input FIFO and receives a 144 sample
+heartbeat (coded as 144 double-precision floating point numbers).  After receiving
+the sample, it proceeds to the inner-product phase.
+\item In the inner-product phase, the hardware computes, for each $\sigma$ and
+$n$, an inner product of the received beat with the Hermite polynomials $\phi_n(t,\sigma)$.
+We are using ten values of $\sigma$ and $6$ values of $n$.  Thus, 60 inner-products
+are computed in this phase.  After this phase, the hardware moves to the MMSE
+phase.
+\item  In the MMSE phase, the inner-products are used to find the best fit $\sigma$.
+The computed best-fit coefficients are sent back to the host using the output FIFO.
+The hardware moves back to the run-phase (waits for the next beat).
+\end{enumerate}
+An illustration of this scheme is given in Figure \ref{fig:HWAlgorithm}.
+
+The VHDL hardware for this design is generated using AHIR-V2 toolchain \cite{c:ahir_usenix2012}.  
+The generated VHDL is instantiated in the FPGA together with the RIFFA wrappers,
+and the resulting design is synthesized and mapped to the Virtex-6 FPGA using
+the Xilinx ISE 14.3 toolset.
 
 
-We have used Xilinx ML605 card which features a Virtex-6 FPGA and 8-lane PCI express. 
-THe host computes values of Hermite polynomials, reads Heartbeat samples 
-from a file and sends them to FPGA. H/W running on FPGA then calculates \& selects 
-Hermite coefficients which give best fit to input beat and reports back to Host. 
-
-
-HDL for this design is generated using AHIR HLS toolchain. It is equipped with a library 
-of heavily pipelined Floating Point operators and Loop Pipelining mechanism which 
-enables the final VHDL to extract parallelism in C program. It uses pipes to communicate 
-between testbench and the program, which translate to FIFOs in hardware. A simple integration 
-interface between these FIFOs and RIFFA channels completes the system. 
-
-
-The RIFFA software drivers and interface infrastructure is used to communicate between 
-host and FPGA card \cite{j:jacobsen13}. It supports upto 12 independent
-channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that 
-can operate on different clock domains at either ends. A simple integration 
-interface bridges RIFFA and AHIR generated FIFOs.
-By incorporating functions provided by RIFFA driver, same testbench used for 
-Software verification can be used for verifying the hardware.
 %  Describe the 
 %    - overall system.
 %    - card
@@ -371,61 +387,74 @@ is only 1 core operating on FPGA, having multiple beats per block will reduce on
 communication time, which is not significant (~0.05ms average). Hence, the test feeds 
 only single beat at a time to the FPGA.
 
-
-
+In the implementation, the two loops were unrolled to different
+extents to see the impact of unrolling on the system performance. 
+Three levels were tried: one-way, two-way and four-way
+unrolling.  The four-way unrolling gave the best performance,
+as expected.  The results are summarized in Table \ref{table:Results} (the reported latency
+is the average value observed across 100 beats).
 %%%%%%%% Results Table %%%%%%%%%%%%%
 \begin{table}[ht]
-\caption{} %title
+\caption{Results:  FPGA utilization and latency for different loop-unrolling levels} %title
 \centering
 \begin{tabular}{c @{\hskip 0.06in}| @{\hskip 0.06in}c@{\hskip 0.2in}c @{\hskip 0.2in} c @{\hskip 0.2in} c} %5 centered columns
 \hline\hline\\[-1.5ex]
 
-Code Optimzation & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Slice Register  \\Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Processing  \\Latency \end{tabular} & \begin{tabular}[c]{@{}c@{}}FPGA core Power \\ Consumption \end{tabular}\\ [2ex] \hline \\[-1.5ex]%heading
+Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Slice Register  \\Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Processing  \\Latency \end{tabular} & \begin{tabular}[c]{@{}c@{}}FPGA core Power \\ Consumption \end{tabular}\\ [2ex] \hline \\[-1.5ex]%heading
 
-No Unrolling & 56839 & 65995 & 1.39ms & 2.75W \\
+1-way & 56839 & 65995 & 1.39ms & 2.75W \\
 
-2-way Unrolled & 65895 & 80709 & 0.80ms & 2.88W \\
+2-way & 65895 & 80709 & 0.80ms & 2.88W \\
 
-4-way Unrolled & 84331 & 110165 & 0.44ms & 3.09W \\ [1ex]
+4-way & 84331 & 110165 & 0.44ms & 3.09W \\ [1ex]
 
 \hline
 \end{tabular}
+\label{table:Results}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-\begin{verbatim}
-Minimum latency achieved with Four-way-unrolling = 0.39 ms
-\end{verbatim}
-It is clear that FPGA can be used for real-time processing since the 
-computation time required to process single beat is much lesser than
-average beat period (~1ms). The observed power dissipation is 3W.  
+The observed power dissipation in the core of the 
+FPGA (used for actual processing) is 3W (for the 4-way unrolled case).  The
+power dissipation was measured using the system-monitor in the Virtex-6 FPGA.
 Hardware utilization in 4-way unrolled system is less than $55\%$ 
 of the FPGA resource.
 
 \subsection{Comparison with GPU/CPU implementations}
-The results show that FPGA clearly outperforms both CPU and GPU in terms 
-of latency of processing {Reference}, with maximum achieved speedups of x35 and x11, 
-respectively. These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz) 
+
+Hermite basis fitting has been evaluated on GPU and CPU implementations
+as well.  For example, in \cite{c:GPU}, the authors observe that
+the GPU implementation shows excellent scaling behaviour, so that 
+5000 beats can be processed in 5 seconds.  However, when it comes
+to the latency needed to process a single beat, the FPGA outperforms both 
+the CPU and GPU by a considerable margin, with a 35X improvement relative to
+the CPU and an 11X improvement relative to the GPU. 
+These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz) 
 and NVIDIA TESLA C2050 (1.15GHz). Computation frequency on Virtex-6 was kept at 100MHz which is
 less than one-tenth of that on CPUs and GPUs. 
 
-Further, average power consumption on FPGA is 3W as compared to >100W on Core i7 processors and
->200W on GPU. This paves a way for such implementations in low-power applications like
-Portable Devices, where both Central and Graphic Processing units cannot be used.
- 
+Further, the average power consumption on the FPGA is 3W as compared to >100W on Core i7 processors and
+>200W on GPU. Thus, the FPGA is an attractive option for low latency ECG classification
+applications in portable health monitoring devices.
 
 \section{Conclusions}\label{s:conclusions}
+
 In this paper, a solution to the problem of Heart Beat characterization using FPGAs is presented.
 The mechanism for Hardware Generation via AHIR HLS tool and communicating with this Hardware have
-been explained in detail. The automated Algorithm to Hardware compilation takes away complexity
-and reduces time taken for Hardware design to a great extent.
+been explained in detail. The automated algorithm to Hardware compilation takes away complexity
+and reduces time taken for hardware design to a great extent.
 
-This methodology is presented as an alternative to existing Software oriented approaches, 
-targeting concerns in Real-time processing. We obtained speedups of x11 \& x35 in terms of 
-latency of processing and average power consumption less than 30 \& 60 times as compared to CPUs 
-and GPUs, respectively. Hardware Computation is  not only competitive for real-time processing 
-but is also suitable for low-power applications.
+This methodology is presented as an alternative to existing software oriented approaches, 
+for real-time latency-sensitive signal processing. When using the FPGA, a substantial
+latency reduction in single-beat processing was observed (in comparison with both
+GPU and CPU implementations of the same algorithm).  
+Further, the power dissipation in
+the FPGA is almost two orders of magnitude lower in the FPGA implementation.
+
+The highly parallel GPU and CPU architectures are very effective in off-line processing
+(processing of a large number of beats, but not in real-time).  When it comes to real-time,
+online beat processing, our work demonstrates that the FPGA offers a very competitive 
+platform for ECG signal processing.
 
 %%%% Couple of lines on Future work %%%%
  
