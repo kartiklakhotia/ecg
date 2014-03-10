@@ -19,7 +19,7 @@ void initHF()
 {
 	int M = MEM_SIZE;
 	int idx;
-	int offset1, offset2, offset3, offset4, offset5;
+	int shift1, shift2, shift3, shift4, shift5;
 	shift1 = M;
 	shift2 = 2*M;
 	shift3 = 3*M;

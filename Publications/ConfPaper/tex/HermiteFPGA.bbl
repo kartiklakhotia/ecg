@@ -34,29 +34,21 @@ Linh, T.H., Osowski, S., Stodolski, M.:
 \newblock Instrumentation and Measurement, IEEE Transactions on \textbf{52}(4)
   (2003)  1224--1231
 
-\bibitem{b:kirk10}
-Kirk, D.B., Hwu, W.m.W.:
-\newblock {Programming Massively Parallel Processors: A Hands-on Approach}. 1st
-  edn.
-\newblock Morgan Kaufmann Publishers Inc., San Francisco, CA, USA (2010)
+\bibitem{c:ahir_thesis2009}
+Sahasrabuddhe, S.D.:
+\newblock A competitive pathway from high-level programs to hardware.
+\newblock PhD thesis, IIT Bombay (2009)
 
-\bibitem{j:nickolls10}
-Nickolls, J., Dally, W.:
-\newblock {The GPU Computing Era}.
-\newblock Micro, IEEE \textbf{30}(2) (2010)  56 --69
+\bibitem{c:ahir_dsd2010}
+Sahasrabudhe, S.D., Subramanian, S., Ghosh, K., Arya, K., Desai, M.P.:
+\newblock A c-to-rtl flow as an energy efficient alternative to the use of
+  embedded processors in digital systems.
+\newblock In: DSD 2010. (2010)  147--154
 
-\bibitem{j:garcia14}
-Garcia-Molla, V., Liberos, A., Vidal, A., Guillem, M., Millet, J., Gonzalez,
-  A., Martinez-Zaldivar, F., Climent, A.:
-\newblock {Adaptive step ODE algorithms for the 3D simulation of electric heart
-  activity with graphics processing units}.
-\newblock Computers in Biology and Medicine \textbf{44}(0) (2014)  15 -- 26
-
-\bibitem{c:zhang13}
-Zhang, Q., García, J.M., Wang, J., Hou, T., Sánchez, H.E.P.:
-\newblock {A GPU based Conformational Entropy Calculation Method}.
-\newblock In Rojas, I., Guzman, F.M.O., eds.: IWBBIO, Copicentro Editorial
-  (2013)  735--743
+\bibitem{c:ahir_usenix2012}
+Rinta-Aho, T., Karlstedt, M., Desai, M.:
+\newblock The clicktonetfpga tool-chain.
+\newblock In: USENIX ATC-2012, USENIX Association, Berkeley CA (2012)
 
 \bibitem{j:moody01}
 Moody, G.B., Mark, R.G.:
@@ -64,19 +56,15 @@ Moody, G.B., Mark, R.G.:
 \newblock Engineering in Medicine and Biology Magazine, IEEE \textbf{20}(3)
   (2001)  45--50
 
-\bibitem{j:brodt10}
-Brodtkorb, A., Dyken, C., Hagen, T., Hjelmervik, J., Storaasli, O.:
-\newblock {State-of-the-Art in heterogeneous computing}.
-\newblock ACM Trans. Des. Autom. Electron. Syst. \textbf{18}(1) (2010)  1--33
+\bibitem{j:jacobsen13}
+Jacobsen, M., Kastner, R.:
+\newblock {RIFFA 2.0: A reusable integration framework for FPGA accelerators}.
+\newblock Field Programmable Logic and Applications, IEEE \textbf{23} (2013)
+  1--8
 
-\bibitem{j:barbakhF08}
-Barbakh, W., Fyfe, C.:
-\newblock {Online Clustering Algorithms}.
-\newblock Int. J. Neural Syst. \textbf{18}(3) (2008)  185--194
-
-\bibitem{c:ahir}
-S.~Sahasrabudhe, S.~Subramanian, K.~Ghosh, K.~Arya, Madhav Desai  ``{A C-to-RTL flow as an energy efficient alternative to
-embedded processors in digital systems},'' in \emph{{Proceedings of the EUROMICRO DSD2010}}, 2010.
-
+\bibitem{c:GPU}
+Caffarena, G.:
+\newblock Gpu ecg etc.
+\newblock Preprint (2013)
 
 \end{thebibliography}
