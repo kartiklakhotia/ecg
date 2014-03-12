@@ -1,7 +1,9 @@
-\documentclass{article}
+\documentclass{standalone}
 
 \usepackage{pgf}
 \usepackage{tikz}
+\usepackage{tikzscale}
+\usepackage{filecontents}
 \usetikzlibrary{arrows,shapes,automata,backgrounds,fit,decorations.markings,decorations.pathmorphing,decorations.pathreplacing,shapes.symbols,shapes.geometric,calc,topaths}
 \usepackage[latin1]{inputenc}
 \tikzset{fifo/.style={ 
@@ -36,8 +38,7 @@
 \input{queues.tex}
 
 \begin{document}
-
-
+\pagenumbering{gobble}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
                     thick]
   \tikzstyle{every state}=[fill={rgb:red,200; green,200; blue,255},draw=none,text=white]
