@@ -1,0 +1,292 @@
+% Tikz-code with queue shapes.
+% Author: Ruslan Krenzler.
+% 19 Juli 2013.
+% Warning: the coder, has almost no expirience 
+% in TeX and Tikz-programming.
+% Auchtung: Der Programmierer, hat kaum Erfahrung mit TeX- und
+% Tikz-Programmierung. 
+
+% See Tikz-Manual for programing custom shapes.
+
+\usepackage{pgfplots}
+\usepackage{pgf}
+\usetikzlibrary{shapes,arrows} % Rounded rectangle for the server.
+
+\usepackage{ifthen}
+
+% We define some parameters for waiting queue symbols.
+\makeatletter
+\pgfkeys{/tikz/queue head/.initial=east}
+\pgfkeys{/tikz/queue size/.initial=infinite}
+
+% The queue symbols are similar to rectangle,
+% drawed in a different way.
+
+\pgfdeclareshape{queue}
+{
+%%% Inherit anchors from rectangle %%%.
+	\inheritsavedanchors[from={rectangle}]
+	\inheritanchorborder[from={rectangle}]
+	\inheritanchor[from={rectangle}]{center}
+	\inheritanchor[from={rectangle}]{north}
+	\inheritanchor[from={rectangle}]{east}
+	\inheritanchor[from={rectangle}]{south}
+	\inheritanchor[from={rectangle}]{west}
+	
+	
+%%% Set some auxilirary variables for drawing. %%%.
+	
+	\savedmacro{\queuehead}{\pgfkeysvalueof{/tikz/queue head}}
+
+	\saveddimen{\width}{
+		\pgf@x=\wd\pgfnodeparttextbox
+		% Correct dimension if it is larger than the minimum width.
+		% Convert minimum width to dimension.
+		\pgfmathsetlength{\pgf@xa}{\pgfkeysvalueof{/pgf/minimum width}}%
+		\ifdim\pgf@x<\pgf@xa
+			\pgf@x=\pgf@xa
+		\fi
+	}
+	\saveddimen{\halfwidth}{
+		\pgf@x=\wd\pgfnodeparttextbox
+		% Correct dimension if it is larger than the minimum width.
+		% Convert minimum width to dimension.
+		\pgfmathsetlength{\pgf@xa}{\pgfkeysvalueof{/pgf/minimum width}}%
+		\ifdim\pgf@x<\pgf@xa
+			\pgf@x=\pgf@xa
+		\fi
+		\divide \pgf@x by 2
+	}
+	\saveddimen{\height}{
+		\pgf@x=\ht\pgfnodeparttextbox
+		% Correct dimension if it is larger than the minimum height.
+		% Convert minimum height to dimension.
+		\pgfmathsetlength{\pgf@xa}{\pgfkeysvalueof{/pgf/minimum height}}%
+		\ifdim\pgf@x<\pgf@xa
+			\pgf@x=\pgf@xa
+		\fi
+	}
+	\saveddimen{\halfheight}{
+		\pgf@x=\ht\pgfnodeparttextbox
+		% Correct dimension if it is larger than the minimum height.
+		% Convert minimum height to dimension.
+		\pgfmathsetlength{\pgf@xa}{\pgfkeysvalueof{/pgf/minimum height}}%
+		\ifdim\pgf@x<\pgf@xa
+			\pgf@x=\pgf@xa
+		\fi
+		\divide \pgf@x by 2
+	}
+	
+%%% Define head and tail anchors. %%%
+	
+		% For some reasons I cannot just reaturn ihnerit east, west, a.s.o
+	% anchours. Either there are problems or the result is strange.
+	% Calculate head anchors manually.
+	
+	\anchor{head}{
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{east}}{
+				\northeast
+				\advance \pgf@y by -\halfheight
+		}{}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{west}}{
+				\southwest
+				\advance \pgf@y by \halfheight
+		}{}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{north}}{
+				\northeast
+				\advance \pgf@x by -\halfwidth
+		}{}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{south}}{
+				\southwest
+				\advance \pgf@x by \halfwidth
+		}{}
+	}
+	
+	% The tail lies oposite to the head.
+	\anchor{tail}{
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{east}}{
+				\southwest
+				\advance \pgf@y by \halfheight
+		}{}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{west}}{
+				\northeast
+				\advance \pgf@y by -\halfheight
+		}{}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{north}}{
+				\southwest
+				\advance \pgf@x by \halfwidth
+		}{}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{south}}{
+				\northeast
+				\advance \pgf@x by -\halfwidth
+		}{}
+	}
+
+%%% Draw  the /M/M/1/\infty queue.
+	\backgroundpath{
+		% Save coordinates of the bottom left and top right edges
+		\pgfextractx\pgf@xa{\southwest}
+		\pgfextracty\pgf@ya{\southwest}
+		\pgfextractx\pgf@xb{\northeast}
+		\pgfextracty\pgf@yb{\northeast}
+		
+		% Determine if the queue (symbol) is vertical.
+		% That is with the head on east or west side).
+ 		\newboolean{vertical}
+		\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue head}}{north}
+		 	\OR  
+			\equal{\pgfkeysvalueof{/tikz/queue head}}{south}}{
+			\setboolean{vertical}{true}	
+		}{
+			\setboolean{vertical}{false}
+		}
+		
+		% Draw the left and the right lines for a vertical queue
+		% and the bottom and the upper lines for a horizontal queue.
+		\ifthenelse{\boolean{vertical}}{
+			% Draw left and right lines.
+			\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+			\pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+			\pgfpathmoveto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+			\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}	
+		}{
+		% Otherwise it is a horizontal queue.
+			\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+			\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+			\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+			\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}		
+		}
+		
+		% Define some auxilirary variables
+		\newdimen \midy
+		\midy=\pgf@ya
+		\advance \midy by \pgf@yb
+		\divide \midy by 2
+		
+		\newdimen \midx
+		\midx=\pgf@xa
+		\advance \midx by \pgf@xb
+		\divide \midx by 2
+		
+		% Draw the remaining queue parts dependent on 
+		% the queue orientation (head position) and
+		% queue type (open, closed).
+		
+		\ifthenelse{\boolean{vertical}}{
+			% Draw vertical queues.
+			\newdimen \cellheight
+			\cellheight=\height
+			\divide\cellheight by 6
+			\newdimen \currcelly
+			\currcelly=\pgf@ya
+			
+			\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue size}}{infinite}
+			 		\AND
+			 		\equal{\pgfkeysvalueof{/tikz/queue head}}{north}}
+        	{
+       		 	% Draw cells
+       	 		\foreach \y in {2,3,4,5,6}{
+					\advance \currcelly by \y\cellheight
+					\pgfpathmoveto{\pgfpoint{\pgf@xa}{\currcelly}}
+					\pgfpathlineto{\pgfpoint{\pgf@xb}{\currcelly}}
+				}
+				% Draw 3 points.
+				\pgf@yc = \pgf@ya
+				\advance \pgf@yc by \cellheight
+				\filldraw (\midx, \pgf@yc) circle (1pt);
+				\filldraw (\midx, \pgf@yc+5pt) circle (1pt);
+				\filldraw (\midx, \pgf@yc-5pt) circle (1pt);
+       	 	}{}
+
+			 \ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue size}}{infinite}
+			 		\AND
+			 		\equal{\pgfkeysvalueof{/tikz/queue head}}{south}}
+       	 	{
+       		 	% Draw cells
+       	 		\foreach \y in {0,1,2,3,4}{
+					\advance \currcelly by \y\cellheight
+					\pgfpathmoveto{\pgfpoint{\pgf@xa}{\currcelly}}
+					\pgfpathlineto{\pgfpoint{\pgf@xb}{\currcelly}}
+				}
+				% Draw 3 points.
+				\pgf@yc = \pgf@yb
+				\advance \pgf@yc by -\cellheight
+				\filldraw (\midx, \pgf@yc) circle (1pt);
+				\filldraw (\midx, \pgf@yc+5pt) circle (1pt);
+				\filldraw (\midx, \pgf@yc-5pt) circle (1pt);
+        	}{}
+        	
+        	\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue size}}{bounded}}
+       	 	{
+       		 	% Draw cells
+       	 		\foreach \y in {0,1,2,4,5,6}{
+					\advance \currcelly by \y\cellheight
+					\pgfpathmoveto{\pgfpoint{\pgf@xa}{\currcelly}}
+					\pgfpathlineto{\pgfpoint{\pgf@xb}{\currcelly}}
+				}
+				% Draw 3 points.
+				\pgf@yc = \pgf@ya
+				\advance \pgf@yc by 3\cellheight
+				\filldraw (\midx, \pgf@yc) circle (1pt);
+				\filldraw (\midx, \pgf@yc+5pt) circle (1pt);
+				\filldraw (\midx, \pgf@yc-5pt) circle (1pt);
+        	}{}
+		}{
+			% Draw horizontal queues.
+			\newdimen \cellwidth
+			\cellwidth=\width
+			\divide\cellwidth by 6
+			\newdimen \currcellx
+			\currcellx=\pgf@xa
+			\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue size}}{infinite}
+			 		\AND
+			 		\equal{\pgfkeysvalueof{/tikz/queue head}}{east}}
+        	{
+       		 	% Draw cells
+       	 		\foreach \x in {2,3,4,5,6}{
+					\advance \currcellx by \x\cellwidth
+					\pgfpathmoveto{\pgfpoint{\currcellx}{\pgf@ya}}
+					\pgfpathlineto{\pgfpoint{\currcellx}{\pgf@yb}}
+				}
+				% Draw 3 points.
+				\pgf@xc = \pgf@xa
+				\advance \pgf@xc by \cellwidth
+				\filldraw (\pgf@xc,\midy) circle (1pt);
+				\filldraw (\pgf@xc+5pt,\midy) circle (1pt);
+				\filldraw (\pgf@xc-5pt,\midy) circle (1pt);
+       	 	}{}
+
+			 \ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue size}}{infinite}
+			 		\AND
+			 		\equal{\pgfkeysvalueof{/tikz/queue head}}{west}}
+       	 	{
+	        	\foreach \x in {0,1,2,3,4}{
+					\advance \currcellx by \x\cellwidth
+					\pgfpathmoveto{\pgfpoint{\currcellx}{\pgf@ya}}
+					\pgfpathlineto{\pgfpoint{\currcellx}{\pgf@yb}}
+				}
+				% Draw 3 points.
+				\pgf@xc = \pgf@xb
+				\advance \pgf@xc by -\cellwidth
+				\filldraw (\pgf@xc,\midy) circle (1pt);
+				\filldraw (\pgf@xc+5pt,\midy) circle (1pt);
+				\filldraw (\pgf@xc-5pt,\midy) circle (1pt);
+        	}{}
+        	
+        	\ifthenelse{\equal{\pgfkeysvalueof{/tikz/queue size}}{bounded}}
+       	 	{
+	        	\foreach \x in {0,1,2,4,5,6}{
+					\advance \currcellx by \x\cellwidth
+					\pgfpathmoveto{\pgfpoint{\currcellx}{\pgf@ya}}
+					\pgfpathlineto{\pgfpoint{\currcellx}{\pgf@yb}}
+				}
+				% Draw 3 points.
+				\pgf@xc = \pgf@xa
+				\advance \pgf@xc by 3\cellwidth
+				\filldraw (\pgf@xc,\midy) circle (1pt);
+				\filldraw (\pgf@xc+5pt,\midy) circle (1pt);
+				\filldraw (\pgf@xc-5pt,\midy) circle (1pt);
+        	}{}
+        } 
+	}
+}

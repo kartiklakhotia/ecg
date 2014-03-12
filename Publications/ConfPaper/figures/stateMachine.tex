@@ -1,0 +1,77 @@
+\documentclass{article}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,fit,decorations.markings,decorations.pathmorphing,decorations.pathreplacing,shapes.symbols,shapes.geometric,calc,topaths}
+\usepackage[latin1]{inputenc}
+\tikzset{fifo/.style={ 
+        minimum size=4mm, minimum width=10mm,
+        append after command={
+          %% \path[-]
+	    (\tikzlastnode.north west)edge(\tikzlastnode.north east)
+            (\tikzlastnode.south west)edge(\tikzlastnode.south east)
+            ([shift={(0,+0.5\pgflinewidth)}]\tikzlastnode.north east)edge
+            ([shift={(0,-0.5\pgflinewidth)}]\tikzlastnode.south east)
+            ([shift={(0,+0.5\pgflinewidth)}]
+                $(\tikzlastnode.north west)!0.8!(\tikzlastnode.north east)$)edge
+            ([shift={(0,-0.5\pgflinewidth)}]
+                $(\tikzlastnode.south west)!0.8!(\tikzlastnode.south east)$)
+            ([shift={(0,+0.5\pgflinewidth)}]
+                $(\tikzlastnode.north west)!0.6!(\tikzlastnode.north east)$)edge
+            ([shift={(0,-0.5\pgflinewidth)}]
+                $(\tikzlastnode.south west)!0.6!(\tikzlastnode.south east)$)
+            ([shift={(0,+0.5\pgflinewidth)}]
+                $(\tikzlastnode.north west)!0.4!(\tikzlastnode.north east)$)edge
+            ([shift={(0,-0.5\pgflinewidth)}]
+                $(\tikzlastnode.south west)!0.4!(\tikzlastnode.south east)$)
+            ([shift={(0,+0.5\pgflinewidth)}]
+                $(\tikzlastnode.north west)!0.2!(\tikzlastnode.north east)$)edge
+            ([shift={(0,-0.5\pgflinewidth)}]
+                $(\tikzlastnode.south west)!0.2!(\tikzlastnode.south east)$)
+        }
+
+    }
+}
+
+\input{queues.tex}
+
+\begin{document}
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+                    thick]
+  \tikzstyle{every state}=[fill={rgb:red,200; green,200; blue,255},draw=none,text=white]
+
+  
+
+
+
+
+  \node[state] 		(A) {$Init HF$};
+  \node[shape=queue, draw, queue head=east, queue size=infinite, minimum width=50pt,minimum height=20pt] (toA) [left of = A, xshift = -1cm] [label = above:\textbf{Hermite Function}][label = below:\textbf{ FIFO}]{};
+
+  \node[state]         	(B) [below of=A] {$Run Phase$};
+  \node[shape=queue, draw, queue head=east, queue size=infinite, minimum width=50pt,minimum height=20pt] (toB) [label = above:\textbf{Heartbeat Sample}][label=below:\textbf{FIFO}] [left of = B, xshift = -1cm]{};
+%%  \node[fifo] (toB) [left of = B]{\textbf{Sample Data FIFO}};
+  \node[ state]         	(C) [below left of=B] {$Inner$\\$ Product$};
+  \node[state]         	(D) [below right of=C] {$MMSE$};
+  \node[state]         	(E) [above right of=D]       {$Output$};
+  \node[shape=queue, draw, queue head=east, queue size=infinite, minimum width=50pt,minimum height=20pt] (fromE) [right of = E, xshift = 1cm] [label = above:\textbf{Bestfit Coefficients}] [label= below:\textbf{ FIFO}]{};
+  
+  %% Dummy Nodes
+
+  \path
+	(A) edge [loop above] node {wait on Hermite Polynomials} (A)
+	    edge              node {} (B)
+        (B) edge [loop right] node {wait on Heartbeat Samples} (B)
+            edge              node {} (C)
+        (C) edge              node {} (D)
+        (D) edge 	      node {} (E)
+        (E) edge 	      node {Done} (B);
+\tikzset{mystyle/.style={->,double=white}}
+  \path (toA) edge [mystyle]	node {$Rx$} (A)
+        (toB) edge [mystyle]  node {$Rx$} (B)
+	(E)   edge [mystyle]      node {$Tx$} (fromE);
+\end{tikzpicture}
+
+\end{document}
