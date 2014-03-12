@@ -17,17 +17,19 @@
 \usepackage{amssymb}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
-\graphicspath{{./FIGURES/}}
+\graphicspath{{../figures/}}
 
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{rotating}
+\usepackage{comment}
 
 
 \usepackage[latin1]{inputenc}
 \usepackage{url}
+\usepackage{epsf}
 \urldef{\mailsa}\path|kartik@ee.iitb.ac.in|
 \urldef{\mailsb}\path|gabriel.caffarena@ceu.es|
 \urldef{\mailsc}\path|madhav@ee.iitb.ac.in|
@@ -363,30 +365,38 @@ The hardware moves back to the run-phase (waits for the next beat).
 \end{enumerate}
 An illustration of this scheme is given in Figure \ref{fig:HWAlgorithm}.
 
+\begin{figure}
+\begin{center}
+	\includegraphics[scale=0.80]{stateMachine.pdf}
+	\caption{Hardware Algorithm}
+	\label{fig:HWAlgorithm}
+\end{center}
+\end{figure}
+
 The VHDL hardware for this design is generated using AHIR-V2 toolchain \cite{c:ahir_usenix2012}.  
 The generated VHDL is instantiated in the FPGA together with the RIFFA wrappers,
 and the resulting design is synthesized and mapped to the Virtex-6 FPGA using
 the Xilinx ISE 14.3 toolset.
 
 
-<<<<<<< HEAD
-
-HDL for this design is generated using AHIR HLS toolchain. It is equipped with a library 
-of heavily pipelined Floating Point operators and Loop Pipelining mechanism which 
-enables the final VHDL to extract parallelism in C program. It uses pipes to communicate 
-between testbench and the program, which translate to FIFOs in hardware. A simple integration 
-interface between these FIFOs and RIFFA channels completes the system. 
-
-
-The RIFFA software drivers and interface infrastructure is used to communicate between 
-host and FPGA card \cite{c:jacobsen13}. It supports upto 12 independent
-channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that 
-can operate on different clock domains at either ends. A simple integration 
-interface bridges RIFFA and AHIR generated FIFOs.
-By incorporating functions provided by RIFFA driver, same testbench used for 
-Software verification can be used for verifying the hardware.
-=======
->>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
+%<<<<<<< HEAD
+%
+%HDL for this design is generated using AHIR HLS toolchain. It is equipped with a library 
+%of heavily pipelined Floating Point operators and Loop Pipelining mechanism which 
+%enables the final VHDL to extract parallelism in C program. It uses pipes to communicate 
+%between testbench and the program, which translate to FIFOs in hardware. A simple integration 
+%interface between these FIFOs and RIFFA channels completes the system. 
+%
+%
+%The RIFFA software drivers and interface infrastructure is used to communicate between 
+%host and FPGA card \cite{c:jacobsen13}. It supports upto 12 independent
+%channels for data transmission. All of them end in separate Rx/Tx FIFOs on FPGA that 
+%can operate on different clock domains at either ends. A simple integration 
+%interface bridges RIFFA and AHIR generated FIFOs.
+%By incorporating functions provided by RIFFA driver, same testbench used for 
+%Software verification can be used for verifying the hardware.
+%=======
+%>>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
 %  Describe the 
 %    - overall system.
 %    - card
@@ -418,7 +428,7 @@ is the average value observed across 100 beats).
 \begin{tabular}{c @{\hskip 0.06in}| @{\hskip 0.06in}c@{\hskip 0.2in}c @{\hskip 0.2in} c @{\hskip 0.2in} c} %5 centered columns
 \hline\hline\\[-1.5ex]
 
-Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Slice Register  \\Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Processing  \\Latency \end{tabular} & \begin{tabular}[c]{@{}c@{}}FPGA core Power \\ Consumption \end{tabular}\\ [2ex] \hline \\[-1.5ex]%heading
+Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Slice Register  \\Utilization  \end{tabular}& \begin{tabular}[c]{@{}c@{}}Avg. Processing  \\Latency \end{tabular} & \begin{tabular}[c]{@{}c@{}}FPGA core Power \\ Consumption \end{tabular}\\ [2ex] \hline \\[-1.5ex]%heading
 
 1-way & 56839 & 65995 & 1.39ms & 2.75W \\
 
@@ -432,7 +442,7 @@ Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabula
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-<<<<<<< HEAD
+%<<<<<<< HEAD
 
 \begin{verbatim}
 Minimum latency achieved with Four-way-unrolling = 0.39 ms
@@ -444,7 +454,7 @@ average beat period (~1ms). The observed power dissipation is 3.1W.
 The observed power dissipation in the core of the 
 FPGA (used for actual processing) is 3W (for the 4-way unrolled case).  The
 power dissipation was measured using the system-monitor in the Virtex-6 FPGA.
->>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
+%>>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
 Hardware utilization in 4-way unrolled system is less than $55\%$ 
 of the FPGA resource.
 
@@ -453,7 +463,7 @@ of the FPGA resource.
 Hermite basis fitting has been evaluated on GPU and CPU implementations
 as well.  For example, in \cite{c:GPU}, the authors observe that
 the GPU implementation shows excellent scaling behaviour, so that 
-5000 beats can be processed in 5 seconds.  However, when it comes
+100K beats can be processed in 15.7 seconds.  However, when it comes
 to the latency needed to process a single beat, the FPGA outperforms both 
 the CPU and GPU by a considerable margin, with a 35X improvement relative to
 the CPU and an 11X improvement relative to the GPU. 
