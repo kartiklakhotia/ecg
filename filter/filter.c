@@ -13,10 +13,9 @@ void __loop_pipelining_on__(int, int, int);
 #endif
 
 //global variables and pointers (could be converted to static if ahir permits and if its better to do so)
-int LPy1, LPy2, LPbuff_ptr;
-int HPy1, HPbuff_ptr;
-int DERIVbuff_ptr;
-int WINsum, WINbuff_ptr;
+long LPy1, LPy2, HPy1;
+int LPbuff_ptr, HPbuff_ptr, DERIVbuff_ptr, WINbuff_ptr;
+long WINsum;
 
 
 //initialize all buffers and pointers
@@ -106,7 +105,7 @@ void hpfilt()
 
 	HPy0 = HPy1 + datum - HPbuff[ptr];
 	HPy1 = HPy0;
-	output = HPbuff[halfPtr] - HPy0;	
+	output = HPbuff[halfPtr] - (HPy0/HPbuff_size);	
 
 	HPbuff[ptr] = datum;
 	if (ptr == HP_maxptr)
@@ -131,7 +130,7 @@ void deriv()
 	int datum = read_uint32("HPout_pipe");
 	int ptr = DERIVbuff_ptr;
 
-	int output = datum - DERIVbuff[ptr];
+	int output = abs(datum - DERIVbuff[ptr]);
 	DERIVbuff[ptr] = datum;
 	if (ptr == DERIV_maxptr)
 		ptr = 0;
@@ -160,7 +159,7 @@ void mvwin()
 	if (WINsum > WINsum_saturation)
 		output = WINout_saturation;
 	else					// why this saturation value
-		output = sum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
+		output = WINsum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
 
 	WINbuff[ptr] = datum;
 	if (ptr == WIN_maxptr)
@@ -187,6 +186,7 @@ void QRSfilt()
 		hpfilt();
 		deriv();
 		mvwin();
+
 		int output = read_uint32("WINout_pipe");
 		write_uint32("output_pipe", output); // both can be clubbed by writing output pipe directly in mvwin()
 	}
