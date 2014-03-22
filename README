@@ -12,3 +12,6 @@ Hardware Check -> done. Timing improvement from 0.57ms to 0.44ms. Expected bette
 Adding Paper contents Kartik wrote, to the git repo.
 
 Reference fixed, figure for statemachine added to paper.
+
+Working on Filter and QRS detector.
+Filter function file prepared.
