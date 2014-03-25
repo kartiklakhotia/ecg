@@ -61,7 +61,7 @@ void lpfilt()
 		//also, the further Hermite coeffs calculator is working on double precision FP data
 	int output, halfPtr; //halfPtr represents the sample that occurred 24ms ago
 
-	int datum = read_uint32("sample_pipe");
+	int datum = read_uint32("filt_input_pipe"); //main input pipe to filter.
 	int ptr = LPbuff_ptr; //avoid reading global pointer value at multiple places
 
 	halfPtr = ptr-LPbuff_halfSize;
@@ -167,7 +167,7 @@ void mvwin()
 	else
 		ptr = ptr + 1;
 	WINbuff_ptr = ptr;	
-	write_uint32("WINout_pipe", output);
+	write_uint32("filt_output_pipe", output);
 }
 
 
@@ -175,21 +175,25 @@ void mvwin()
 // Parent Function
 // Will call all above defined functions in correct sequence
 //////////////////////////////////////////////////////////////////////////////////////////////
-void QRSfilt()
+void QRSfilt(uint8_t initDo)
 {
-	initfilt();
-	while(1){
-		int beatSample = read_uint32("input_pipe");
-		write_uint32("sample_pipe", beatSample); //both can be clubbed by reading input pipe directly in the lpfilt()
-	
-		lpfilt();	
-		hpfilt();
-		deriv();
-		mvwin();
-
-		int output = read_uint32("WINout_pipe");
-		write_uint32("output_pipe", output); // both can be clubbed by writing output pipe directly in mvwin()
-	}
+//	initfilt();
+//	while(1){
+//		int beatSample = read_uint32("input_pipe");
+//		write_uint32("sample_pipe", beatSample); //both can be clubbed by reading input pipe directly in the lpfilt()
+		
+		if (initDo)
+			initfilt();
+		else
+		{	
+			lpfilt();	
+			hpfilt();
+			deriv();
+			mvwin();
+		}
+//		int output = read_uint32("WINout_pipe");
+//		write_uint32("output_pipe", output); // both can be clubbed by writing output pipe directly in mvwin()
+//	}
 }
 
 

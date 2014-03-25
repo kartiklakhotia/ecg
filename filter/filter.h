@@ -8,6 +8,10 @@
 //#define LPfilt_range ((int)(25/ms_per_sample + 0.5)) // why 25, buff size should be upto 48ms, hence, should use 24 here ?? 
 						     // however, with ms_per_sample 5, it doesn't make difference
 
+/********************************
+** FILTER STUFF **
+********************************/
+
 #define LPbuff_size ((int)(48/ms_per_sample + 0.5)) 
 #define HPbuff_size ((int)(125/ms_per_sample + 0.5))
 #define DERIVbuff_size ((int)(10/ms_per_sample + 0.5))
@@ -24,6 +28,9 @@
 #define WINout_saturation 32000
 #define WINsum_saturation WINout_saturation*WINbuff_size
 
+
+
+
 //global memory spaces
 
 int LPbuff[LPbuff_size];
@@ -31,4 +38,4 @@ int HPbuff[HPbuff_size];
 int DERIVbuff[DERIVbuff_size];
 int WINbuff[WINbuff_size];
 
-void QRSfilt();
+void QRSfilt(uint8_t initDo);
