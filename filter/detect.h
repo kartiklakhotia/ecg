@@ -25,13 +25,11 @@
 
 #define FILTER_DELAY 	(int)(((double)DERIVBUFF_size/2) + ((double)LPbuff_size/2 - 1) + (((double)HPbuff_size-1)/2) + PRE_BLANK)
 #define DDbuff_size	 WINbuff_size + FILTER_DELAY + ((int)(100/ms_per_sample + 0.5)) 
-#define DDCALC_maxptr	DERIV_maxptr
 
 
 
 // global memory spaces //
 
 int DDbuff[DDbuff_size];
-int DDCALCbuff[DERIVbuff_size];
 int NOISEbuff[8], RRbuff[8], QRSbuff[8];
 

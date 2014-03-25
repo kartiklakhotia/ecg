@@ -20,6 +20,7 @@ int qpk_count, maxder, lastmax, count, sbpeak;
 int initBlank, initMax, preBlankCnt, sbCnt;
 int maxPeak, timeSinceMaxPeak; //variables for peak function
 int lastDatum;
+int DDCALCbuff[DERIVbuff_size];
 
 void initDet()
 {
@@ -110,7 +111,7 @@ int ddcalc(int datum)
 
 	int output = datum - DDCALCbuff[ptr];
 	DDCALCbuff[ptr] = datum;
-	if (ptr == DDCALC_maxptr)
+	if (ptr == DERIV_maxptr)
 		ptr = 0;
 	else
 		ptr = ptr + 1;
