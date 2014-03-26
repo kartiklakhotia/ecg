@@ -73,10 +73,11 @@ void lpfilt()
 	output = LPy0 / (LPbuff_halfSize*LPbuff_halfSize); // what is the reason for this 
 							// particular scaling coefficient
 	LPbuff[ptr] = datum;
-	if (ptr == LP_maxptr)
-		ptr = 0;
-	else
-		ptr = ptr + 1;
+	ptr = (ptr == LP_maxptr) ? 0 : ptr+1;
+//	if (ptr == LP_maxptr)
+//		ptr = 0;
+//	else
+//		ptr = ptr + 1;
 	LPbuff_ptr = ptr;		
 	write_uint32("LPout_pipe", output); // send this output for high pass filtering	
 					   // no need to pass argument to and from main function
@@ -108,10 +109,11 @@ void hpfilt()
 	output = HPbuff[halfPtr] - (HPy0/HPbuff_size);	
 
 	HPbuff[ptr] = datum;
-	if (ptr == HP_maxptr)
-		ptr = 0;
-	else
-		ptr = ptr + 1;
+	ptr = (ptr == HP_maxptr) ? 0 : ptr+1;
+//	if (ptr == HP_maxptr)
+//		ptr = 0;
+//	else
+//		ptr = ptr + 1;
 	HPbuff_ptr = ptr;
 	write_uint32("HPout_pipe", output);
 }		
@@ -132,10 +134,11 @@ void deriv()
 
 	int output = abs(datum - DERIVbuff[ptr]);
 	DERIVbuff[ptr] = datum;
-	if (ptr == DERIV_maxptr)
-		ptr = 0;
-	else
-		ptr = ptr + 1;
+	ptr = (ptr == DERIV_maxptr) ? 0 : ptr+1;
+//	if (ptr == DERIV_maxptr)
+//		ptr = 0;
+//	else
+//		ptr = ptr + 1;
 	DERIVbuff_ptr = ptr;
 	write_uint32("DERIVout_pipe", output);
 }
@@ -162,10 +165,11 @@ void mvwin()
 		output = WINsum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
 
 	WINbuff[ptr] = datum;
-	if (ptr == WIN_maxptr)
-		ptr = 0;
-	else
-		ptr = ptr + 1;
+	ptr = (ptr == WIN_maxptr) ? 0 : ptr+1;
+//	if (ptr == WIN_maxptr)
+//		ptr = 0;
+//	else
+//		ptr = ptr + 1;
 	WINbuff_ptr = ptr;	
 	write_uint32("filt_output_pipe", output);
 }
@@ -175,14 +179,14 @@ void mvwin()
 // Parent Function
 // Will call all above defined functions in correct sequence
 //////////////////////////////////////////////////////////////////////////////////////////////
-void QRSfilt(uint8_t initDo)
+void QRSfilt(uint8_t initialize)
 {
 //	initfilt();
 //	while(1){
 //		int beatSample = read_uint32("input_pipe");
 //		write_uint32("sample_pipe", beatSample); //both can be clubbed by reading input pipe directly in the lpfilt()
 		
-		if (initDo)
+		if (initialize)
 			initfilt();
 		else
 		{	
