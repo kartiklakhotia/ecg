@@ -17,11 +17,6 @@
 #define DERIVbuff_size ((int)(10/ms_per_sample + 0.5))
 #define WINbuff_size ((int)(80/ms_per_sample + 0.5))
 
-#define LP_maxptr LPbuff_size-1 				
-#define HP_maxptr HPbuff_size-1 
-#define DERIV_maxptr DERIVbuff_size-1 
-#define WIN_maxptr WINbuff_size-1 //max permissible indices for memory spaces constructing circular buffers
-
 #define LPbuff_halfSize LPbuff_size/2
 #define HPbuff_halfSize HPbuff_size/2
 

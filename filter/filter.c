@@ -19,7 +19,7 @@ long WINsum;
 
 
 //initialize all buffers and pointers
-void initfilt()
+void initFilt()
 {
 	int index;
 	for (index = 0; index < LPbuff_size; index++)
@@ -48,6 +48,15 @@ void initfilt()
 }
 
 
+/**************************************************
+** POINTER UPDATING FOR CIRCULAR BUFFERS
+**************************************************/
+int circUpdateFilt(int ptr, int size)
+{
+	int nextval = ptr + 1;
+	nextval = (nextval == size) ? 0 : nextval;
+	return nextval;
+}
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Digital Low-pass Filter
 // Difference equation is given by :
@@ -55,7 +64,7 @@ void initfilt()
  	y[n] = 2*y[n-1] - y[n-2] + x[n] - 2*x[n-24ms(LPbuff_size/2)] + x[n-48ms(LPbuff_size)]
 */
 /////////////////////////////////////////////////////////////////////////////////////////////
-void lpfilt()
+void lpFilt()
 {
 	long LPy0; //check if long is required, what about normalization
 		//also, the further Hermite coeffs calculator is working on double precision FP data
@@ -73,12 +82,11 @@ void lpfilt()
 	output = LPy0 / (LPbuff_halfSize*LPbuff_halfSize); // what is the reason for this 
 							// particular scaling coefficient
 	LPbuff[ptr] = datum;
-	ptr = (ptr == LP_maxptr) ? 0 : ptr+1;
+	LPbuff_ptr = circUpdateFilt(ptr, LPbuff_size);
 //	if (ptr == LP_maxptr)
 //		ptr = 0;
 //	else
 //		ptr = ptr + 1;
-	LPbuff_ptr = ptr;		
 	write_uint32("LPout_pipe", output); // send this output for high pass filtering	
 					   // no need to pass argument to and from main function
 }
@@ -92,7 +100,7 @@ void lpfilt()
 	z[n] = x[n-64ms(HPbuff_halfSize)] - y[n]
 */
 /////////////////////////////////////////////////////////////////////////////////////////////
-void hpfilt()
+void hpFilt()
 {
 	long HPy0;
 	int output, halfPtr;
@@ -109,7 +117,7 @@ void hpfilt()
 	output = HPbuff[halfPtr] - (HPy0/HPbuff_size);	
 
 	HPbuff[ptr] = datum;
-	ptr = (ptr == HP_maxptr) ? 0 : ptr+1;
+	HPbuff_ptr = circUpdateFilt(ptr, HPbuff_size);
 //	if (ptr == HP_maxptr)
 //		ptr = 0;
 //	else
@@ -134,12 +142,11 @@ void deriv()
 
 	int output = abs(datum - DERIVbuff[ptr]);
 	DERIVbuff[ptr] = datum;
-	ptr = (ptr == DERIV_maxptr) ? 0 : ptr+1;
+	DERIVbuff_ptr = circUpdateFilt(ptr, DERIVbuff_size);
 //	if (ptr == DERIV_maxptr)
 //		ptr = 0;
 //	else
 //		ptr = ptr + 1;
-	DERIVbuff_ptr = ptr;
 	write_uint32("DERIVout_pipe", output);
 }
 
@@ -152,7 +159,7 @@ void deriv()
 	sum[n] = sum[n-1] + x[n] - x[n-80ms(WINbuff_size)] 
 */
 //////////////////////////////////////////////////////////////////////////////////////////////
-void mvwin()
+void mvWin()
 {
 	int datum = read_uint32("DERIVout_pipe");
 	int ptr = WINbuff_ptr; 
@@ -165,12 +172,11 @@ void mvwin()
 		output = WINsum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
 
 	WINbuff[ptr] = datum;
-	ptr = (ptr == WIN_maxptr) ? 0 : ptr+1;
+	WINbuff_ptr = circUpdateFilt(ptr, WINbuff_size);
 //	if (ptr == WIN_maxptr)
 //		ptr = 0;
 //	else
 //		ptr = ptr + 1;
-	WINbuff_ptr = ptr;	
 	write_uint32("filt_output_pipe", output);
 }
 
@@ -187,13 +193,13 @@ void QRSfilt(uint8_t initialize)
 //		write_uint32("sample_pipe", beatSample); //both can be clubbed by reading input pipe directly in the lpfilt()
 		
 		if (initialize)
-			initfilt();
+			initFilt();
 		else
 		{	
-			lpfilt();	
-			hpfilt();
+			lpFilt();	
+			hpFilt();
 			deriv();
-			mvwin();
+			mvWin();
 		}
 //		int output = read_uint32("WINout_pipe");
 //		write_uint32("output_pipe", output); // both can be clubbed by writing output pipe directly in mvwin()
