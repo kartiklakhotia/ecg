@@ -12,10 +12,11 @@
 ** FILTER STUFF **
 ********************************/
 
-#define LPbuff_size ((int)(48/ms_per_sample + 0.5)) 
+#define LPbuff_size ((int)(50/ms_per_sample + 0.5)) 
 #define HPbuff_size ((int)(125/ms_per_sample + 0.5))
 #define DERIVbuff_size ((int)(10/ms_per_sample + 0.5))
-#define WINbuff_size ((int)(80/ms_per_sample + 0.5))
+//#define WINbuff_size ((int)(80/ms_per_sample + 0.5))
+#define WINbuff_size ((int)(ms_per_sample))
 
 #define LPbuff_halfSize LPbuff_size/2
 #define HPbuff_halfSize HPbuff_size/2
@@ -26,11 +27,6 @@
 
 
 
-//global memory spaces
-
-int LPbuff[LPbuff_size];
-int HPbuff[HPbuff_size];
-int DERIVbuff[DERIVbuff_size];
-int WINbuff[WINbuff_size];
 
 void QRSFilt(uint8_t initialize);
+

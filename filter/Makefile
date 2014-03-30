@@ -31,10 +31,10 @@ TOPMODULES=-T QRSDet
 
 # compile with SW defined.
 # note the use of IOLIB in building the testbench.
-SW: $(SRC)/hermite.c $(SRC)/bestFit.c $(SRC)/testBestFit.c $(SRC)/hermite.h $(SRC)/bestFit.h  $(FUNCTIONLIB)/src/timer.c 
-	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
-	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/detect.c
-#	gcc -g -c -DSW $(PROGDEFS) -I$(FUNCTIONLIB)/include -I$(SRC) $(FUNCTIONLIB)/src/timer.c
+SW: $(SRC)/filter.c $(SRC)/detect.c $(SRC)/filter.h $(SRC)/detect.h  $(FUNCTIONLIB)/src/timer.c 
+		clang -I/usr/include/i386-linux-gnu -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
+	 	clang -I/usr/include/i386-linux-gnu -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/detect.c
+	 	clang -I/usr/include/i386-linux-gnu -g -c -DSW $(PROGDEFS) -I$(FUNCTIONLIB)/include -I$(SRC) $(FUNCTIONLIB)/src/timer.c
 #	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(PTHREADUTILS_INCLUDE) -I$(SRC) $(SRC)/testBestFit.c
 #	gcc  -o testbench_sw hermite.o bestFit.o timer.o testBestFit.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
 

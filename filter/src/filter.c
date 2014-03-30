@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <pipes.h>
+#include <Pipes.h>
+#include <pipeHandler.h>
 #include "filter.h"
 
 //declare loop pipelining as a NOP function for SW execution
@@ -17,6 +18,12 @@ long LPy1, LPy2, HPy1;
 int LPbuff_ptr, HPbuff_ptr, DERIVbuff_ptr, WINbuff_ptr;
 long WINsum;
 
+
+//global memory spaces
+int LPbuff[LPbuff_size];
+int HPbuff[HPbuff_size];
+int DERIVbuff[DERIVbuff_size];
+int WINbuff[WINbuff_size];
 
 //initialize all buffers and pointers
 void initFilt()

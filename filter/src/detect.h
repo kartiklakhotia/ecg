@@ -22,15 +22,11 @@
 
 #define MIN_PEAK_AMP	7 //prevent detection of peaks below 150 uV
 
-#define FILTER_DELAY 	(int)(((double)DERIVBUFF_size/2) + ((double)LPbuff_size/2 - 1) + (((double)HPbuff_size-1)/2) + PRE_BLANK)
+#define FILTER_DELAY 	(int)(((double)DERIVbuff_size/2) + ((double)LPbuff_size/2 - 1) + (((double)HPbuff_size-1)/2) + PRE_BLANK)
 #define DDbuff_size	 WINbuff_size + FILTER_DELAY + ((int)(100/ms_per_sample + 0.5)) 
 
 
 
-// global memory spaces //
-
-int DDbuff[DDbuff_size];
-int NOISEbuff[8], RRbuff[8], QRSbuff[8];
 
 // function avaialble at output interface //
 void QRSDet();
