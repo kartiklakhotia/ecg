@@ -31,3 +31,6 @@
 
 int DDbuff[DDbuff_size];
 int NOISEbuff[8], RRbuff[8], QRSbuff[8];
+
+// function avaialble at output interface //
+void QRSDet();

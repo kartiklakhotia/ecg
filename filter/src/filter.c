@@ -185,7 +185,7 @@ void mvWin()
 // Parent Function
 // Will call all above defined functions in correct sequence
 //////////////////////////////////////////////////////////////////////////////////////////////
-void QRSfilt(uint8_t initialize)
+void QRSFilt(uint8_t initialize)
 {
 //	initfilt();
 //	while(1){

@@ -46,13 +46,12 @@ void initDet()
 	maxPeak = timeSinceMaxPeak = 0;
 	lastDatum = 0;
 	init8Done = 0;
-//	initfilt();
 }
 
-void QRSdet()
+void QRSDet()
 {
 	initDet();
-	QRSfilt(1); //initiate filter buffers, pointers and variables also to reset state;
+	QRSFilt(1); //initiate filter buffers, pointers and variables also to reset state;
 	int aPeak, newPeak, tempPeak;
 	int qmean, rrmean, nmean;
 	int RSETbuff[8];

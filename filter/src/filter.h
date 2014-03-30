@@ -33,4 +33,4 @@ int HPbuff[HPbuff_size];
 int DERIVbuff[DERIVbuff_size];
 int WINbuff[WINbuff_size];
 
-void QRSfilt(uint8_t initialize);
+void QRSFilt(uint8_t initialize);
