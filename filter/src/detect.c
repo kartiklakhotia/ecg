@@ -220,16 +220,15 @@ void QRSDet()
 		uint8_t prelim_cond0 = (aPeak > 0);
 		uint8_t prelim_cond1 = (preBlank_count > 0); 
 		uint8_t prelim_cond2 = (aPeak > tempPeak);
-		uint8_t prelim_cond3 = (preBlank_count == 1);
+		uint8_t prelim_cond3 = (--preBlank_count == 0);
 
 		uint8_t peakDet_cond0 = prelim_cond0 && (!prelim_cond1);
 		uint8_t peakDet_cond1 = (!prelim_cond0) && prelim_cond1;
-		uint8_t peakDet_cond2 = prelim_cond0 && prelim_cond3;
+		uint8_t peakDet_cond2 = prelim_cond0 && (!prelim_cond2) && prelim_cond3;
 
 		tempPeak = (peakDet_cond0 || prelim_cond2) ? aPeak : tempPeak;
-		preBlank_count = (peakDet_cond1 || peakDet_cond2) ? preBlank_count-1 : preBlank_count;
 		preBlank_count = (peakDet_cond0 || prelim_cond2) ? PRE_BLANK : preBlank_count;
-		newPeak = ((peakDet_cond1 && prelim_cond3) || (peakDet_cond2 && !prelim_cond2)) ? tempPeak : newPeak;
+		newPeak = ((peakDet_cond1 && prelim_cond3) || (peakDet_cond2)) ? tempPeak : 0;
 		
 		
 		DDbuff[DDbuff_ptr] = ddCalc(prefilt_datum);

@@ -12,4 +12,4 @@ Checked complete filter. Working
 Checking peak() function. Not working
 ### Bug fixed : some optimizations wronged the functional equivalence to if else structure. 
 Checked peak() function. Now working
-
+Checked newPeak calculation. Slight modifications. Working.
