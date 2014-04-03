@@ -81,8 +81,9 @@ void lpFilt()
 	int ptr = LPbuff_ptr; //avoid reading global pointer value at multiple places
 
 	halfPtr = ptr-LPbuff_halfSize;
-	if (halfPtr < 0)
-		halfPtr += LPbuff_size;
+//	if (halfPtr < 0)
+//		halfPtr += LPbuff_size;
+	halfPtr = (halfPtr < 0) ? halfPtr + LPbuff_size : halfPtr;
 	LPy0 = (LPy1 << 1) - LPy2 + datum - (LPbuff[halfPtr] << 1) + LPbuff[ptr];		
 	LPy2 = LPy1;
 	LPy1 = LPy0;
@@ -116,8 +117,9 @@ void hpFilt()
 	int ptr = HPbuff_ptr;
 
 	halfPtr = ptr-HPbuff_halfSize;
-	if (halfPtr < 0)
-		halfPtr += HPbuff_size;
+	halfPtr = (halfPtr < 0) ? halfPtr + HPbuff_size : halfPtr;
+//	if (halfPtr < 0)
+//		halfPtr += HPbuff_size;
 
 	HPy0 = HPy1 + datum - HPbuff[ptr];
 	HPy1 = HPy0;
@@ -129,7 +131,6 @@ void hpFilt()
 //		ptr = 0;
 //	else
 //		ptr = ptr + 1;
-	HPbuff_ptr = ptr;
 	write_uint32("HPout_pipe", output);
 }		
 
@@ -173,10 +174,11 @@ void mvWin()
 	int output;
 
 	WINsum = WINsum + datum - WINbuff[ptr];	
-	if (WINsum > WINsum_saturation)
-		output = WINout_saturation;
-	else					// why this saturation value
-		output = WINsum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
+//	if (WINsum > WINsum_saturation)
+//		output = WINout_saturation;
+//	else					// why this saturation value
+//		output = WINsum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
+	output = (WINsum > WINsum_saturation) ? WINout_saturation : WINsum/WINbuff_size;
 
 	WINbuff[ptr] = datum;
 	WINbuff_ptr = circUpdateFilt(ptr, WINbuff_size);

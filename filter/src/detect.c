@@ -67,14 +67,13 @@ int peak()
 
 	timeSinceMax = (timeSinceMax > 0) ? (timeSinceMax+1) : timeSinceMax;	
 	uint8_t newPeak_cond = ((datum > lastDatum) && (datum > max));
-	uint8_t peakConfirm_cond = ((datum < (max >> 1)) || (timeSinceMax > MS95));
+	uint8_t peakConfirm_cond = (((datum < (max >> 1)) || (timeSinceMax > MS95)) && (!newPeak_cond)) ;
 	
-	pk = (peakConfirm_cond) ? max : pk;
+	pk = (peakConfirm_cond && (max >= MIN_PEAK_AMP)) ? max : 0;
 	max = (peakConfirm_cond) ? 0 : max;
 	timeSinceMax = (peakConfirm_cond) ? 0 : timeSinceMax;
 	max = (newPeak_cond) ? datum : max;
 	timeSinceMax = (newPeak_cond && (max > 2)) ? 1 : timeSinceMax;
-	pk = ((pk < MIN_PEAK_AMP) || newPeak_cond)  ? 0 : pk; 
 
 	timeSinceMaxPeak = timeSinceMax;
 	maxPeak = max;

@@ -1,2 +1,15 @@
 based on filter and detector given at :
 http://www.eplimited.com/confirmation.htm
+
+
+Debugging.
+Checked lpfilter. Working
+Checked hpfilter. Not working
+### Bug fixed : wrong assignment to buffer pointer in hpfilt() function
+
+Checked complete filter. Working
+
+Checking peak() function. Not working
+### Bug fixed : some optimizations wronged the functional equivalence to if else structure. 
+Checked peak() function. Now working
+
