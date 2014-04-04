@@ -13,3 +13,18 @@ Checking peak() function. Not working
 ### Bug fixed : some optimizations wronged the functional equivalence to if else structure. 
 Checked peak() function. Now working
 Checked newPeak calculation. Slight modifications. Working.
+
+Checking blsCheck.
+### Bug Fixed : output needs to be inverted
+Now working
+
+Checked QRS detection without search back. Working
+
+Checking with search back. Using physionet database records {100,101,102,103}
+2 extra peaks recorded. Line #2460-61 and #7560-61
+My implementation not working.
+
+###Bug Fixed : meanCalc() function. Limits to loop for summing and index increment corrected.
+###Bug Fixed : qrs, rr, noise buffers are reverse circularly updated. The way in which first 8 beats come affects if implementation is normal circular vs reverse circular
+
+Checked with Search Back. Working
