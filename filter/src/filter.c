@@ -259,6 +259,9 @@ void QRSFilt(uint8_t initialize)
 			hpFilt();
 			deriv();
 			mvWin();
+//#ifdef SW
+//			printf("first iteration done\n");
+//#endif
 		}
 //		int output = read_uint32("WINout_pipe");
 //		write_uint32("output_pipe", output); // both can be clubbed by writing output pipe directly in mvwin()

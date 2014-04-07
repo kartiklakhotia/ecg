@@ -6,15 +6,15 @@
 #include <pthreadUtils.h>
 #include <Pipes.h>
 #include <pipeHandler.h>
-#include "detect.h"
 #include "filter.h"
+#include "qrsDet.h"
 #ifndef SW
 #include "vhdlCStubs.h"
 #endif
 
 
 #ifdef SW
-DEFINE_THREAD(QRSDet)
+DEFINE_THREAD(qrsDet)
 #endif
 
 int main(int argc, char* argv[])
@@ -35,19 +35,22 @@ int main(int argc, char* argv[])
 	}
 #ifdef SW
 	init_pipe_handler();
-	PTHREAD_DECL(QRSDet);
-	PTHREAD_CREATE(QRSDet);
+	PTHREAD_DECL(qrsDet);
+	PTHREAD_CREATE(qrsDet);
 #endif
 	write_uint32("det_input_pipe", 0);
-	QRSdelay = read_uint32(det_output_pipe);
+	QRSdelay = read_uint32("det_output_pipe");
 	int dataSample;
 	fscanf(frec, "%d", &dataSample);
+	long count = 0;
 	while(!feof(frec)){
+		count++;
 		write_uint32("det_input_pipe", dataSample);
-		QRSdelay = read_uint32(det_output_pipe);
-		if (QRSdelay > 0)
+		QRSdelay = read_uint32("det_output_pipe");
+		if (QRSdelay != 0)
 		{
-			fprintf(fout, "%d\n", QRSdelay);
+			fprintf(fout, "%d, ", QRSdelay);
+			fprintf(fout, "%ld\n", count);
 		}
 		fscanf(frec, "%d", &dataSample);
 	}
@@ -55,7 +58,7 @@ int main(int argc, char* argv[])
 	fclose(fout);
 	
 #ifdef SW
-	PTHREAD_CANCEL(QRSDet);
+	PTHREAD_CANCEL(qrsDet);
 	close_pipe_handler();
 	return(0);
 #endif
