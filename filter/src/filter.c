@@ -25,6 +25,55 @@ int HPbuff[HPbuff_size];
 int DERIVbuff[DERIVbuff_size];
 int WINbuff[WINbuff_size];
 
+
+//// DIVISION ALGORITHM /////
+uint64_t divideUnsigned(uint64_t dividend, uint32_t divisor)
+{
+        uint64_t quotient = 0;
+        if (divisor != 0)
+        {
+                while (dividend >= divisor)
+                {
+                        uint64_t curr_quotient = 1;
+                        uint64_t shifted_divisor = divisor;
+                        uint64_t reduced_dividend_by_2 = (dividend >> 1);
+                        while (shifted_divisor < reduced_dividend_by_2)
+                        {
+                                        shifted_divisor = (shifted_divisor << 1);
+                                        curr_quotient = (curr_quotient << 1);
+                        }
+                        quotient += curr_quotient;
+                        dividend -= shifted_divisor;
+                }
+        }
+        return (quotient);
+}
+
+int64_t divideSigned(int64_t dividend, int32_t divisor)
+{
+        int8_t sign = 1; 
+        uint64_t udividend;
+        uint32_t udivisor;
+	dividend = (dividend < 0) ? (-dividend) : dividend;
+	sign = (dividend < 0) ? (-sign) : sign;
+	divisor = (divisor < 0) ? (-divisor) : divisor;
+	sign = (divisor < 0) ? (-sign) : sign;
+	udividend = (uint64_t) dividend;
+	udivisor = (uint32_t) divisor;
+
+        int64_t quotient = 0;
+        if (udivisor != 0)
+        {
+                quotient = divideUnsigned(udividend, udivisor);
+		quotient = (sign < 0) ? -quotient : quotient;
+        }
+        return (quotient);
+}
+
+
+
+
+
 //initialize all buffers and pointers
 void initFilt()
 {
@@ -87,8 +136,8 @@ void lpFilt()
 	LPy0 = (LPy1 << 1) - LPy2 + datum - (LPbuff[halfPtr] << 1) + LPbuff[ptr];		
 	LPy2 = LPy1;
 	LPy1 = LPy0;
-	output = LPy0 / (LPbuff_halfSize*LPbuff_halfSize); // what is the reason for this 
-							// particular scaling coefficient
+	output = divideSigned (LPy0, LPbuff_halfSize * LPbuff_halfSize);
+//	output = LPy0 / (LPbuff_halfSize*LPbuff_halfSize);  
 	LPbuff[ptr] = datum;
 	LPbuff_ptr = circUpdateFilt(ptr, LPbuff_size);
 //	if (ptr == LP_maxptr)
@@ -123,7 +172,8 @@ void hpFilt()
 
 	HPy0 = HPy1 + datum - HPbuff[ptr];
 	HPy1 = HPy0;
-	output = HPbuff[halfPtr] - (HPy0/HPbuff_size);	
+	output = HPbuff[halfPtr] - divideSigned(HPy0, HPbuff_size);
+//	output = HPbuff[halfPtr] - (HPy0/HPbuff_size);	
 
 	HPbuff[ptr] = datum;
 	HPbuff_ptr = circUpdateFilt(ptr, HPbuff_size);

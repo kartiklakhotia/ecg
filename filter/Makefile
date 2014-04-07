@@ -32,14 +32,11 @@ TOPMODULES=-T QRSDet
 # compile with SW defined.
 # note the use of IOLIB in building the testbench.
 SW: $(SRC)/filter.c $(SRC)/detect.c $(SRC)/filter.h $(SRC)/detect.h  $(FUNCTIONLIB)/src/timer.c 
-#		clang -I/usr/include/i386-linux-gnu -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
-#	 	clang -I/usr/include/i386-linux-gnu -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/detect.c
-#	 	clang -I/usr/include/i386-linux-gnu -g -c -DSW $(PROGDEFS) -I$(FUNCTIONLIB)/include -I$(SRC) $(FUNCTIONLIB)/src/timer.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/detect.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(FUNCTIONLIB)/include -I$(SRC) $(FUNCTIONLIB)/src/timer.c
-#	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(PTHREADUTILS_INCLUDE) -I$(SRC) $(SRC)/testBestFit.c
-#	gcc  -o testbench_sw hermite.o bestFit.o timer.o testBestFit.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
+	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(PTHREADUTILS_INCLUDE) -I$(SRC) $(SRC)/testDetect.c
+	gcc  -o testbench_sw filter.o detect.o timer.o testDetect.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
 
 # five steps from C to vhdl simulator.
 HW: c2llvmbc llvmbc2aa  aalink aa2vc  vc2vhdl  vhdlsim
@@ -48,18 +45,22 @@ AA2VHDL: aa2vc vc2vhdl vhdlsim
 
 # C to llvm byte-code.. use clang.
 CLANGOPTS=-O3
-c2llvmbc: $(SRC)/hermite.c $(SRC)/hermite.h $(SRC)/bestFit.c $(SRC)/bestFit.h
-	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/bestFit.c
-	opt --indvars --loopsimplify bestFit.o -o bestFit.opt.o
-	llvm-dis bestFit.opt.o
+c2llvmbc: $(SRC)/filter.c $(SRC)/filter.h $(SRC)/detect.c $(SRC)/detect.h
+	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/detect.c
+	opt --indvars --loopsimplify detect.o -o detect.opt.o
+	llvm-dis detect.opt.o
+	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/filter.c
+	opt --indvars --loopsimplify filter.o -o filter.opt.o
+	llvm-dis filter.opt.o
 
 # llvm byte-code to Aa..
-llvmbc2aa:  bestFit.opt.o 
-	llvm2aa $(LLVM2AAOPTS)  bestFit.opt.o | vcFormat >  bestFit.aa
+llvmbc2aa:  filter.opt.o detect.opt.o 
+	llvm2aa $(LLVM2AAOPTS)  filter.opt.o | vcFormat >  filter.aa
+	llvm2aa $(LLVM2AAOPTS)  detect.opt.o | vcFormat >  detect.aa
 
 # Aa to vC
-aalink:  bestFit.aa
-	AaLinkExtMem bestFit.aa | vcFormat > prog.linked.aa
+aalink:  detect.aa
+	AaLinkExtMem detect.aa filter.aa | vcFormat > prog.linked.aa
 	AaOpt -B prog.linked.aa | vcFormat > prog.linked.opt.aa
 
 aa2vc: prog.linked.opt.aa
@@ -74,11 +75,10 @@ vc2vhdl: prog.vc
 
 # build testbench and ghdl executable
 # note the use of SOCKETLIB in building the testbench.
-vhdlsim: ahir_system.vhdl ahir_system_test_bench.vhdl $(SRC)/testBestFit.c $(SRC)/hermite.c vhdlCStubs.h vhdlCStubs.c
+vhdlsim: ahir_system.vhdl ahir_system_test_bench.vhdl $(SRC)/testDetect.c vhdlCStubs.h vhdlCStubs.c
 	gcc -c vhdlCStubs.c  -I$(SRC) -I./ -I$(SOCKETLIB_INCLUDE)
-	gcc -c $(SRC)/testBestFit.c -I$(PTHREADUTILS_INCLUDE) -I$(SRC) -I./ -I$(SOCKETLIB_INCLUDE)
-	gcc -c $(SRC)/hermite.c -I$(PTHREADUTILS_INCLUDE) -I$(SRC) -I./ -I$(SOCKETLIB_INCLUDE)
-	gcc -o testbench_hw testBestFit.o hermite.o vhdlCStubs.o  -L$(SOCKETLIB_LIB) -lSocketLib -lpthread -lm
+	gcc -c $(SRC)/testDetect.c -I$(PTHREADUTILS_INCLUDE) -I$(SRC) -I./ -I$(SOCKETLIB_INCLUDE)
+	gcc -o testbench_hw testDetect.o vhdlCStubs.o  -L$(SOCKETLIB_LIB) -lSocketLib -lpthread -lm
 	ghdl --clean
 	ghdl --remove
 	ghdl -i --work=GhdlLink  $(VHDL_LIB)/GhdlLink.vhdl
