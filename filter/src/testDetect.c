@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
 			fprintf(fout, "%d, ", QRSdelay);
 			fprintf(fout, "%ld\n", count);
 		}
+//			fprintf(fout, "%ld\n", count);
 		fscanf(frec, "%d", &dataSample);
 	}
 	fclose(frec);

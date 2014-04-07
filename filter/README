@@ -28,3 +28,9 @@ My implementation not working.
 ###Bug Fixed : qrs, rr, noise buffers are reverse circularly updated. The way in which first 8 beats come affects if implementation is normal circular vs reverse circular
 
 Checked with Search Back. Working
+
+Beat Detection is ok but it is generating segmentation fault after a very long stream for some unknown reason. The point at which segmentation fault is being generated is not at all unusual. Its at a beat detected in usual manner and not in searchback
+
+Changing scope of variables. Segmentation fault avoided. 
+Checked without search back. Working. Small mistake in noise buffer updation, wrong size value passed. Corrected.
+

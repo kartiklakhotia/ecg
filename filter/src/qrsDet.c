@@ -201,7 +201,7 @@ void noiseUpdate(int noiseVal)
 {
 	int ptr2 = NOISEbuff_ptr;
 	NOISEbuff[ptr2] = noiseVal;
-	NOISEbuff_ptr = circUpdateDet(ptr2, 7);
+	NOISEbuff_ptr = revUpdateDet(ptr2, 7);
 }	
 
 
@@ -213,11 +213,15 @@ void qrsDet()
 {
 	initDet();
 	QRSFilt(1); //initiate filter buffers, pointers and variables also to reset state;
-	int aPeak, newPeak, tempPeak;
-	int qmean, rrmean, nmean;
+	int aPeak, newPeak, tempPeak = 0;
+	int qmean, rrmean, nmean = 0;
 	int RSETbuff[8];
-	int qrsVal, rrVal, noiseVal;
-	uint8_t init8Done_next, onesec_cond;
+	int qrsVal, rrVal, noiseVal = 0;
+	uint8_t init8Done_next, onesec_cond = 0;
+	uint8_t prelim_cond0, prelim_cond1, prelim_cond2, prelim_cond3 = 0;
+	uint8_t peakDet_cond0, peakDet_cond1, peakDet_cond2 = 0;
+	uint8_t bls_cond, QRSdet_cond0, QRSdet_cond1, QRSdet_final, NOISEdet_cond0, sbUpdate_cond = 0;
+	
 	while(1)
 	{
 		int QRSdelay = 0;
@@ -229,14 +233,14 @@ void qrsDet()
 	///////////////// PEAK DETECTION AND VERIFICATION OF POINT OF OCCURRENCE ////////////
 		aPeak = peak();	
 
-		uint8_t prelim_cond0 = (aPeak > 0);
-		uint8_t prelim_cond1 = (preBlank_count > 0); 
-		uint8_t prelim_cond2 = (aPeak > tempPeak);
-		uint8_t prelim_cond3 = (--preBlank_count == 0);
+		prelim_cond0 = (aPeak > 0);
+		prelim_cond1 = (preBlank_count > 0); 
+		prelim_cond2 = (aPeak > tempPeak);
+		prelim_cond3 = (--preBlank_count == 0);
 
-		uint8_t peakDet_cond0 = prelim_cond0 && (!prelim_cond1);
-		uint8_t peakDet_cond1 = (!prelim_cond0) && prelim_cond1;
-		uint8_t peakDet_cond2 = prelim_cond0 && (!prelim_cond2) && prelim_cond3;
+		peakDet_cond0 = prelim_cond0 && (!prelim_cond1);
+		peakDet_cond1 = (!prelim_cond0) && prelim_cond1;
+		peakDet_cond2 = prelim_cond0 && (!prelim_cond2) && prelim_cond3;
 
 		tempPeak = (peakDet_cond0 || prelim_cond2) ? aPeak : tempPeak;
 		preBlank_count = (peakDet_cond0 || prelim_cond2) ? PRE_BLANK : preBlank_count;
@@ -250,7 +254,7 @@ void qrsDet()
 	//////////// QRS DETECTION ///////////////
 		count = count + 1;
 	
-	/* Initializing buffers with first 8 beats */
+	// Initializing buffers with first 8 beats //
 		if (!init8Done)
 		{
 			onesec_cond = (++initBlank == MS1000);
@@ -273,13 +277,13 @@ void qrsDet()
 			}
 		} 
 
-	/* Check if peak is QRS peak or NOISE peak. If noise and exceeds previous peak in search back, update search back location*/
+	// Check if peak is QRS peak or NOISE peak. If noise and exceeds previous peak in search back, update search back location//
 		else
 		{
-			uint8_t bls_cond = blsCheck();
-			uint8_t QRSdet_cond0 = ((newPeak > det_thresh) && (!bls_cond));
-			uint8_t NOISEdet_cond0 = ((newPeak > 0) && (newPeak <= det_thresh) && (!bls_cond));
-			uint8_t sbUpdate_cond = (NOISEdet_cond0 && (newPeak > sbPeak) && (count >= (MS360 + WINbuff_size)));
+			bls_cond = blsCheck();
+			QRSdet_cond0 = ((newPeak > det_thresh) && (!bls_cond));
+			NOISEdet_cond0 = ((newPeak > 0) && (newPeak <= det_thresh) && (!bls_cond));
+			sbUpdate_cond = (NOISEdet_cond0 && (newPeak > sbPeak) && (count >= (MS360 + WINbuff_size)));
 
 			noiseVal = (NOISEdet_cond0) ? newPeak : noiseVal;
 		
@@ -292,8 +296,9 @@ void qrsDet()
 				det_thresh = threshCalc(qmean, nmean);
 			}
 
-			uint8_t QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
-			uint8_t QRSdet_final = (QRSdet_cond0 || QRSdet_cond1);
+//			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
+			QRSdet_cond1 = 0;
+			QRSdet_final = (QRSdet_cond0 || QRSdet_cond1);
 			qrsVal = (QRSdet_cond0) ? newPeak : qrsVal;
 			rrVal = (QRSdet_cond0) ? (count - WINbuff_size) : rrVal;	
 			count = (QRSdet_cond0) ? WINbuff_size : count;	
@@ -319,8 +324,8 @@ void qrsDet()
 		}
 		init8Done = init8Done_next;
 	
-/* In background, check for threshold change if there is no peak for 8 consecutive seconds */			
-		if(init8Done)
+// In background, check for threshold change if there is no peak for 8 consecutive seconds //			
+	/*	if(init8Done)
 		{
 			onesec_cond = (++initBlank == MS1000);
 			initBlank = (onesec_cond) ? 0 : initBlank;	 	
@@ -347,7 +352,7 @@ void qrsDet()
 			}
 			initMax = (newPeak > initMax) ? newPeak : initMax;
 		}	
-		
+			*/
 		write_uint32("det_output_pipe", QRSdelay);	
 	}
 }
