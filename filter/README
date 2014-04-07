@@ -34,3 +34,5 @@ Beat Detection is ok but it is generating segmentation fault after a very long s
 Changing scope of variables. Segmentation fault avoided. 
 Checked without search back. Working. Small mistake in noise buffer updation, wrong size value passed. Corrected.
 
+S/W check done. Working.
+Hardware generation bug still exists

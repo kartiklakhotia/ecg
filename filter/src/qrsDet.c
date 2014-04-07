@@ -214,14 +214,14 @@ void qrsDet()
 	initDet();
 	QRSFilt(1); //initiate filter buffers, pointers and variables also to reset state;
 	int aPeak, newPeak, tempPeak = 0;
-	int qmean, rrmean, nmean = 0;
+	int qmean, rrmean, nmean;
 	int RSETbuff[8];
-	int qrsVal, rrVal, noiseVal = 0;
-	uint8_t init8Done_next, onesec_cond = 0;
-	uint8_t prelim_cond0, prelim_cond1, prelim_cond2, prelim_cond3 = 0;
-	uint8_t peakDet_cond0, peakDet_cond1, peakDet_cond2 = 0;
-	uint8_t bls_cond, QRSdet_cond0, QRSdet_cond1, QRSdet_final, NOISEdet_cond0, sbUpdate_cond = 0;
-	
+	int qrsVal, rrVal, noiseVal;
+	uint8_t init8Done_next, onesec_cond;
+	uint8_t prelim_cond0, prelim_cond1, prelim_cond2, prelim_cond3;
+	uint8_t peakDet_cond0, peakDet_cond1, peakDet_cond2;
+	uint8_t bls_cond, QRSdet_cond0, QRSdet_cond1, QRSdet_final, NOISEdet_cond0, sbUpdate_cond;
+	int QRSdelay = 0;	
 	while(1)
 	{
 		int QRSdelay = 0;
@@ -286,18 +286,18 @@ void qrsDet()
 			sbUpdate_cond = (NOISEdet_cond0 && (newPeak > sbPeak) && (count >= (MS360 + WINbuff_size)));
 
 			noiseVal = (NOISEdet_cond0) ? newPeak : noiseVal;
-		
-			sbPeak = (sbUpdate_cond) ? newPeak : sbPeak; 
-			sbLoc = (sbUpdate_cond) ? (count - WINbuff_size) : sbLoc;	
-
 			if (NOISEdet_cond0){
 				noiseUpdate(noiseVal);
 				nmean = meanCalc(NOISEbuff);
 				det_thresh = threshCalc(qmean, nmean);
 			}
+		
+			sbPeak = (sbUpdate_cond) ? newPeak : sbPeak; 
+			sbLoc = (sbUpdate_cond) ? (count - WINbuff_size) : sbLoc;	
 
-//			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
-			QRSdet_cond1 = 0;
+
+			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
+//			QRSdet_cond1 = 0;
 			QRSdet_final = (QRSdet_cond0 || QRSdet_cond1);
 			qrsVal = (QRSdet_cond0) ? newPeak : qrsVal;
 			rrVal = (QRSdet_cond0) ? (count - WINbuff_size) : rrVal;	
@@ -325,7 +325,7 @@ void qrsDet()
 		init8Done = init8Done_next;
 	
 // In background, check for threshold change if there is no peak for 8 consecutive seconds //			
-	/*	if(init8Done)
+		if(init8Done)
 		{
 			onesec_cond = (++initBlank == MS1000);
 			initBlank = (onesec_cond) ? 0 : initBlank;	 	
@@ -352,7 +352,7 @@ void qrsDet()
 			}
 			initMax = (newPeak > initMax) ? newPeak : initMax;
 		}	
-			*/
+
 		write_uint32("det_output_pipe", QRSdelay);	
 	}
 }
