@@ -127,12 +127,11 @@ int ddCalc(int datum)
 *************************************************/
 int meanCalc(int *buffer)
 {
-	int sum = 0;
+	long sum = 0;
 	int i;
-	for (i=0; i<8; i=i+2)
+	for (i=0; i<8; i=i+1)
 	{
-		__loop_pipelining_on__(4,1,0);
-		sum += (buffer[i] + buffer[i+1]);	
+		sum += (buffer[i]);	
 	}
 	return (sum >> 3);
 }
@@ -158,9 +157,8 @@ uint8_t blsCheck()
 	max = 0;
 	min = 0;
 	int ptr = DDbuff_ptr;
-	for (t=0; t<MS220; t++)
+	for (t=0; t<MS220; ++t)
 	{
-	__loop_pipelining_on__(7,2,0);
 		x = DDbuff[ptr];
 		uint8_t max_cond = (x > max);
 		uint8_t min_cond = (x < min);
@@ -336,14 +334,13 @@ void qrsDet()
 			nmean = (timeout_cond) ? 0 : nmean;
 			rrmean = (timeout_cond) ? MS1000 : rrmean;
 			sb_count = (timeout_cond) ? (MS1500 + MS150) : sb_count;
-			initBlank = (timeout_cond) ? 1 : initBlank;
+			initBlank = (timeout_cond) ? 0 : initBlank;
 			rset_count = (timeout_cond) ? 0 : rset_count;
 			if (timeout_cond)
 			{
 				int i;
 				for (i=0; i<8; i++)
 				{
-				__loop_pipelining_on__(3, 1, 0);
 					QRSbuff[i] = RSETbuff[i];
 					NOISEbuff[i] = 0;
 				}

@@ -224,11 +224,11 @@ void mvWin()
 	int output;
 
 	WINsum = WINsum + datum - WINbuff[ptr];	
-//	if (WINsum > WINsum_saturation)
-//		output = WINout_saturation;
-//	else					// why this saturation value
-//		output = WINsum/WINbuff_size; 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
-	output = (WINsum > WINsum_saturation) ? WINout_saturation : WINsum/WINbuff_size;
+	if (WINsum > WINsum_saturation)
+		output = WINout_saturation;
+	else					// why this saturation value
+		output = divideUnsigned(WINsum, WINbuff_size); 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
+//	output = (WINsum > WINsum_saturation) ? WINout_saturation : WINsum/WINbuff_size;
 
 	WINbuff[ptr] = datum;
 	WINbuff_ptr = circUpdateFilt(ptr, WINbuff_size);
