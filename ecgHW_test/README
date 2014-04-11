@@ -1,0 +1,3 @@
+first basic version corresponding to first ecg implementation with downclocking.
+This ain't for debug. This is for getting the final computation done.
+Not running right now. Samples are being sent but nothing is being received. Needs to be debugged.
