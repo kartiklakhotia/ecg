@@ -1,0 +1,1 @@
+int meanCalc(int *buffer);

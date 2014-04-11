@@ -1,0 +1,935 @@
+// Aa code produced by llvm2aa (version 1.0)
+$pipe det_input_pipe : $uint<32> $depth 1
+$pipe det_output_pipe : $uint<32> $depth 1
+$pipe filt_input_pipe : $uint<32> $depth 1
+$pipe filt_output_pipe : $uint<32> $depth 1
+$storage threshold:$float<11,52>
+$module [threshold_initializer_in_qrsDetx_xoptx_xo] $in () $out () $is 
+{
+  threshold := _f3.125000e-01
+  $attribute nooptimize 
+}
+$storage NOISEbuff:$array [8] $of $uint<32>
+$storage RRbuff:$array [8] $of $uint<32>
+$storage DDCALCbuff:$array [2] $of $uint<32>
+$storage maxDer:$uint<32>
+$storage DDCALCbuff_ptr:$uint<32>
+$storage DDbuff_ptr:$uint<32>
+$storage NOISEbuff_ptr:$uint<32>
+$storage RRbuff_ptr:$uint<32>
+$storage QRSbuff_ptr:$uint<32>
+$storage timeSinceMaxPeak:$uint<32>
+$storage maxPeak:$uint<32>
+$storage lastDatum:$uint<32>
+$storage DDbuff:$array [92] $of $uint<32>
+$storage QRSbuff:$array [8] $of $uint<32>
+$module [qrsDetx_xoptx_xo_storage_initializer_] $in () $out () $is 
+{
+  $parallelblock [pb] 
+  {
+    $call threshold_initializer_in_qrsDetx_xoptx_xo () () 
+  }
+  $attribute initializer
+}
+$module [initDet] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bbx_xnph3
+    $place [bbx_xnph3_bb_1]
+    //begin: basic-block bb_1
+    //   this is a do-while loop.
+    $merge bbx_xnph3_bb_1
+    $phi indexx_x02_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph3_bb_1 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x02 :=  ( $cast ($uint<32>) iNsTr_4) $on $loopback indexx_x02_at_entry $on $entry
+    $endmerge
+    scevgep6 := @(RRbuff[indexx_x02])
+    scevgep5 := @(NOISEbuff[indexx_x02])
+    ->(scevgep5) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    ->(scevgep6) := ( $bitcast ($uint<32> ) _b00000000000000000000000011001000 ) 
+    iNsTr_4 := (indexx_x02 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond := (iNsTr_4 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001000 )  )
+    $while (~exitcond) 
+    $place [bb_1_bbx_xnphx_xpreheader] //begin: basic-block bbx_xnphx_xpreheader
+    $merge bb_1_bbx_xnphx_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xpreheader_bbx_xnph]
+    //begin: basic-block bbx_xnph
+    //   this is a do-while loop.
+    $merge bbx_xnphx_xpreheader_bbx_xnph
+    $phi indexx_x11_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnphx_xpreheader_bbx_xnph 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x11 :=  ( $cast ($uint<32>) iNsTr_9) $on $loopback indexx_x11_at_entry $on $entry
+    $endmerge
+    scevgep := @(DDCALCbuff[indexx_x11])
+    ->(scevgep) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_9 := (indexx_x11 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond1 := (iNsTr_9 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    $while (~exitcond1) 
+    $place [bbx_xnph_xx_x_crit_edge] //begin: basic-block xx_x_crit_edge
+    $merge bbx_xnph_xx_x_crit_edge
+    $endmerge
+    maxDer := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    DDCALCbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    DDbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    NOISEbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) 
+    RRbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) 
+    QRSbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) 
+    timeSinceMaxPeak := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    maxPeak := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    lastDatum := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [peak] 
+$in ()
+$out (ret_val__ : $uint<32>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // load 
+    iNsTr_0 := timeSinceMaxPeak
+    // load 
+    iNsTr_1 := maxPeak
+    iNsTr_3 := filt_output_pipe
+    // compare instruction
+    iNsTr_4 := ( ($bitcast ( $int<32>) iNsTr_0) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_5 := ($cast ($uint<32>) iNsTr_4)
+    iNsTr_6 := (iNsTr_5 + iNsTr_0)
+    // load 
+    iNsTr_7 := lastDatum
+    // compare instruction
+    iNsTr_8 := ( ($bitcast ( $int<32>) iNsTr_3) >  ($bitcast ( $int<32>) iNsTr_7 ) )
+    // compare instruction
+    iNsTr_9 := ( ($bitcast ( $int<32>) iNsTr_3) >  ($bitcast ( $int<32>) iNsTr_1 ) )
+    iNsTr_10 := (iNsTr_8 & iNsTr_9)
+    iNsTr_11 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) iNsTr_1) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  )))
+    // compare instruction
+    iNsTr_12 := ( ($bitcast ( $int<32>) iNsTr_3) <   ($bitcast ( $int<32>) iNsTr_11 ) )
+    // compare instruction
+    iNsTr_13 := ( ($bitcast ( $int<32>) iNsTr_6) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000010011 )  ) )
+    orx_xcond := (iNsTr_12 | iNsTr_13)
+    xx_xdemorgan := (iNsTr_8 & iNsTr_9)
+    iNsTr_14 := (xx_xdemorgan ^ ( $bitcast ($uint<1> ) _b1 ) )
+    iNsTr_15 := (orx_xcond & iNsTr_14)
+    $if iNsTr_15 $then  $place [bb_0_bb_1] $else $place [bb_0_bb_2] $endif 
+    //begin: basic-block bb_1
+    $merge bb_0_bb_1
+    $endmerge
+    // compare instruction
+    iNsTr_17 := ( ($bitcast ( $int<32>) iNsTr_1) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000110 )  ) )
+    phitmp := ( $mux iNsTr_17 iNsTr_1 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) )
+    $place [bb_1_bb_2]
+    //begin: basic-block bb_2
+    $merge bb_0_bb_2 bb_1_bb_2
+    $phi ret_val__ :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_0_bb_2 ( $cast ($uint<32>) phitmp) $on bb_1_bb_2 
+    $endmerge
+    iNsTr_20 := ( $mux iNsTr_15 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_1)
+    iNsTr_21 := ( $mux iNsTr_15 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_6)
+    iNsTr_22 := ( $mux iNsTr_10 iNsTr_3 iNsTr_20)
+    $if iNsTr_10 $then  $place [bb_2_bb_3] $else $place [bb_2_bb_4] $endif 
+    //begin: basic-block bb_3
+    $merge bb_2_bb_3
+    $endmerge
+    // compare instruction
+    iNsTr_24 := ( ($bitcast ( $int<32>) iNsTr_22) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  ) )
+    phitmp1 := ( $mux iNsTr_24 ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  iNsTr_21)
+    $place [bb_3_bb_4]
+    //begin: basic-block bb_4
+    $merge bb_2_bb_4 bb_3_bb_4
+    $phi iNsTr_26 :=  ( $cast ($uint<32>) iNsTr_21) $on bb_2_bb_4 ( $cast ($uint<32>) phitmp1) $on bb_3_bb_4 
+    $endmerge
+    timeSinceMaxPeak := iNsTr_26
+    maxPeak := iNsTr_22
+    lastDatum := iNsTr_3
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [circUpdateDet] 
+$in (ptr : $uint<32> size : $uint<32> )
+$out (ret_val__ : $uint<32>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_0 := (ptr + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_1 := (iNsTr_0 == size )
+    ret_val__ := ( $mux iNsTr_1 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_0)
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [revUpdateDet] 
+$in (ptr : $uint<32> max : $uint<32> )
+$out (ret_val__ : $uint<32>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_0 := (ptr + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_1 := (ptr == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    ret_val__ := ( $mux iNsTr_1 max iNsTr_0)
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [ddCalc] 
+$in (datum : $uint<32> )
+$out (ret_val__ : $uint<32>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // load 
+    iNsTr_0 := DDCALCbuff_ptr
+    iNsTr_1 := @(DDCALCbuff[iNsTr_0])
+    // load 
+    iNsTr_2 := ->(iNsTr_1) 
+    ret_val__ := (datum - iNsTr_2)
+    ->(iNsTr_1) := datum
+    iNsTr_5 := (iNsTr_0 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_6 := (iNsTr_5 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    iNsTr_7 := ( $mux iNsTr_6 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_5)
+    DDCALCbuff_ptr := iNsTr_7
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [threshCalc] 
+$in (qmean : $uint<32> nmean : $uint<32> )
+$out (ret_val__ : $uint<32>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_0 := (qmean - nmean)
+    iNsTr_1 :=  ( $cast ($float<11,52>)  ( $bitcast ( $int< 64 > ) iNsTr_0) ) 
+    // load 
+    iNsTr_2 := threshold
+    iNsTr_3 := (iNsTr_2 * iNsTr_1)
+    iNsTr_4 := ( $bitcast ($uint<32> ) ( $cast ( $int< 32 > ) iNsTr_3) )
+    ret_val__ := (iNsTr_4 + nmean)
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [blsCheck] 
+$in ()
+$out (ret_val__ : $uint<8>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bbx_xnph
+    // load 
+    iNsTr_0 := DDbuff_ptr
+    $place [bbx_xnph_bb_1]
+    //begin: basic-block bb_1
+    $merge bb_1_bb_1 bbx_xnph_bb_1
+    $phi maxx_x07 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph_bb_1 ( $cast ($uint<32>) iNsTr_8) $on bb_1_bb_1 
+    $phi minx_x06 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph_bb_1 ( $cast ($uint<32>) iNsTr_10) $on bb_1_bb_1 
+    $phi maxtx_x05 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on bbx_xnph_bb_1 ( $cast ($uint<32>) iNsTr_7) $on bb_1_bb_1 
+    $phi mintx_x04 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on bbx_xnph_bb_1 ( $cast ($uint<32>) iNsTr_9) $on bb_1_bb_1 
+    $phi iNsTr_2 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph_bb_1 ( $cast ($uint<32>) iNsTr_12) $on bb_1_bb_1 
+    $phi ptrx_x02 :=  ( $cast ($uint<32>) iNsTr_0) $on bbx_xnph_bb_1 ( $cast ($uint<32>) iNsTr_14) $on bb_1_bb_1 
+    $endmerge
+    iNsTr_3 := @(DDbuff[ptrx_x02])
+    // load 
+    iNsTr_4 := ->(iNsTr_3) 
+    // compare instruction
+    iNsTr_5 := ( ($bitcast ( $int<32>) iNsTr_4) >  ($bitcast ( $int<32>) maxx_x07 ) )
+    // compare instruction
+    iNsTr_6 := ( ($bitcast ( $int<32>) iNsTr_4) <   ($bitcast ( $int<32>) minx_x06 ) )
+    iNsTr_7 := ( $mux iNsTr_5 iNsTr_2 maxtx_x05)
+    iNsTr_8 := ( $mux iNsTr_5 iNsTr_4 maxx_x07)
+    iNsTr_9 := ( $mux iNsTr_6 iNsTr_2 mintx_x04)
+    iNsTr_10 := ( $mux iNsTr_6 iNsTr_4 minx_x06)
+    iNsTr_11 := (ptrx_x02 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    iNsTr_12 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_13 := (iNsTr_11 == ( $bitcast ($uint<32> ) _b00000000000000000000000001011100 )  )
+    iNsTr_14 := ( $mux iNsTr_13 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_11)
+    // compare instruction
+    exitcond4 := (iNsTr_12 == ( $bitcast ($uint<32> ) _b00000000000000000000000000101100 )  )
+    $if exitcond4 $then  $place [bb_1_xx_x_crit_edge] $else $place [bb_1_bb_1] $endif 
+    //begin: basic-block xx_x_crit_edge
+    $merge bb_1_xx_x_crit_edge
+    $phi xx_xlcssa3 :=  ( $cast ($uint<32>) iNsTr_10) $on bb_1_xx_x_crit_edge 
+    $phi xx_xlcssa2 :=  ( $cast ($uint<32>) iNsTr_9) $on bb_1_xx_x_crit_edge 
+    $phi xx_xlcssa1 :=  ( $cast ($uint<32>) iNsTr_8) $on bb_1_xx_x_crit_edge 
+    $phi xx_xlcssa :=  ( $cast ($uint<32>) iNsTr_7) $on bb_1_xx_x_crit_edge 
+    $endmerge
+    maxDer := xx_xlcssa1
+    iNsTr_17 := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - xx_xlcssa3)
+    iNsTr_18 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) iNsTr_17) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000011 )  )))
+    // compare instruction
+    iNsTr_19 := ( ($bitcast ( $int<32>) xx_xlcssa1) >  ($bitcast ( $int<32>) iNsTr_18 ) )
+    iNsTr_20 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) xx_xlcssa1) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000011 )  )))
+    // compare instruction
+    iNsTr_21 := ( ($bitcast ( $int<32>) iNsTr_20) <   ($bitcast ( $int<32>) iNsTr_17 ) )
+    orx_xcond := (iNsTr_19 & iNsTr_21)
+    $if orx_xcond $then  $place [xx_x_crit_edge_bb_3] $else $place [xx_x_crit_edge_bb_4] $endif 
+    //begin: basic-block bb_3
+    $merge xx_x_crit_edge_bb_3
+    $endmerge
+    iNsTr_23 := (xx_xlcssa - xx_xlcssa2)
+    // compare instruction
+    ispos := ( ($bitcast ( $int<32>) iNsTr_23) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 )  ) )
+    neg := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - iNsTr_23)
+    iNsTr_24 := ( $mux ispos iNsTr_23 neg)
+    // compare instruction
+    phitmp := ( ($bitcast ( $int<32>) iNsTr_24) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000011101 )  ) )
+    $place [bb_3_bb_4]
+    //begin: basic-block bb_4
+    $merge bb_3_bb_4 xx_x_crit_edge_bb_4
+    $phi iNsTr_26 :=  ( $cast ($uint<1>) ( $bitcast ($uint<1> ) _b1 ) ) $on xx_x_crit_edge_bb_4 ( $cast ($uint<1>) phitmp) $on bb_3_bb_4 
+    $endmerge
+    ret_val__ := ($cast ($uint<8>) iNsTr_26)
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [qrsUpdate] 
+$in (qrsVal : $uint<32> rrVal : $uint<32> )
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // load 
+    iNsTr_0 := QRSbuff_ptr
+    // load 
+    iNsTr_1 := RRbuff_ptr
+    iNsTr_2 := @(QRSbuff[iNsTr_0])
+    ->(iNsTr_2) := qrsVal
+    iNsTr_4 := @(RRbuff[iNsTr_1])
+    ->(iNsTr_4) := rrVal
+    iNsTr_6 := (iNsTr_0 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_7 := (iNsTr_0 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    maxx_xx_xi := ( $mux iNsTr_7 ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 )  iNsTr_6)
+    QRSbuff_ptr := maxx_xx_xi
+    iNsTr_9 := (iNsTr_1 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_10 := (iNsTr_1 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    maxx_xx_xi1 := ( $mux iNsTr_10 ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 )  iNsTr_9)
+    RRbuff_ptr := maxx_xx_xi1
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [noiseUpdate] 
+$in (noiseVal : $uint<32> )
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // load 
+    iNsTr_0 := NOISEbuff_ptr
+    iNsTr_1 := @(NOISEbuff[iNsTr_0])
+    ->(iNsTr_1) := noiseVal
+    iNsTr_3 := (iNsTr_0 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_4 := (iNsTr_0 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    maxx_xx_xi := ( $mux iNsTr_4 ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 )  iNsTr_3)
+    NOISEbuff_ptr := maxx_xx_xi
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [qrsDet] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    $storage RSETbuff_alloc : $array [8] $of $uint<32>
+    RSETbuff := @(RSETbuff_alloc)
+    $place [bb_0_bb_1]
+    //begin: basic-block bb_1
+    //   this is a do-while loop.
+    $merge bb_0_bb_1
+    $phi indexx_x02x_xi_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_0_bb_1 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x02x_xi :=  ( $cast ($uint<32>) iNsTr_4) $on $loopback indexx_x02x_xi_at_entry $on $entry
+    $endmerge
+    scevgep5x_xi := @(NOISEbuff[indexx_x02x_xi])
+    scevgep6x_xi := @(RRbuff[indexx_x02x_xi])
+    ->(scevgep5x_xi) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    ->(scevgep6x_xi) := ( $bitcast ($uint<32> ) _b00000000000000000000000011001000 ) 
+    iNsTr_4 := (indexx_x02x_xi + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond6 := (iNsTr_4 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001000 )  )
+    $while (~exitcond6) 
+    $place [bb_1_bbx_xnphx_xix_xpreheader] //begin: basic-block bbx_xnphx_xix_xpreheader
+    $merge bb_1_bbx_xnphx_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xpreheader_bbx_xnphx_xi]
+    //begin: basic-block bbx_xnphx_xi
+    //   this is a do-while loop.
+    $merge bbx_xnphx_xix_xpreheader_bbx_xnphx_xi
+    $phi indexx_x11x_xi_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnphx_xix_xpreheader_bbx_xnphx_xi 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x11x_xi :=  ( $cast ($uint<32>) iNsTr_9) $on $loopback indexx_x11x_xi_at_entry $on $entry
+    $endmerge
+    scevgepx_xi := @(DDCALCbuff[indexx_x11x_xi])
+    ->(scevgepx_xi) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_9 := (indexx_x11x_xi + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond := (iNsTr_9 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    $while (~exitcond) 
+    $place [bbx_xnphx_xi_initDetx_xexit] //begin: basic-block initDetx_xexit
+    $merge bbx_xnphx_xi_initDetx_xexit
+    $endmerge
+    maxDer := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    DDCALCbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    DDbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    NOISEbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) 
+    RRbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) 
+    QRSbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) 
+    timeSinceMaxPeak := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    maxPeak := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    lastDatum := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    $call QRSFilt (( $bitcast ($uint<8> ) _b00000001 )  )  ()
+    $place [initDetx_xexit_bb_5]
+    //begin: basic-block bb_5
+    $merge bb_33_bb_5 initDetx_xexit_bb_5
+    $phi init8Donex_x0 :=  ( $cast ($uint<8>) ( $bitcast ($uint<8> ) _b00000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<8>) init8Done_nextx_x0) $on bb_33_bb_5 
+    $phi init8Done_nextx_x1 :=  ( $cast ($uint<8>) ( $bitcast ($uint<8> ) _b0 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<8>) init8Done_nextx_x0) $on bb_33_bb_5 
+    $phi noiseValx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) noiseValx_x0) $on bb_33_bb_5 
+    $phi rrValx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) rrValx_x0) $on bb_33_bb_5 
+    $phi qrsValx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) qrsValx_x0) $on bb_33_bb_5 
+    $phi nmeanx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) nmeanx_x3) $on bb_33_bb_5 
+    $phi qmeanx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) qmeanx_x4) $on bb_33_bb_5 
+    $phi sbLocx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000100101100 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) sbLocx_x0) $on bb_33_bb_5 
+    $phi sb_countx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000100101100 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) sb_countx_x2) $on bb_33_bb_5 
+    $phi det_threshx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) det_threshx_x5) $on bb_33_bb_5 
+    $phi initMaxx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) initMaxx_x2) $on bb_33_bb_5 
+    $phi rset_countx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) rset_countx_x2) $on bb_33_bb_5 
+    $phi preBlank_countx_x0 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) iNsTr_66) $on bb_33_bb_5 
+    $phi initBlankx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) initBlankx_x2) $on bb_33_bb_5 
+    $phi countx_x0 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) countx_x1) $on bb_33_bb_5 
+    $phi qpk_countx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) qpk_countx_x0) $on bb_33_bb_5 
+    $phi sbPeakx_x1 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) sbPeakx_x0) $on bb_33_bb_5 
+    $phi tempPeakx_x0 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on initDetx_xexit_bb_5 ( $cast ($uint<32>) iNsTr_65) $on bb_33_bb_5 
+    $endmerge
+    iNsTr_23 := det_input_pipe
+    filt_input_pipe := iNsTr_23
+    $call QRSFilt (( $bitcast ($uint<8> ) _b00000000 )  )  ()
+    // load 
+    iNsTr_27 := timeSinceMaxPeak
+    // load 
+    iNsTr_28 := maxPeak
+    iNsTr_30 := filt_output_pipe
+    // compare instruction
+    iNsTr_31 := ( ($bitcast ( $int<32>) iNsTr_27) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_32 := ($cast ($uint<32>) iNsTr_31)
+    iNsTr_33 := (iNsTr_32 + iNsTr_27)
+    // load 
+    iNsTr_34 := lastDatum
+    // compare instruction
+    iNsTr_35 := ( ($bitcast ( $int<32>) iNsTr_30) >  ($bitcast ( $int<32>) iNsTr_34 ) )
+    // compare instruction
+    iNsTr_36 := ( ($bitcast ( $int<32>) iNsTr_30) >  ($bitcast ( $int<32>) iNsTr_28 ) )
+    iNsTr_37 := (iNsTr_35 & iNsTr_36)
+    iNsTr_38 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) iNsTr_28) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  )))
+    // compare instruction
+    iNsTr_39 := ( ($bitcast ( $int<32>) iNsTr_30) <   ($bitcast ( $int<32>) iNsTr_38 ) )
+    // compare instruction
+    iNsTr_40 := ( ($bitcast ( $int<32>) iNsTr_33) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000010011 )  ) )
+    orx_xcondx_xi := (iNsTr_39 | iNsTr_40)
+    xx_xdemorgan42 := (iNsTr_35 & iNsTr_36)
+    iNsTr_41 := (xx_xdemorgan42 ^ ( $bitcast ($uint<1> ) _b1 ) )
+    iNsTr_42 := (orx_xcondx_xi & iNsTr_41)
+    $if iNsTr_42 $then  $place [bb_5_bb_6] $else $place [bb_5_bb_7] $endif 
+    //begin: basic-block bb_6
+    $merge bb_5_bb_6
+    $endmerge
+    // compare instruction
+    iNsTr_44 := ( ($bitcast ( $int<32>) iNsTr_28) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000110 )  ) )
+    phitmpx_xi := ( $mux iNsTr_44 iNsTr_28 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) )
+    $place [bb_6_bb_7]
+    //begin: basic-block bb_7
+    $merge bb_5_bb_7 bb_6_bb_7
+    $phi iNsTr_46 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_5_bb_7 ( $cast ($uint<32>) phitmpx_xi) $on bb_6_bb_7 
+    $endmerge
+    iNsTr_47 := ( $mux iNsTr_42 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_28)
+    iNsTr_48 := ( $mux iNsTr_42 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_33)
+    iNsTr_49 := ( $mux iNsTr_37 iNsTr_30 iNsTr_47)
+    $if iNsTr_37 $then  $place [bb_7_bb_8] $else $place [bb_7_peakx_xexit] $endif 
+    //begin: basic-block bb_8
+    $merge bb_7_bb_8
+    $endmerge
+    // compare instruction
+    iNsTr_51 := ( ($bitcast ( $int<32>) iNsTr_49) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  ) )
+    phitmp1x_xi := ( $mux iNsTr_51 ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  iNsTr_48)
+    $place [bb_8_peakx_xexit]
+    //begin: basic-block peakx_xexit
+    $merge bb_7_peakx_xexit bb_8_peakx_xexit
+    $phi iNsTr_53 :=  ( $cast ($uint<32>) iNsTr_48) $on bb_7_peakx_xexit ( $cast ($uint<32>) phitmp1x_xi) $on bb_8_peakx_xexit 
+    $endmerge
+    timeSinceMaxPeak := iNsTr_53
+    maxPeak := iNsTr_49
+    lastDatum := iNsTr_30
+    // compare instruction
+    iNsTr_57 := ( ($bitcast ( $int<32>) iNsTr_46) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    // compare instruction
+    iNsTr_58 := ( ($bitcast ( $int<32>) preBlank_countx_x0) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    // compare instruction
+    iNsTr_59 := ( ($bitcast ( $int<32>) iNsTr_46) >  ($bitcast ( $int<32>) tempPeakx_x0 ) )
+    iNsTr_60 := (preBlank_countx_x0 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_61 := (iNsTr_60 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    iNsTr_62 := (iNsTr_58 ^ ( $bitcast ($uint<1> ) _b1 ) )
+    iNsTr_63 := (iNsTr_57 & iNsTr_62)
+    xx_xnot13 := (iNsTr_59 ^ ( $bitcast ($uint<1> ) _b1 ) )
+    notx_xbrmerge := (iNsTr_57 & xx_xnot13)
+    $if iNsTr_63 $then  $place [peakx_xexit_xx_xthread] $else $place [peakx_xexit_bb_10] $endif 
+    //begin: basic-block bb_10
+    $merge peakx_xexit_bb_10
+    $endmerge
+    phitmp18 := ( $mux iNsTr_59 iNsTr_46 tempPeakx_x0)
+    phitmp1 := ( $mux iNsTr_59 ( $bitcast ($uint<32> ) _b00000000000000000000000000100111 )  iNsTr_60)
+    $place [bb_10_xx_xthread]
+    //begin: basic-block xx_xthread
+    $merge bb_10_xx_xthread peakx_xexit_xx_xthread
+    $phi iNsTr_65 :=  ( $cast ($uint<32>) phitmp18) $on bb_10_xx_xthread ( $cast ($uint<32>) iNsTr_46) $on peakx_xexit_xx_xthread 
+    $phi iNsTr_66 :=  ( $cast ($uint<32>) phitmp1) $on bb_10_xx_xthread ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000100111 ) ) $on peakx_xexit_xx_xthread 
+    $endmerge
+    xx_xnot14 := (iNsTr_57 ^ ( $bitcast ($uint<1> ) _b1 ) )
+    xx_xnot2x_xnot := (iNsTr_58 & xx_xnot14)
+    tmp := (notx_xbrmerge | xx_xnot2x_xnot)
+    iNsTr_67 := (iNsTr_61 & tmp)
+    iNsTr_68 := ( $mux iNsTr_67 iNsTr_65 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) )
+    // load 
+    iNsTr_69 := DDCALCbuff_ptr
+    iNsTr_70 := @(DDCALCbuff[iNsTr_69])
+    // load 
+    iNsTr_71 := ->(iNsTr_70) 
+    iNsTr_72 := (iNsTr_23 - iNsTr_71)
+    ->(iNsTr_70) := iNsTr_23
+    iNsTr_74 := (iNsTr_69 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_75 := (iNsTr_74 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    iNsTr_76 := ( $mux iNsTr_75 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_74)
+    DDCALCbuff_ptr := iNsTr_76
+    // load 
+    iNsTr_78 := DDbuff_ptr
+    iNsTr_79 := @(DDbuff[iNsTr_78])
+    ->(iNsTr_79) := iNsTr_72
+    iNsTr_81 := (iNsTr_78 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_82 := (iNsTr_81 == ( $bitcast ($uint<32> ) _b00000000000000000000000001011100 )  )
+    iNsTr_83 := ( $mux iNsTr_82 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_81)
+    DDbuff_ptr := iNsTr_83
+    iNsTr_85 := (countx_x0 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_86 := (init8Donex_x0 == ( $bitcast ($uint<8> ) _b00000000 )  )
+    $if iNsTr_86 $then  $place [xx_xthread_bb_13] $else $place [xx_xthread_xx_xpreheader] $endif 
+    //begin: basic-block xx_xpreheader
+    $merge xx_xthread_xx_xpreheader
+    $endmerge
+    $place [xx_xpreheader_bb_15]
+    //begin: basic-block bb_13
+    $merge xx_xthread_bb_13
+    $endmerge
+    iNsTr_89 := (initBlankx_x1 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_90 := (iNsTr_89 == ( $bitcast ($uint<32> ) _b00000000000000000000000011001000 )  )
+    // compare instruction
+    iNsTr_91 := ( ($bitcast ( $int<32>) iNsTr_68) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_92 := ( $mux iNsTr_91 ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 )  iNsTr_85)
+    iNsTr_93 := ( $mux iNsTr_90 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_89)
+    iNsTr_94 := @(QRSbuff[qpk_countx_x1])
+    ->(iNsTr_94) := initMaxx_x1
+    iNsTr_96 := ( $mux iNsTr_90 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  initMaxx_x1)
+    iNsTr_97 := ($cast ($uint<32>) iNsTr_90)
+    iNsTr_98 := (iNsTr_97 + qpk_countx_x1)
+    // compare instruction
+    iNsTr_99 := (iNsTr_98 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001000 )  )
+    iNsTr_100 := (iNsTr_90 & iNsTr_99)
+    iNsTr_101 := ($cast ($uint<8>) iNsTr_100)
+    // compare instruction
+    iNsTr_102 := ( ($bitcast ( $int<32>) iNsTr_68) >  ($bitcast ( $int<32>) iNsTr_96 ) )
+    iNsTr_103 := ( $mux iNsTr_102 iNsTr_68 iNsTr_96)
+    $if iNsTr_100 $then  $place [bb_13_bb_14] $else $place [bb_13_bb_29] $endif 
+    //begin: basic-block bb_14
+    $merge bb_13_bb_14
+    $endmerge
+    iNsTr_106 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    $call meanCalc (iNsTr_106 )  (iNsTr_107)
+    iNsTr_108 :=  ( $cast ($float<11,52>)  ( $bitcast ( $int< 64 > ) iNsTr_107) ) 
+    // load 
+    iNsTr_109 := threshold
+    iNsTr_110 := (iNsTr_109 * iNsTr_108)
+    iNsTr_111 := ( $bitcast ($uint<32> ) ( $cast ( $int< 32 > ) iNsTr_110) )
+    $place [bb_14_bb_29]
+    //begin: basic-block bb_15
+    $merge bb_15_bb_15 xx_xpreheader_bb_15
+    $phi maxx_x07x_xi :=  ( $cast ($uint<32>) iNsTr_121) $on bb_15_bb_15 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on xx_xpreheader_bb_15 
+    $phi minx_x06x_xi :=  ( $cast ($uint<32>) iNsTr_123) $on bb_15_bb_15 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on xx_xpreheader_bb_15 
+    $phi maxtx_x05x_xi :=  ( $cast ($uint<32>) iNsTr_120) $on bb_15_bb_15 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on xx_xpreheader_bb_15 
+    $phi mintx_x04x_xi :=  ( $cast ($uint<32>) iNsTr_122) $on bb_15_bb_15 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b0 ) ) $on xx_xpreheader_bb_15 
+    $phi iNsTr_115 :=  ( $cast ($uint<32>) iNsTr_125) $on bb_15_bb_15 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on xx_xpreheader_bb_15 
+    $phi ptrx_x02x_xi :=  ( $cast ($uint<32>) iNsTr_127) $on bb_15_bb_15 ( $cast ($uint<32>) iNsTr_83) $on xx_xpreheader_bb_15 
+    $endmerge
+    iNsTr_116 := @(DDbuff[ptrx_x02x_xi])
+    // load 
+    iNsTr_117 := ->(iNsTr_116) 
+    // compare instruction
+    iNsTr_118 := ( ($bitcast ( $int<32>) iNsTr_117) >  ($bitcast ( $int<32>) maxx_x07x_xi ) )
+    // compare instruction
+    iNsTr_119 := ( ($bitcast ( $int<32>) iNsTr_117) <   ($bitcast ( $int<32>) minx_x06x_xi ) )
+    iNsTr_120 := ( $mux iNsTr_118 iNsTr_115 maxtx_x05x_xi)
+    iNsTr_121 := ( $mux iNsTr_118 iNsTr_117 maxx_x07x_xi)
+    iNsTr_122 := ( $mux iNsTr_119 iNsTr_115 mintx_x04x_xi)
+    iNsTr_123 := ( $mux iNsTr_119 iNsTr_117 minx_x06x_xi)
+    iNsTr_124 := (ptrx_x02x_xi + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    iNsTr_125 := (iNsTr_115 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_126 := (iNsTr_124 == ( $bitcast ($uint<32> ) _b00000000000000000000000001011100 )  )
+    iNsTr_127 := ( $mux iNsTr_126 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_124)
+    // compare instruction
+    exitcond4 := (iNsTr_125 == ( $bitcast ($uint<32> ) _b00000000000000000000000000101100 )  )
+    $if exitcond4 $then  $place [bb_15_xx_x_crit_edgex_xi] $else $place [bb_15_bb_15] $endif 
+    //begin: basic-block xx_x_crit_edgex_xi
+    $merge bb_15_xx_x_crit_edgex_xi
+    $phi xx_xlcssa3 :=  ( $cast ($uint<32>) iNsTr_123) $on bb_15_xx_x_crit_edgex_xi 
+    $phi xx_xlcssa2 :=  ( $cast ($uint<32>) iNsTr_122) $on bb_15_xx_x_crit_edgex_xi 
+    $phi xx_xlcssa1 :=  ( $cast ($uint<32>) iNsTr_121) $on bb_15_xx_x_crit_edgex_xi 
+    $phi xx_xlcssa :=  ( $cast ($uint<32>) iNsTr_120) $on bb_15_xx_x_crit_edgex_xi 
+    $endmerge
+    maxDer := xx_xlcssa1
+    iNsTr_147 := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - xx_xlcssa3)
+    iNsTr_148 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) iNsTr_147) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000011 )  )))
+    // compare instruction
+    iNsTr_149 := ( ($bitcast ( $int<32>) xx_xlcssa1) >  ($bitcast ( $int<32>) iNsTr_148 ) )
+    iNsTr_150 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) xx_xlcssa1) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000011 )  )))
+    // compare instruction
+    iNsTr_151 := ( ($bitcast ( $int<32>) iNsTr_150) <   ($bitcast ( $int<32>) iNsTr_147 ) )
+    orx_xcondx_xi11 := (iNsTr_149 & iNsTr_151)
+    $if orx_xcondx_xi11 $then  $place [xx_x_crit_edgex_xi_bb_17] $else $place [xx_x_crit_edgex_xi_blsCheckx_xexit] $endif 
+    //begin: basic-block bb_17
+    $merge xx_x_crit_edgex_xi_bb_17
+    $endmerge
+    iNsTr_205 := (xx_xlcssa - xx_xlcssa2)
+    // compare instruction
+    isposx_xi := ( ($bitcast ( $int<32>) iNsTr_205) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 )  ) )
+    negx_xi := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - iNsTr_205)
+    iNsTr_206 := ( $mux isposx_xi iNsTr_205 negx_xi)
+    // compare instruction
+    phitmpx_xi12 := ( ($bitcast ( $int<32>) iNsTr_206) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000011101 )  ) )
+    $place [bb_17_blsCheckx_xexit]
+    //begin: basic-block blsCheckx_xexit
+    $merge bb_17_blsCheckx_xexit xx_x_crit_edgex_xi_blsCheckx_xexit
+    $phi iNsTr_208 :=  ( $cast ($uint<1>) ( $bitcast ($uint<1> ) _b1 ) ) $on xx_x_crit_edgex_xi_blsCheckx_xexit ( $cast ($uint<1>) phitmpx_xi12) $on bb_17_blsCheckx_xexit 
+    $endmerge
+    // compare instruction
+    iNsTr_209 := ( ($bitcast ( $int<32>) iNsTr_68) >  ($bitcast ( $int<32>) det_threshx_x1 ) )
+    iNsTr_210 := (iNsTr_208 ^ ( $bitcast ($uint<1> ) _b1 ) )
+    iNsTr_211 := (iNsTr_209 & iNsTr_210)
+    // compare instruction
+    xx_xnot5 := ( ($bitcast ( $int<32>) iNsTr_68) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  ) )
+    orx_xcond := (xx_xnot5 | iNsTr_209)
+    xx_xdemorgan := (orx_xcond | iNsTr_208)
+    iNsTr_212 := (xx_xdemorgan ^ ( $bitcast ($uint<1> ) _b1 ) )
+    // compare instruction
+    iNsTr_213 := ( ($bitcast ( $int<32>) iNsTr_68) >  ($bitcast ( $int<32>) sbPeakx_x1 ) )
+    orx_xcond6 := (iNsTr_213 & iNsTr_212)
+    // compare instruction
+    iNsTr_214 := ( ($bitcast ( $int<32>) iNsTr_85) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000001010111 )  ) )
+    iNsTr_215 := (orx_xcond6 & iNsTr_214)
+    iNsTr_216 := ( $mux xx_xdemorgan noiseValx_x1 iNsTr_68)
+    $if xx_xdemorgan $then  $place [blsCheckx_xexit_bb_20] $else $place [blsCheckx_xexit_bb_19] $endif 
+    //begin: basic-block bb_19
+    $merge blsCheckx_xexit_bb_19
+    $endmerge
+    // load 
+    iNsTr_223 := NOISEbuff_ptr
+    iNsTr_224 := @(NOISEbuff[iNsTr_223])
+    ->(iNsTr_224) := iNsTr_216
+    iNsTr_226 := (iNsTr_223 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_227 := (iNsTr_223 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    maxx_xx_xix_xi8 := ( $mux iNsTr_227 ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 )  iNsTr_226)
+    NOISEbuff_ptr := maxx_xx_xix_xi8
+    iNsTr_229 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    $call meanCalc (iNsTr_229 )  (iNsTr_230)
+    iNsTr_231 := (qmeanx_x1 - iNsTr_230)
+    iNsTr_232 :=  ( $cast ($float<11,52>)  ( $bitcast ( $int< 64 > ) iNsTr_231) ) 
+    // load 
+    iNsTr_233 := threshold
+    iNsTr_234 := (iNsTr_233 * iNsTr_232)
+    iNsTr_235 := ( $bitcast ($uint<32> ) ( $cast ( $int< 32 > ) iNsTr_234) )
+    iNsTr_236 := (iNsTr_235 + iNsTr_230)
+    $place [bb_19_bb_20]
+    //begin: basic-block bb_20
+    $merge bb_19_bb_20 blsCheckx_xexit_bb_20
+    $phi nmeanx_x2 :=  ( $cast ($uint<32>) iNsTr_230) $on bb_19_bb_20 ( $cast ($uint<32>) nmeanx_x1) $on blsCheckx_xexit_bb_20 
+    $phi det_threshx_x2 :=  ( $cast ($uint<32>) iNsTr_236) $on bb_19_bb_20 ( $cast ($uint<32>) det_threshx_x1) $on blsCheckx_xexit_bb_20 
+    $endmerge
+    iNsTr_218 := ( $mux iNsTr_215 iNsTr_68 sbPeakx_x1)
+    iNsTr_219 := (countx_x0 + ( $bitcast ($uint<32> ) _b11111111111111111111111111110001 ) )
+    iNsTr_220 := ( $mux iNsTr_215 iNsTr_219 sbLocx_x1)
+    // compare instruction
+    iNsTr_221 := ( ($bitcast ( $int<32>) iNsTr_85) >  ($bitcast ( $int<32>) sb_countx_x1 ) )
+    $if iNsTr_221 $then  $place [bb_20_bb_21] $else $place [bb_20_bb_22] $endif 
+    //begin: basic-block bb_21
+    $merge bb_20_bb_21
+    $endmerge
+    iNsTr_238 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) det_threshx_x2) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  )))
+    xx_xnot := (iNsTr_209 ^ ( $bitcast ($uint<1> ) _b1 ) )
+    iNsTr_239 := (iNsTr_208 | xx_xnot)
+    // compare instruction
+    iNsTr_240 := ( ($bitcast ( $int<32>) iNsTr_218) >  ($bitcast ( $int<32>) iNsTr_238 ) )
+    xx_x := (iNsTr_240 & iNsTr_239)
+    $place [bb_21_bb_22]
+    //begin: basic-block bb_22
+    $merge bb_20_bb_22 bb_21_bb_22
+    $phi iNsTr_242 :=  ( $cast ($uint<1>) ( $bitcast ($uint<1> ) _b0 ) ) $on bb_20_bb_22 ( $cast ($uint<1>) xx_x) $on bb_21_bb_22 
+    $endmerge
+    iNsTr_243 := (iNsTr_211 | iNsTr_242)
+    iNsTr_244 := ( $mux iNsTr_211 iNsTr_68 qrsValx_x1)
+    iNsTr_245 := ( $mux iNsTr_211 iNsTr_219 rrValx_x1)
+    iNsTr_246 := ( $mux iNsTr_211 ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 )  iNsTr_85)
+    iNsTr_247 := ( $mux iNsTr_242 iNsTr_218 iNsTr_244)
+    iNsTr_248 := ( $mux iNsTr_242 iNsTr_220 iNsTr_245)
+    $if iNsTr_243 $then  $place [bb_22_bb_24] $else $place [bb_22_xx_xthread27] $endif 
+    //begin: basic-block xx_xthread27
+    $merge bb_22_xx_xthread27
+    $endmerge
+    // load 
+    iNsTr_277 := maxDer
+    $place [xx_xthread27_bb_25]
+    //begin: basic-block bb_24
+    $merge bb_22_bb_24
+    $endmerge
+    // load 
+    iNsTr_250 := QRSbuff_ptr
+    // load 
+    iNsTr_251 := RRbuff_ptr
+    iNsTr_252 := @(QRSbuff[iNsTr_250])
+    ->(iNsTr_252) := iNsTr_247
+    iNsTr_254 := @(RRbuff[iNsTr_251])
+    ->(iNsTr_254) := iNsTr_248
+    iNsTr_256 := (iNsTr_250 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_257 := (iNsTr_250 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    maxx_xx_xix_xi := ( $mux iNsTr_257 ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 )  iNsTr_256)
+    QRSbuff_ptr := maxx_xx_xix_xi
+    iNsTr_259 := (iNsTr_251 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 ) )
+    // compare instruction
+    iNsTr_260 := (iNsTr_251 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    maxx_xx_xi1x_xi := ( $mux iNsTr_260 ( $bitcast ($uint<32> ) _b00000000000000000000000000000111 )  iNsTr_259)
+    RRbuff_ptr := maxx_xx_xi1x_xi
+    iNsTr_262 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    $call meanCalc (iNsTr_262 )  (iNsTr_263)
+    iNsTr_264 := @(RRbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    $call meanCalc (iNsTr_264 )  (iNsTr_265)
+    iNsTr_266 := (iNsTr_263 - nmeanx_x2)
+    iNsTr_267 :=  ( $cast ($float<11,52>)  ( $bitcast ( $int< 64 > ) iNsTr_266) ) 
+    // load 
+    iNsTr_268 := threshold
+    iNsTr_269 := (iNsTr_268 * iNsTr_267)
+    iNsTr_270 := ( $bitcast ($uint<32> ) ( $cast ( $int< 32 > ) iNsTr_269) )
+    iNsTr_271 := (iNsTr_270 + nmeanx_x2)
+    // load 
+    iNsTr_272 := maxDer
+    iNsTr_273 :=  ($bitcast ($uint<32>) ( ($bitcast ( $int<32>) iNsTr_265) >>  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 )  )))
+    iNsTr_274 := (iNsTr_265 + ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 ) )
+    iNsTr_275 := (iNsTr_274 + iNsTr_273)
+    $place [bb_24_bb_25]
+    //begin: basic-block bb_25
+    $merge bb_24_bb_25 xx_xthread27_bb_25
+    $phi iNsTr_279 :=  ( $cast ($uint<32>) iNsTr_272) $on bb_24_bb_25 ( $cast ($uint<32>) iNsTr_277) $on xx_xthread27_bb_25 
+    $phi det_threshx_x325 :=  ( $cast ($uint<32>) iNsTr_271) $on bb_24_bb_25 ( $cast ($uint<32>) det_threshx_x2) $on xx_xthread27_bb_25 
+    $phi qmeanx_x223 :=  ( $cast ($uint<32>) iNsTr_263) $on bb_24_bb_25 ( $cast ($uint<32>) qmeanx_x1) $on xx_xthread27_bb_25 
+    $phi iNsTr_280 :=  ( $cast ($uint<32>) iNsTr_275) $on bb_24_bb_25 ( $cast ($uint<32>) sb_countx_x1) $on xx_xthread27_bb_25 
+    $endmerge
+    iNsTr_281 := ( $mux iNsTr_242 iNsTr_220 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) )
+    xx_x7 := (iNsTr_246 - iNsTr_281)
+    $if iNsTr_242 $then  $place [bb_25_bb_26] $else $place [bb_25_bb_27] $endif 
+    //begin: basic-block bb_26
+    $merge bb_25_bb_26
+    $endmerge
+    iNsTr_283 := (xx_x7 + ( $bitcast ($uint<32> ) _b00000000000000000000000000111000 ) )
+    $place [bb_26_bb_28]
+    //begin: basic-block bb_27
+    $merge bb_25_bb_27
+    $endmerge
+    iNsTr_285 := ( $mux iNsTr_211 ( $bitcast ($uint<32> ) _b00000000000000000000000001001000 )  ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) )
+    $place [bb_27_bb_28]
+    //begin: basic-block bb_28
+    $merge bb_26_bb_28 bb_27_bb_28
+    $phi iNsTr_287 :=  ( $cast ($uint<32>) iNsTr_283) $on bb_26_bb_28 ( $cast ($uint<32>) iNsTr_285) $on bb_27_bb_28 
+    $endmerge
+    iNsTr_288 := ( $mux iNsTr_243 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_218)
+    iNsTr_289 := ( $mux iNsTr_243 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_279)
+    maxDer := iNsTr_289
+    iNsTr_291 := ( $mux iNsTr_243 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  initBlankx_x1)
+    iNsTr_292 := ( $mux iNsTr_243 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  initMaxx_x1)
+    iNsTr_293 := ( $mux iNsTr_243 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  rset_countx_x1)
+    $place [bb_28_bb_29]
+    //begin: basic-block bb_29
+    $merge bb_13_bb_29 bb_14_bb_29 bb_28_bb_29
+    $phi QRSdelayx_x0 :=  ( $cast ($uint<32>) iNsTr_287) $on bb_28_bb_29 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_14_bb_29 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_13_bb_29 
+    $phi init8Done_nextx_x0 :=  ( $cast ($uint<8>) init8Done_nextx_x1) $on bb_28_bb_29 ( $cast ($uint<8>) iNsTr_101) $on bb_14_bb_29 ( $cast ($uint<8>) iNsTr_101) $on bb_13_bb_29 
+    $phi noiseValx_x0 :=  ( $cast ($uint<32>) iNsTr_216) $on bb_28_bb_29 ( $cast ($uint<32>) noiseValx_x1) $on bb_14_bb_29 ( $cast ($uint<32>) noiseValx_x1) $on bb_13_bb_29 
+    $phi rrValx_x0 :=  ( $cast ($uint<32>) iNsTr_248) $on bb_28_bb_29 ( $cast ($uint<32>) rrValx_x1) $on bb_14_bb_29 ( $cast ($uint<32>) rrValx_x1) $on bb_13_bb_29 
+    $phi qrsValx_x0 :=  ( $cast ($uint<32>) iNsTr_247) $on bb_28_bb_29 ( $cast ($uint<32>) qrsValx_x1) $on bb_14_bb_29 ( $cast ($uint<32>) qrsValx_x1) $on bb_13_bb_29 
+    $phi nmeanx_x0 :=  ( $cast ($uint<32>) nmeanx_x2) $on bb_28_bb_29 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_14_bb_29 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_13_bb_29 
+    $phi qmeanx_x0 :=  ( $cast ($uint<32>) qmeanx_x223) $on bb_28_bb_29 ( $cast ($uint<32>) iNsTr_107) $on bb_14_bb_29 ( $cast ($uint<32>) qmeanx_x1) $on bb_13_bb_29 
+    $phi sbLocx_x0 :=  ( $cast ($uint<32>) iNsTr_220) $on bb_28_bb_29 ( $cast ($uint<32>) sbLocx_x1) $on bb_14_bb_29 ( $cast ($uint<32>) sbLocx_x1) $on bb_13_bb_29 
+    $phi sb_countx_x0 :=  ( $cast ($uint<32>) iNsTr_280) $on bb_28_bb_29 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000101001010 ) ) $on bb_14_bb_29 ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000101001010 ) ) $on bb_13_bb_29 
+    $phi det_threshx_x0 :=  ( $cast ($uint<32>) det_threshx_x325) $on bb_28_bb_29 ( $cast ($uint<32>) iNsTr_111) $on bb_14_bb_29 ( $cast ($uint<32>) det_threshx_x1) $on bb_13_bb_29 
+    $phi initMaxx_x0 :=  ( $cast ($uint<32>) iNsTr_292) $on bb_28_bb_29 ( $cast ($uint<32>) iNsTr_103) $on bb_14_bb_29 ( $cast ($uint<32>) iNsTr_103) $on bb_13_bb_29 
+    $phi rset_countx_x0 :=  ( $cast ($uint<32>) iNsTr_293) $on bb_28_bb_29 ( $cast ($uint<32>) rset_countx_x1) $on bb_14_bb_29 ( $cast ($uint<32>) rset_countx_x1) $on bb_13_bb_29 
+    $phi initBlankx_x0 :=  ( $cast ($uint<32>) iNsTr_291) $on bb_28_bb_29 ( $cast ($uint<32>) iNsTr_93) $on bb_14_bb_29 ( $cast ($uint<32>) iNsTr_93) $on bb_13_bb_29 
+    $phi countx_x1 :=  ( $cast ($uint<32>) xx_x7) $on bb_28_bb_29 ( $cast ($uint<32>) iNsTr_92) $on bb_14_bb_29 ( $cast ($uint<32>) iNsTr_92) $on bb_13_bb_29 
+    $phi qpk_countx_x0 :=  ( $cast ($uint<32>) qpk_countx_x1) $on bb_28_bb_29 ( $cast ($uint<32>) iNsTr_98) $on bb_14_bb_29 ( $cast ($uint<32>) iNsTr_98) $on bb_13_bb_29 
+    $phi sbPeakx_x0 :=  ( $cast ($uint<32>) iNsTr_288) $on bb_28_bb_29 ( $cast ($uint<32>) sbPeakx_x1) $on bb_14_bb_29 ( $cast ($uint<32>) sbPeakx_x1) $on bb_13_bb_29 
+    $endmerge
+    // compare instruction
+    iNsTr_113 := (init8Done_nextx_x0 == ( $bitcast ($uint<8> ) _b00000000 )  )
+    $if iNsTr_113 $then  $place [bb_29_bb_33] $else $place [bb_29_bb_30] $endif 
+    //begin: basic-block bb_30
+    $merge bb_29_bb_30
+    $endmerge
+    iNsTr_132 := (initBlankx_x0 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_133 := (iNsTr_132 == ( $bitcast ($uint<32> ) _b00000000000000000000000011001000 )  )
+    iNsTr_134 := ( $mux iNsTr_133 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_132)
+    iNsTr_135 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][rset_countx_x0]
+    ->(iNsTr_135) := initMaxx_x0
+    iNsTr_137 := ( $mux iNsTr_133 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  initMaxx_x0)
+    iNsTr_138 := ($cast ($uint<32>) iNsTr_133)
+    iNsTr_139 := (iNsTr_138 + rset_countx_x0)
+    // compare instruction
+    iNsTr_140 := (iNsTr_139 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001000 )  )
+    iNsTr_141 := ( $mux iNsTr_140 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  nmeanx_x0)
+    iNsTr_142 := ( $mux iNsTr_140 ( $bitcast ($uint<32> ) _b00000000000000000000000101001010 )  sb_countx_x0)
+    iNsTr_143 := ( $mux iNsTr_140 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_134)
+    iNsTr_144 := ( $mux iNsTr_140 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_139)
+    $if iNsTr_140 $then  $place [bb_30_bb_31] $else $place [bb_30_bb_32] $endif 
+    //begin: basic-block bb_31
+    $merge bb_30_bb_31
+    $endmerge
+    scevgep := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ]
+    // load 
+    iNsTr_153 := ->(scevgep) 
+    iNsTr_154 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    ->(iNsTr_154) := iNsTr_153
+    iNsTr_156 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    ->(iNsTr_156) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x1 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) ]
+    // load 
+    iNsTr_158 := ->(scevgepx_x1) 
+    iNsTr_159 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) ])
+    ->(iNsTr_159) := iNsTr_158
+    iNsTr_161 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) ])
+    ->(iNsTr_161) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x2 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000010 ) ]
+    // load 
+    iNsTr_163 := ->(scevgepx_x2) 
+    iNsTr_164 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000010 ) ])
+    ->(iNsTr_164) := iNsTr_163
+    iNsTr_166 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000010 ) ])
+    ->(iNsTr_166) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x3 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000011 ) ]
+    // load 
+    iNsTr_168 := ->(scevgepx_x3) 
+    iNsTr_169 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000011 ) ])
+    ->(iNsTr_169) := iNsTr_168
+    iNsTr_171 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000011 ) ])
+    ->(iNsTr_171) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x4 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000100 ) ]
+    // load 
+    iNsTr_173 := ->(scevgepx_x4) 
+    iNsTr_174 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000100 ) ])
+    ->(iNsTr_174) := iNsTr_173
+    iNsTr_176 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000100 ) ])
+    ->(iNsTr_176) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x5 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000101 ) ]
+    // load 
+    iNsTr_178 := ->(scevgepx_x5) 
+    iNsTr_179 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000101 ) ])
+    ->(iNsTr_179) := iNsTr_178
+    iNsTr_181 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000101 ) ])
+    ->(iNsTr_181) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x6 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000110 ) ]
+    // load 
+    iNsTr_183 := ->(scevgepx_x6) 
+    iNsTr_184 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000110 ) ])
+    ->(iNsTr_184) := iNsTr_183
+    iNsTr_186 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000110 ) ])
+    ->(iNsTr_186) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    scevgepx_x7 := RSETbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ][( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) ]
+    // load 
+    iNsTr_188 := ->(scevgepx_x7) 
+    iNsTr_189 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) ])
+    ->(iNsTr_189) := iNsTr_188
+    iNsTr_191 := @(NOISEbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000111 ) ])
+    ->(iNsTr_191) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_193 := @(QRSbuff[( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ])
+    $call meanCalc (iNsTr_193 )  (iNsTr_194)
+    iNsTr_195 := (iNsTr_194 - iNsTr_141)
+    iNsTr_196 :=  ( $cast ($float<11,52>)  ( $bitcast ( $int< 64 > ) iNsTr_195) ) 
+    // load 
+    iNsTr_197 := threshold
+    iNsTr_198 := (iNsTr_197 * iNsTr_196)
+    iNsTr_199 := ( $bitcast ($uint<32> ) ( $cast ( $int< 32 > ) iNsTr_198) )
+    iNsTr_200 := (iNsTr_199 + iNsTr_141)
+    $place [bb_31_bb_32]
+    //begin: basic-block bb_32
+    $merge bb_30_bb_32 bb_31_bb_32
+    $phi qmeanx_x3 :=  ( $cast ($uint<32>) iNsTr_194) $on bb_31_bb_32 ( $cast ($uint<32>) qmeanx_x0) $on bb_30_bb_32 
+    $phi det_threshx_x4 :=  ( $cast ($uint<32>) iNsTr_200) $on bb_31_bb_32 ( $cast ($uint<32>) det_threshx_x0) $on bb_30_bb_32 
+    $endmerge
+    // compare instruction
+    iNsTr_202 := ( ($bitcast ( $int<32>) iNsTr_68) >  ($bitcast ( $int<32>) iNsTr_137 ) )
+    iNsTr_203 := ( $mux iNsTr_202 iNsTr_68 iNsTr_137)
+    $place [bb_32_bb_33]
+    //begin: basic-block bb_33
+    $merge bb_29_bb_33 bb_32_bb_33
+    $phi nmeanx_x3 :=  ( $cast ($uint<32>) iNsTr_141) $on bb_32_bb_33 ( $cast ($uint<32>) nmeanx_x0) $on bb_29_bb_33 
+    $phi qmeanx_x4 :=  ( $cast ($uint<32>) qmeanx_x3) $on bb_32_bb_33 ( $cast ($uint<32>) qmeanx_x0) $on bb_29_bb_33 
+    $phi sb_countx_x2 :=  ( $cast ($uint<32>) iNsTr_142) $on bb_32_bb_33 ( $cast ($uint<32>) sb_countx_x0) $on bb_29_bb_33 
+    $phi det_threshx_x5 :=  ( $cast ($uint<32>) det_threshx_x4) $on bb_32_bb_33 ( $cast ($uint<32>) det_threshx_x0) $on bb_29_bb_33 
+    $phi initMaxx_x2 :=  ( $cast ($uint<32>) iNsTr_203) $on bb_32_bb_33 ( $cast ($uint<32>) initMaxx_x0) $on bb_29_bb_33 
+    $phi rset_countx_x2 :=  ( $cast ($uint<32>) iNsTr_144) $on bb_32_bb_33 ( $cast ($uint<32>) rset_countx_x0) $on bb_29_bb_33 
+    $phi initBlankx_x2 :=  ( $cast ($uint<32>) iNsTr_143) $on bb_32_bb_33 ( $cast ($uint<32>) initBlankx_x0) $on bb_29_bb_33 
+    $endmerge
+    det_output_pipe := QRSdelayx_x0
+    $place [bb_33_bb_5]
+  }
+}

@@ -6,6 +6,7 @@
 #include <pipeHandler.h>
 #include "filter.h"
 #include "qrsDet.h"
+#include "ptrFunc.h"
 
 //declare loop pipelining as a NOP function for SW execution
 //#ifdef SW
@@ -115,19 +116,6 @@ int ddCalc(int datum)
 }
 
 
-/*************************************************
-** MEAN CALCULATOR FOR QRS, RR AND NOISE BUFFERS
-*************************************************/
-int meanCalc(int *buffer)
-{
-	long sum = 0;
-	int i;
-	for (i=0; i<8; i=i+1)
-	{
-		sum += (buffer[i]);	
-	}
-	return (sum >> 3);
-}
 
 
 /*************************************************

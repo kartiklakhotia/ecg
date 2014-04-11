@@ -1,0 +1,822 @@
+// Aa code produced by llvm2aa (version 1.0)
+$pipe DERIVout_pipe : $uint<32> $depth 1
+$pipe HPout_pipe : $uint<32> $depth 1
+$pipe LPout_pipe : $uint<32> $depth 1
+$pipe filt_input_pipe : $uint<32> $depth 1
+$pipe filt_output_pipe : $uint<32> $depth 1
+$storage LPbuff:$array [10] $of $uint<32>
+$storage HPbuff:$array [25] $of $uint<32>
+$storage DERIVbuff:$array [2] $of $uint<32>
+$storage LPy1:$uint<32>
+$storage LPy2:$uint<32>
+$storage HPy1:$uint<32>
+$storage WINsum:$uint<32>
+$storage LPbuff_ptr:$uint<32>
+$storage HPbuff_ptr:$uint<32>
+$storage DERIVbuff_ptr:$uint<32>
+$storage WINbuff_ptr:$uint<32>
+$storage WINbuff:$array [16] $of $uint<32>
+$module [filterx_xoptx_xo_storage_initializer_] $in () $out () $is 
+{
+  $null
+  $attribute initializer
+}
+$module [divideUnsigned] 
+$in (dividend : $uint<64> divisor : $uint<32> )
+$out (ret_val__ : $uint<64>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // compare instruction
+    iNsTr_0 := (divisor == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    $if iNsTr_0 $then  $place [bb_0_xx_xloopexit] $else $place [bb_0_xx_xpreheader] $endif 
+    //begin: basic-block xx_xpreheader
+    $merge bb_0_xx_xpreheader
+    $endmerge
+    iNsTr_3 := ($cast ($uint<64>) divisor)
+    // compare instruction
+    iNsTr_4 := (iNsTr_3 > dividend )
+    $if iNsTr_4 $then  $place [xx_xpreheader_xx_xloopexit] $else $place [xx_xpreheader_bbx_xnph6x_xpreheader] $endif 
+    //begin: basic-block bbx_xnph6x_xpreheader
+    $merge xx_xpreheader_bbx_xnph6x_xpreheader
+    $endmerge
+    $place [bbx_xnph6x_xpreheader_bbx_xnph6]
+    //begin: basic-block bbx_xnph6
+    $merge bbx_xnph6x_xpreheader_bbx_xnph6 xx_x_crit_edge_bbx_xnph6
+    $phi xx_x05 :=  ( $cast ($uint<64>) iNsTr_12) $on xx_x_crit_edge_bbx_xnph6 ( $cast ($uint<64>) dividend) $on bbx_xnph6x_xpreheader_bbx_xnph6 
+    $phi quotientx_x04 :=  ( $cast ($uint<64>) iNsTr_11) $on xx_x_crit_edge_bbx_xnph6 ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bbx_xnph6x_xpreheader_bbx_xnph6 
+    $endmerge
+    iNsTr_7 := (xx_x05 >> ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_8 := (iNsTr_3 < iNsTr_7 )
+    $if iNsTr_8 $then  $place [bbx_xnph6_bbx_xnphx_xpreheader] $else $place [bbx_xnph6_xx_x_crit_edge] $endif 
+    //begin: basic-block bbx_xnphx_xpreheader
+    $merge bbx_xnph6_bbx_xnphx_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xpreheader_bbx_xnph]
+    //begin: basic-block bbx_xnph
+    $merge bbx_xnph_bbx_xnph bbx_xnphx_xpreheader_bbx_xnph
+    $phi shifted_divisorx_x02 :=  ( $cast ($uint<64>) iNsTr_15) $on bbx_xnph_bbx_xnph ( $cast ($uint<64>) iNsTr_3) $on bbx_xnphx_xpreheader_bbx_xnph 
+    $phi curr_quotientx_x01 :=  ( $cast ($uint<64>) iNsTr_16) $on bbx_xnph_bbx_xnph ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnphx_xpreheader_bbx_xnph 
+    $endmerge
+    iNsTr_15 := (shifted_divisorx_x02 << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    iNsTr_16 := (curr_quotientx_x01 << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_17 := (iNsTr_15 < iNsTr_7 )
+    $if iNsTr_17 $then  $place [bbx_xnph_bbx_xnph] $else $place [bbx_xnph_xx_x_crit_edgex_xloopexit] $endif 
+    //begin: basic-block xx_x_crit_edgex_xloopexit
+    $merge bbx_xnph_xx_x_crit_edgex_xloopexit
+    $phi xx_xlcssa1 :=  ( $cast ($uint<64>) iNsTr_16) $on bbx_xnph_xx_x_crit_edgex_xloopexit 
+    $phi xx_xlcssa :=  ( $cast ($uint<64>) iNsTr_15) $on bbx_xnph_xx_x_crit_edgex_xloopexit 
+    $endmerge
+    $place [xx_x_crit_edgex_xloopexit_xx_x_crit_edge]
+    //begin: basic-block xx_x_crit_edge
+    $merge bbx_xnph6_xx_x_crit_edge xx_x_crit_edgex_xloopexit_xx_x_crit_edge
+    $phi shifted_divisorx_x0x_xlcssa :=  ( $cast ($uint<64>) iNsTr_3) $on bbx_xnph6_xx_x_crit_edge ( $cast ($uint<64>) xx_xlcssa) $on xx_x_crit_edgex_xloopexit_xx_x_crit_edge 
+    $phi curr_quotientx_x0x_xlcssa :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnph6_xx_x_crit_edge ( $cast ($uint<64>) xx_xlcssa1) $on xx_x_crit_edgex_xloopexit_xx_x_crit_edge 
+    $endmerge
+    iNsTr_11 := (curr_quotientx_x0x_xlcssa + quotientx_x04)
+    iNsTr_12 := (xx_x05 - shifted_divisorx_x0x_xlcssa)
+    // compare instruction
+    iNsTr_13 := (iNsTr_12 < iNsTr_3 )
+    $if iNsTr_13 $then  $place [xx_x_crit_edge_xx_xloopexitx_xloopexit] $else $place [xx_x_crit_edge_bbx_xnph6] $endif 
+    //begin: basic-block xx_xloopexitx_xloopexit
+    $merge xx_x_crit_edge_xx_xloopexitx_xloopexit
+    $phi xx_xlcssa2 :=  ( $cast ($uint<64>) iNsTr_11) $on xx_x_crit_edge_xx_xloopexitx_xloopexit 
+    $endmerge
+    $place [xx_xloopexitx_xloopexit_xx_xloopexit]
+    //begin: basic-block xx_xloopexit
+    $merge bb_0_xx_xloopexit xx_xloopexitx_xloopexit_xx_xloopexit xx_xpreheader_xx_xloopexit
+    $phi ret_val__ :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bb_0_xx_xloopexit ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on xx_xpreheader_xx_xloopexit ( $cast ($uint<64>) xx_xlcssa2) $on xx_xloopexitx_xloopexit_xx_xloopexit 
+    $endmerge
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [divideSigned] 
+$in (dividend : $uint<64> divisor : $uint<32> )
+$out (ret_val__ : $uint<64>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // compare instruction
+    iNsTr_0 := ( ($bitcast ( $int<64>) dividend) <   ($bitcast ( $int<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  ) )
+    iNsTr_1 := (( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  - dividend)
+    iNsTr_2 := ( $mux iNsTr_0 iNsTr_1 dividend)
+    // compare instruction
+    iNsTr_3 := ( ($bitcast ( $int<64>) iNsTr_2) <   ($bitcast ( $int<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  ) )
+    // compare instruction
+    iNsTr_4 := ( ($bitcast ( $int<32>) divisor) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_5 := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - divisor)
+    iNsTr_6 := ( $mux iNsTr_4 iNsTr_5 divisor)
+    iNsTr_7 := ( $mux iNsTr_3 ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 )  ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_8 := (iNsTr_6 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  )
+    $if iNsTr_8 $then  $place [bb_0_bb_10] $else $place [bb_0_xx_xpreheaderx_xi] $endif 
+    //begin: basic-block xx_xpreheaderx_xi
+    $merge bb_0_xx_xpreheaderx_xi
+    $endmerge
+    iNsTr_11 := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - iNsTr_7)
+    // compare instruction
+    iNsTr_12 := ( ($bitcast ( $int<32>) iNsTr_6) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_13 := ( $mux iNsTr_12 iNsTr_11 iNsTr_7)
+    iNsTr_14 := ($cast ($uint<64>) iNsTr_6)
+    // compare instruction
+    iNsTr_15 := (iNsTr_14 > iNsTr_2 )
+    $if iNsTr_15 $then  $place [xx_xpreheaderx_xi_divideUnsignedx_xexit] $else $place [xx_xpreheaderx_xi_bbx_xnph6x_xix_xpreheader] $endif 
+    //begin: basic-block bbx_xnph6x_xix_xpreheader
+    $merge xx_xpreheaderx_xi_bbx_xnph6x_xix_xpreheader
+    $endmerge
+    $place [bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi]
+    //begin: basic-block bbx_xnph6x_xi
+    $merge bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi xx_x_crit_edgex_xi_bbx_xnph6x_xi
+    $phi xx_x05x_xi :=  ( $cast ($uint<64>) iNsTr_28) $on xx_x_crit_edgex_xi_bbx_xnph6x_xi ( $cast ($uint<64>) iNsTr_2) $on bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi 
+    $phi quotientx_x04x_xi :=  ( $cast ($uint<64>) iNsTr_27) $on xx_x_crit_edgex_xi_bbx_xnph6x_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi 
+    $endmerge
+    iNsTr_23 := (xx_x05x_xi >> ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_24 := (iNsTr_14 < iNsTr_23 )
+    $if iNsTr_24 $then  $place [bbx_xnph6x_xi_bbx_xnphx_xix_xpreheader] $else $place [bbx_xnph6x_xi_xx_x_crit_edgex_xi] $endif 
+    //begin: basic-block bbx_xnphx_xix_xpreheader
+    $merge bbx_xnph6x_xi_bbx_xnphx_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xpreheader_bbx_xnphx_xi]
+    //begin: basic-block bbx_xnphx_xi
+    $merge bbx_xnphx_xi_bbx_xnphx_xi bbx_xnphx_xix_xpreheader_bbx_xnphx_xi
+    $phi shifted_divisorx_x02x_xi :=  ( $cast ($uint<64>) iNsTr_31) $on bbx_xnphx_xi_bbx_xnphx_xi ( $cast ($uint<64>) iNsTr_14) $on bbx_xnphx_xix_xpreheader_bbx_xnphx_xi 
+    $phi curr_quotientx_x01x_xi :=  ( $cast ($uint<64>) iNsTr_32) $on bbx_xnphx_xi_bbx_xnphx_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnphx_xix_xpreheader_bbx_xnphx_xi 
+    $endmerge
+    iNsTr_31 := (shifted_divisorx_x02x_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    iNsTr_32 := (curr_quotientx_x01x_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_33 := (iNsTr_31 < iNsTr_23 )
+    $if iNsTr_33 $then  $place [bbx_xnphx_xi_bbx_xnphx_xi] $else $place [bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit] $endif 
+    //begin: basic-block xx_x_crit_edgex_xix_xloopexit
+    $merge bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit
+    $phi xx_xlcssa1 :=  ( $cast ($uint<64>) iNsTr_32) $on bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit 
+    $phi xx_xlcssa :=  ( $cast ($uint<64>) iNsTr_31) $on bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit 
+    $endmerge
+    $place [xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi]
+    //begin: basic-block xx_x_crit_edgex_xi
+    $merge bbx_xnph6x_xi_xx_x_crit_edgex_xi xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi
+    $phi shifted_divisorx_x0x_xlcssax_xi :=  ( $cast ($uint<64>) iNsTr_14) $on bbx_xnph6x_xi_xx_x_crit_edgex_xi ( $cast ($uint<64>) xx_xlcssa) $on xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi 
+    $phi curr_quotientx_x0x_xlcssax_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnph6x_xi_xx_x_crit_edgex_xi ( $cast ($uint<64>) xx_xlcssa1) $on xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi 
+    $endmerge
+    iNsTr_27 := (curr_quotientx_x0x_xlcssax_xi + quotientx_x04x_xi)
+    iNsTr_28 := (xx_x05x_xi - shifted_divisorx_x0x_xlcssax_xi)
+    // compare instruction
+    iNsTr_29 := (iNsTr_28 < iNsTr_14 )
+    $if iNsTr_29 $then  $place [xx_x_crit_edgex_xi_divideUnsignedx_xexitx_xloopexit] $else $place [xx_x_crit_edgex_xi_bbx_xnph6x_xi] $endif 
+    //begin: basic-block divideUnsignedx_xexitx_xloopexit
+    $merge xx_x_crit_edgex_xi_divideUnsignedx_xexitx_xloopexit
+    $phi xx_xlcssa2 :=  ( $cast ($uint<64>) iNsTr_27) $on xx_x_crit_edgex_xi_divideUnsignedx_xexitx_xloopexit 
+    $endmerge
+    $place [divideUnsignedx_xexitx_xloopexit_divideUnsignedx_xexit]
+    //begin: basic-block divideUnsignedx_xexit
+    $merge divideUnsignedx_xexitx_xloopexit_divideUnsignedx_xexit xx_xpreheaderx_xi_divideUnsignedx_xexit
+    $phi quotientx_x1x_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on xx_xpreheaderx_xi_divideUnsignedx_xexit ( $cast ($uint<64>) xx_xlcssa2) $on divideUnsignedx_xexitx_xloopexit_divideUnsignedx_xexit 
+    $endmerge
+    // compare instruction
+    iNsTr_18 := ( ($bitcast ( $int<32>) iNsTr_13) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_19 := (( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  - quotientx_x1x_xi)
+    iNsTr_20 := ( $mux iNsTr_18 iNsTr_19 quotientx_x1x_xi)
+    $place [divideUnsignedx_xexit_UnifiedReturnBlock]
+    //begin: basic-block bb_10
+    $merge bb_0_bb_10
+    $endmerge
+    $place [bb_10_UnifiedReturnBlock]
+    //begin: basic-block UnifiedReturnBlock
+    $merge bb_10_UnifiedReturnBlock divideUnsignedx_xexit_UnifiedReturnBlock
+    $phi ret_val__ :=  ( $cast ($uint<64>) iNsTr_20) $on divideUnsignedx_xexit_UnifiedReturnBlock ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bb_10_UnifiedReturnBlock 
+    $endmerge
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [initFilt] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bbx_xnph6
+    $place [bbx_xnph6_bb_1]
+    //begin: basic-block bb_1
+    //   this is a do-while loop.
+    $merge bbx_xnph6_bb_1
+    $phi indexx_x05_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph6_bb_1 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x05 :=  ( $cast ($uint<32>) iNsTr_3) $on $loopback indexx_x05_at_entry $on $entry
+    $endmerge
+    scevgep10 := @(LPbuff[indexx_x05])
+    ->(scevgep10) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_3 := (indexx_x05 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond4 := (iNsTr_3 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001010 )  )
+    $while (~exitcond4) 
+    $place [bb_1_bbx_xnph4x_xpreheader] //begin: basic-block bbx_xnph4x_xpreheader
+    $merge bb_1_bbx_xnph4x_xpreheader
+    $endmerge
+    $place [bbx_xnph4x_xpreheader_bbx_xnph4]
+    //begin: basic-block bbx_xnph4
+    //   this is a do-while loop.
+    $merge bbx_xnph4x_xpreheader_bbx_xnph4
+    $phi indexx_x13_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph4x_xpreheader_bbx_xnph4 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x13 :=  ( $cast ($uint<32>) iNsTr_8) $on $loopback indexx_x13_at_entry $on $entry
+    $endmerge
+    scevgep8 := @(HPbuff[indexx_x13])
+    ->(scevgep8) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_8 := (indexx_x13 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond := (iNsTr_8 == ( $bitcast ($uint<32> ) _b00000000000000000000000000011001 )  )
+    $while (~exitcond) 
+    $place [bbx_xnph4_bbx_xnphx_xpreheader] //begin: basic-block bbx_xnphx_xpreheader
+    $merge bbx_xnph4_bbx_xnphx_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xpreheader_bbx_xnph]
+    //begin: basic-block bbx_xnph
+    //   this is a do-while loop.
+    $merge bbx_xnphx_xpreheader_bbx_xnph
+    $phi indexx_x21_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnphx_xpreheader_bbx_xnph 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x21 :=  ( $cast ($uint<32>) iNsTr_13) $on $loopback indexx_x21_at_entry $on $entry
+    $endmerge
+    scevgep := @(DERIVbuff[indexx_x21])
+    ->(scevgep) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_13 := (indexx_x21 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond1 := (iNsTr_13 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    $while (~exitcond1) 
+    $place [bbx_xnph_xx_x_crit_edge] //begin: basic-block xx_x_crit_edge
+    $merge bbx_xnph_xx_x_crit_edge
+    $endmerge
+    LPy1 := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    LPy2 := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    HPy1 := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    WINsum := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    LPbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    HPbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    DERIVbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    WINbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [circUpdateFilt] 
+$in (ptr : $uint<32> size : $uint<32> )
+$out (ret_val__ : $uint<32>)
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_0 := (ptr + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_1 := (iNsTr_0 == size )
+    ret_val__ := ( $mux iNsTr_1 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_0)
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [lpFilt] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_1 := filt_input_pipe
+    // load 
+    iNsTr_2 := LPbuff_ptr
+    iNsTr_3 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b11111111111111111111111111111011 ) )
+    // compare instruction
+    iNsTr_4 := ( ($bitcast ( $int<32>) iNsTr_3) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_5 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000101 ) )
+    iNsTr_6 := ( $mux iNsTr_4 iNsTr_5 iNsTr_3)
+    // load 
+    iNsTr_7 := LPy1
+    iNsTr_8 := (iNsTr_7 << ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // load 
+    iNsTr_9 := LPy2
+    iNsTr_10 := @(LPbuff[iNsTr_6])
+    // load 
+    iNsTr_11 := ->(iNsTr_10) 
+    iNsTr_12 := (iNsTr_11 << ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    iNsTr_13 := @(LPbuff[iNsTr_2])
+    // load 
+    iNsTr_14 := ->(iNsTr_13) 
+    iNsTr_15 := (iNsTr_8 + iNsTr_1)
+    iNsTr_16 := (iNsTr_15 - iNsTr_9)
+    iNsTr_17 := (iNsTr_16 + iNsTr_14)
+    iNsTr_18 := (iNsTr_17 - iNsTr_12)
+    LPy2 := iNsTr_7
+    LPy1 := iNsTr_18
+    iNsTr_21 :=  ($bitcast ($uint<64>) ( $cast ($int< 64 > ) iNsTr_18) )
+    // compare instruction
+    iNsTr_22 := ( ($bitcast ( $int<32>) iNsTr_18) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_23 := (( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  - iNsTr_21)
+    iNsTr_24 := ( $mux iNsTr_22 iNsTr_23 iNsTr_21)
+    // compare instruction
+    iNsTr_25 := ( ($bitcast ( $int<64>) iNsTr_24) <   ($bitcast ( $int<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  ) )
+    // compare instruction
+    iNsTr_26 := (iNsTr_24 < ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 )  )
+    $if iNsTr_26 $then  $place [bb_0_divideSignedx_xexit] $else $place [bb_0_bbx_xnph6x_xix_xix_xpreheader] $endif 
+    //begin: basic-block bbx_xnph6x_xix_xix_xpreheader
+    $merge bb_0_bbx_xnph6x_xix_xix_xpreheader
+    $endmerge
+    $place [bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi]
+    //begin: basic-block bbx_xnph6x_xix_xi
+    $merge bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi
+    $phi xx_x05x_xix_xi :=  ( $cast ($uint<64>) iNsTr_45) $on xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi ( $cast ($uint<64>) iNsTr_24) $on bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi 
+    $phi quotientx_x04x_xix_xi :=  ( $cast ($uint<64>) iNsTr_44) $on xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi 
+    $endmerge
+    iNsTr_40 := (xx_x05x_xix_xi >> ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_41 := (iNsTr_40 > ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 )  )
+    $if iNsTr_41 $then  $place [bbx_xnph6x_xix_xi_bbx_xnphx_xix_xix_xpreheader] $else $place [bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi] $endif 
+    //begin: basic-block bbx_xnphx_xix_xix_xpreheader
+    $merge bbx_xnph6x_xix_xi_bbx_xnphx_xix_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi]
+    //begin: basic-block bbx_xnphx_xix_xi
+    $merge bbx_xnphx_xix_xi_bbx_xnphx_xix_xi bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi
+    $phi shifted_divisorx_x02x_xix_xi :=  ( $cast ($uint<64>) iNsTr_48) $on bbx_xnphx_xix_xi_bbx_xnphx_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 ) ) $on bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi 
+    $phi curr_quotientx_x01x_xix_xi :=  ( $cast ($uint<64>) iNsTr_49) $on bbx_xnphx_xix_xi_bbx_xnphx_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi 
+    $endmerge
+    iNsTr_48 := (shifted_divisorx_x02x_xix_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    iNsTr_49 := (curr_quotientx_x01x_xix_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_50 := (iNsTr_48 < iNsTr_40 )
+    $if iNsTr_50 $then  $place [bbx_xnphx_xix_xi_bbx_xnphx_xix_xi] $else $place [bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit] $endif 
+    //begin: basic-block xx_x_crit_edgex_xix_xix_xloopexit
+    $merge bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit
+    $phi xx_xlcssa1 :=  ( $cast ($uint<64>) iNsTr_49) $on bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit 
+    $phi xx_xlcssa :=  ( $cast ($uint<64>) iNsTr_48) $on bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit 
+    $endmerge
+    $place [xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi]
+    //begin: basic-block xx_x_crit_edgex_xix_xi
+    $merge bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi
+    $phi shifted_divisorx_x0x_xlcssax_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 ) ) $on bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi ( $cast ($uint<64>) xx_xlcssa) $on xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi 
+    $phi curr_quotientx_x0x_xlcssax_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi ( $cast ($uint<64>) xx_xlcssa1) $on xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi 
+    $endmerge
+    iNsTr_44 := (curr_quotientx_x0x_xlcssax_xix_xi + quotientx_x04x_xix_xi)
+    iNsTr_45 := (xx_x05x_xix_xi - shifted_divisorx_x0x_xlcssax_xix_xi)
+    // compare instruction
+    iNsTr_46 := (iNsTr_45 < ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 )  )
+    $if iNsTr_46 $then  $place [xx_x_crit_edgex_xix_xi_divideSignedx_xexitx_xloopexit] $else $place [xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi] $endif 
+    //begin: basic-block divideSignedx_xexitx_xloopexit
+    $merge xx_x_crit_edgex_xix_xi_divideSignedx_xexitx_xloopexit
+    $phi xx_xlcssa2 :=  ( $cast ($uint<64>) iNsTr_44) $on xx_x_crit_edgex_xix_xi_divideSignedx_xexitx_xloopexit 
+    $endmerge
+    $place [divideSignedx_xexitx_xloopexit_divideSignedx_xexit]
+    //begin: basic-block divideSignedx_xexit
+    $merge bb_0_divideSignedx_xexit divideSignedx_xexitx_xloopexit_divideSignedx_xexit
+    $phi quotientx_x1x_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bb_0_divideSignedx_xexit ( $cast ($uint<64>) xx_xlcssa2) $on divideSignedx_xexitx_xloopexit_divideSignedx_xexit 
+    $endmerge
+    iNsTr_28 := (( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  - quotientx_x1x_xix_xi)
+    iNsTr_29 := ( $mux iNsTr_25 iNsTr_28 quotientx_x1x_xix_xi)
+    iNsTr_30 := ($cast ($uint<32>) iNsTr_29)
+    ->(iNsTr_13) := iNsTr_1
+    iNsTr_32 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_33 := (iNsTr_32 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001010 )  )
+    iNsTr_34 := ( $mux iNsTr_33 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_32)
+    LPbuff_ptr := iNsTr_34
+    LPout_pipe := iNsTr_30
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [hpFilt] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_1 := LPout_pipe
+    // load 
+    iNsTr_2 := HPbuff_ptr
+    iNsTr_3 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b11111111111111111111111111110100 ) )
+    // compare instruction
+    iNsTr_4 := ( ($bitcast ( $int<32>) iNsTr_3) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_5 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000001101 ) )
+    iNsTr_6 := ( $mux iNsTr_4 iNsTr_5 iNsTr_3)
+    // load 
+    iNsTr_7 := HPy1
+    iNsTr_8 := @(HPbuff[iNsTr_2])
+    // load 
+    iNsTr_9 := ->(iNsTr_8) 
+    iNsTr_10 := (iNsTr_7 + iNsTr_1)
+    iNsTr_11 := (iNsTr_10 - iNsTr_9)
+    HPy1 := iNsTr_11
+    iNsTr_13 := @(HPbuff[iNsTr_6])
+    // load 
+    iNsTr_14 := ->(iNsTr_13) 
+    iNsTr_15 := ($cast ($uint<64>) iNsTr_14)
+    iNsTr_16 :=  ($bitcast ($uint<64>) ( $cast ($int< 64 > ) iNsTr_11) )
+    // compare instruction
+    iNsTr_17 := ( ($bitcast ( $int<32>) iNsTr_11) <   ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  ) )
+    iNsTr_18 := (( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  - iNsTr_16)
+    iNsTr_19 := ( $mux iNsTr_17 iNsTr_18 iNsTr_16)
+    // compare instruction
+    iNsTr_20 := ( ($bitcast ( $int<64>) iNsTr_19) <   ($bitcast ( $int<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  ) )
+    // compare instruction
+    iNsTr_21 := (iNsTr_19 < ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 )  )
+    $if iNsTr_21 $then  $place [bb_0_divideSignedx_xexit] $else $place [bb_0_bbx_xnph6x_xix_xix_xpreheader] $endif 
+    //begin: basic-block bbx_xnph6x_xix_xix_xpreheader
+    $merge bb_0_bbx_xnph6x_xix_xix_xpreheader
+    $endmerge
+    $place [bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi]
+    //begin: basic-block bbx_xnph6x_xix_xi
+    $merge bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi
+    $phi xx_x05x_xix_xi :=  ( $cast ($uint<64>) iNsTr_41) $on xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi ( $cast ($uint<64>) iNsTr_19) $on bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi 
+    $phi quotientx_x04x_xix_xi :=  ( $cast ($uint<64>) iNsTr_40) $on xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bbx_xnph6x_xix_xix_xpreheader_bbx_xnph6x_xix_xi 
+    $endmerge
+    iNsTr_36 := (xx_x05x_xix_xi >> ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_37 := (iNsTr_36 > ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 )  )
+    $if iNsTr_37 $then  $place [bbx_xnph6x_xix_xi_bbx_xnphx_xix_xix_xpreheader] $else $place [bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi] $endif 
+    //begin: basic-block bbx_xnphx_xix_xix_xpreheader
+    $merge bbx_xnph6x_xix_xi_bbx_xnphx_xix_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi]
+    //begin: basic-block bbx_xnphx_xix_xi
+    $merge bbx_xnphx_xix_xi_bbx_xnphx_xix_xi bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi
+    $phi shifted_divisorx_x02x_xix_xi :=  ( $cast ($uint<64>) iNsTr_44) $on bbx_xnphx_xix_xi_bbx_xnphx_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 ) ) $on bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi 
+    $phi curr_quotientx_x01x_xix_xi :=  ( $cast ($uint<64>) iNsTr_45) $on bbx_xnphx_xix_xi_bbx_xnphx_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi 
+    $endmerge
+    iNsTr_44 := (shifted_divisorx_x02x_xix_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    iNsTr_45 := (curr_quotientx_x01x_xix_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_46 := (iNsTr_44 < iNsTr_36 )
+    $if iNsTr_46 $then  $place [bbx_xnphx_xix_xi_bbx_xnphx_xix_xi] $else $place [bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit] $endif 
+    //begin: basic-block xx_x_crit_edgex_xix_xix_xloopexit
+    $merge bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit
+    $phi xx_xlcssa1 :=  ( $cast ($uint<64>) iNsTr_45) $on bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit 
+    $phi xx_xlcssa :=  ( $cast ($uint<64>) iNsTr_44) $on bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit 
+    $endmerge
+    $place [xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi]
+    //begin: basic-block xx_x_crit_edgex_xix_xi
+    $merge bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi
+    $phi shifted_divisorx_x0x_xlcssax_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 ) ) $on bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi ( $cast ($uint<64>) xx_xlcssa) $on xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi 
+    $phi curr_quotientx_x0x_xlcssax_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi ( $cast ($uint<64>) xx_xlcssa1) $on xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi 
+    $endmerge
+    iNsTr_40 := (curr_quotientx_x0x_xlcssax_xix_xi + quotientx_x04x_xix_xi)
+    iNsTr_41 := (xx_x05x_xix_xi - shifted_divisorx_x0x_xlcssax_xix_xi)
+    // compare instruction
+    iNsTr_42 := (iNsTr_41 < ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000011001 )  )
+    $if iNsTr_42 $then  $place [xx_x_crit_edgex_xix_xi_divideSignedx_xexitx_xloopexit] $else $place [xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi] $endif 
+    //begin: basic-block divideSignedx_xexitx_xloopexit
+    $merge xx_x_crit_edgex_xix_xi_divideSignedx_xexitx_xloopexit
+    $phi xx_xlcssa2 :=  ( $cast ($uint<64>) iNsTr_40) $on xx_x_crit_edgex_xix_xi_divideSignedx_xexitx_xloopexit 
+    $endmerge
+    $place [divideSignedx_xexitx_xloopexit_divideSignedx_xexit]
+    //begin: basic-block divideSignedx_xexit
+    $merge bb_0_divideSignedx_xexit divideSignedx_xexitx_xloopexit_divideSignedx_xexit
+    $phi quotientx_x1x_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bb_0_divideSignedx_xexit ( $cast ($uint<64>) xx_xlcssa2) $on divideSignedx_xexitx_xloopexit_divideSignedx_xexit 
+    $endmerge
+    iNsTr_23 := (( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 )  - quotientx_x1x_xix_xi)
+    iNsTr_24 := ( $mux iNsTr_20 iNsTr_23 quotientx_x1x_xix_xi)
+    iNsTr_25 := (iNsTr_15 - iNsTr_24)
+    iNsTr_26 := ($cast ($uint<32>) iNsTr_25)
+    ->(iNsTr_8) := iNsTr_1
+    iNsTr_28 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_29 := (iNsTr_28 == ( $bitcast ($uint<32> ) _b00000000000000000000000000011001 )  )
+    iNsTr_30 := ( $mux iNsTr_29 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_28)
+    HPbuff_ptr := iNsTr_30
+    HPout_pipe := iNsTr_26
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [deriv] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_1 := HPout_pipe
+    // load 
+    iNsTr_2 := DERIVbuff_ptr
+    iNsTr_3 := @(DERIVbuff[iNsTr_2])
+    // load 
+    iNsTr_4 := ->(iNsTr_3) 
+    iNsTr_5 := (iNsTr_1 - iNsTr_4)
+    // compare instruction
+    ispos := ( ($bitcast ( $int<32>) iNsTr_5) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 )  ) )
+    neg := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - iNsTr_5)
+    iNsTr_6 := ( $mux ispos iNsTr_5 neg)
+    ->(iNsTr_3) := iNsTr_1
+    iNsTr_8 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_9 := (iNsTr_8 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    iNsTr_10 := ( $mux iNsTr_9 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_8)
+    DERIVbuff_ptr := iNsTr_10
+    DERIVout_pipe := iNsTr_6
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [mvWin] 
+$in ()
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    iNsTr_1 := DERIVout_pipe
+    // load 
+    iNsTr_2 := WINbuff_ptr
+    // load 
+    iNsTr_3 := WINsum
+    iNsTr_4 := @(WINbuff[iNsTr_2])
+    // load 
+    iNsTr_5 := ->(iNsTr_4) 
+    iNsTr_6 := (iNsTr_3 + iNsTr_1)
+    iNsTr_7 := (iNsTr_6 - iNsTr_5)
+    WINsum := iNsTr_7
+    // compare instruction
+    iNsTr_9 := ( ($bitcast ( $int<32>) iNsTr_7) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000001111101000000000000 )  ) )
+    $if iNsTr_9 $then  $place [bb_0_divideUnsignedx_xexit] $else $place [bb_0_bb_1] $endif 
+    //begin: basic-block bb_1
+    $merge bb_0_bb_1
+    $endmerge
+    // compare instruction
+    iNsTr_19 := (iNsTr_7 < ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 )  )
+    $if iNsTr_19 $then  $place [bb_1_divideUnsignedx_xexit] $else $place [bb_1_bbx_xnph6x_xix_xpreheader] $endif 
+    //begin: basic-block bbx_xnph6x_xix_xpreheader
+    $merge bb_1_bbx_xnph6x_xix_xpreheader
+    $endmerge
+    iNsTr_21 :=  ($bitcast ($uint<64>) ( $cast ($int< 64 > ) iNsTr_7) )
+    $place [bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi]
+    //begin: basic-block bbx_xnph6x_xi
+    $merge bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi xx_x_crit_edgex_xi_bbx_xnph6x_xi
+    $phi xx_x05x_xi :=  ( $cast ($uint<64>) iNsTr_28) $on xx_x_crit_edgex_xi_bbx_xnph6x_xi ( $cast ($uint<64>) iNsTr_21) $on bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi 
+    $phi quotientx_x04x_xi :=  ( $cast ($uint<64>) iNsTr_27) $on xx_x_crit_edgex_xi_bbx_xnph6x_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bbx_xnph6x_xix_xpreheader_bbx_xnph6x_xi 
+    $endmerge
+    iNsTr_23 := (xx_x05x_xi >> ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_24 := (iNsTr_23 > ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 )  )
+    $if iNsTr_24 $then  $place [bbx_xnph6x_xi_bbx_xnphx_xix_xpreheader] $else $place [bbx_xnph6x_xi_xx_x_crit_edgex_xi] $endif 
+    //begin: basic-block bbx_xnphx_xix_xpreheader
+    $merge bbx_xnph6x_xi_bbx_xnphx_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xpreheader_bbx_xnphx_xi]
+    //begin: basic-block bbx_xnphx_xi
+    $merge bbx_xnphx_xi_bbx_xnphx_xi bbx_xnphx_xix_xpreheader_bbx_xnphx_xi
+    $phi shifted_divisorx_x02x_xi :=  ( $cast ($uint<64>) iNsTr_31) $on bbx_xnphx_xi_bbx_xnphx_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 ) ) $on bbx_xnphx_xix_xpreheader_bbx_xnphx_xi 
+    $phi curr_quotientx_x01x_xi :=  ( $cast ($uint<64>) iNsTr_32) $on bbx_xnphx_xi_bbx_xnphx_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnphx_xix_xpreheader_bbx_xnphx_xi 
+    $endmerge
+    iNsTr_31 := (shifted_divisorx_x02x_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    iNsTr_32 := (curr_quotientx_x01x_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_33 := (iNsTr_31 < iNsTr_23 )
+    $if iNsTr_33 $then  $place [bbx_xnphx_xi_bbx_xnphx_xi] $else $place [bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit] $endif 
+    //begin: basic-block xx_x_crit_edgex_xix_xloopexit
+    $merge bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit
+    $phi xx_xlcssa1 :=  ( $cast ($uint<64>) iNsTr_32) $on bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit 
+    $phi xx_xlcssa :=  ( $cast ($uint<64>) iNsTr_31) $on bbx_xnphx_xi_xx_x_crit_edgex_xix_xloopexit 
+    $endmerge
+    $place [xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi]
+    //begin: basic-block xx_x_crit_edgex_xi
+    $merge bbx_xnph6x_xi_xx_x_crit_edgex_xi xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi
+    $phi shifted_divisorx_x0x_xlcssax_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 ) ) $on bbx_xnph6x_xi_xx_x_crit_edgex_xi ( $cast ($uint<64>) xx_xlcssa) $on xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi 
+    $phi curr_quotientx_x0x_xlcssax_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnph6x_xi_xx_x_crit_edgex_xi ( $cast ($uint<64>) xx_xlcssa1) $on xx_x_crit_edgex_xix_xloopexit_xx_x_crit_edgex_xi 
+    $endmerge
+    iNsTr_27 := (curr_quotientx_x0x_xlcssax_xi + quotientx_x04x_xi)
+    iNsTr_28 := (xx_x05x_xi - shifted_divisorx_x0x_xlcssax_xi)
+    // compare instruction
+    iNsTr_29 := (iNsTr_28 < ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 )  )
+    $if iNsTr_29 $then  $place [xx_x_crit_edgex_xi_divideUnsignedx_xexitx_xloopexit] $else $place [xx_x_crit_edgex_xi_bbx_xnph6x_xi] $endif 
+    //begin: basic-block divideUnsignedx_xexitx_xloopexit
+    $merge xx_x_crit_edgex_xi_divideUnsignedx_xexitx_xloopexit
+    $phi xx_xlcssa2 :=  ( $cast ($uint<64>) iNsTr_27) $on xx_x_crit_edgex_xi_divideUnsignedx_xexitx_xloopexit 
+    $endmerge
+    extractx_xt := ($cast ($uint<32>) xx_xlcssa2)
+    $place [divideUnsignedx_xexitx_xloopexit_divideUnsignedx_xexit]
+    //begin: basic-block divideUnsignedx_xexit
+    $merge bb_0_divideUnsignedx_xexit bb_1_divideUnsignedx_xexit divideUnsignedx_xexitx_xloopexit_divideUnsignedx_xexit
+    $phi outputx_x0 :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000111110100000000 ) ) $on bb_0_divideUnsignedx_xexit ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_1_divideUnsignedx_xexit ( $cast ($uint<32>) extractx_xt) $on divideUnsignedx_xexitx_xloopexit_divideUnsignedx_xexit 
+    $endmerge
+    ->(iNsTr_4) := iNsTr_1
+    iNsTr_12 := (iNsTr_2 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_13 := (iNsTr_12 == ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 )  )
+    iNsTr_14 := ( $mux iNsTr_13 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_12)
+    WINbuff_ptr := iNsTr_14
+    filt_output_pipe := outputx_x0
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
+$module [QRSFilt] 
+$in (initialize : $uint<8> )
+$out ()
+$is 
+{
+  $branchblock [body] 
+  {
+    //begin: basic-block bb_0
+    // compare instruction
+    iNsTr_0 := (initialize == ( $bitcast ($uint<8> ) _b00000000 )  )
+    $if iNsTr_0 $then  $place [bb_0_bb_8] $else $place [bb_0_xx_xpreheaderx_xpreheader] $endif 
+    //begin: basic-block xx_xpreheaderx_xpreheader
+    $merge bb_0_xx_xpreheaderx_xpreheader
+    $endmerge
+    $place [xx_xpreheaderx_xpreheader_xx_xpreheader]
+    //begin: basic-block xx_xpreheader
+    //   this is a do-while loop.
+    $merge xx_xpreheaderx_xpreheader_xx_xpreheader
+    $phi indexx_x05x_xi_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on xx_xpreheaderx_xpreheader_xx_xpreheader 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x05x_xi :=  ( $cast ($uint<32>) iNsTr_42) $on $loopback indexx_x05x_xi_at_entry $on $entry
+    $endmerge
+    scevgep10x_xi := @(LPbuff[indexx_x05x_xi])
+    ->(scevgep10x_xi) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_42 := (indexx_x05x_xi + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond2 := (iNsTr_42 == ( $bitcast ($uint<32> ) _b00000000000000000000000000001010 )  )
+    $while (~exitcond2) 
+    $place [xx_xpreheader_bbx_xnph4x_xix_xpreheader] //begin: basic-block bbx_xnph4x_xix_xpreheader
+    $merge xx_xpreheader_bbx_xnph4x_xix_xpreheader
+    $endmerge
+    $place [bbx_xnph4x_xix_xpreheader_bbx_xnph4x_xi]
+    //begin: basic-block bbx_xnph4x_xi
+    //   this is a do-while loop.
+    $merge bbx_xnph4x_xix_xpreheader_bbx_xnph4x_xi
+    $phi indexx_x13x_xi_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnph4x_xix_xpreheader_bbx_xnph4x_xi 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x13x_xi :=  ( $cast ($uint<32>) iNsTr_53) $on $loopback indexx_x13x_xi_at_entry $on $entry
+    $endmerge
+    scevgep8x_xi := @(HPbuff[indexx_x13x_xi])
+    ->(scevgep8x_xi) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_53 := (indexx_x13x_xi + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond := (iNsTr_53 == ( $bitcast ($uint<32> ) _b00000000000000000000000000011001 )  )
+    $while (~exitcond) 
+    $place [bbx_xnph4x_xi_bbx_xnphx_xix_xpreheader] //begin: basic-block bbx_xnphx_xix_xpreheader
+    $merge bbx_xnph4x_xi_bbx_xnphx_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xpreheader_bbx_xnphx_xi]
+    //begin: basic-block bbx_xnphx_xi
+    //   this is a do-while loop.
+    $merge bbx_xnphx_xix_xpreheader_bbx_xnphx_xi
+    $phi indexx_x21x_xi_at_entry :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bbx_xnphx_xix_xpreheader_bbx_xnphx_xi 
+    $endmerge
+    $dopipeline $depth 7 $buffering 2 
+    $merge $entry $loopback
+    $phi indexx_x21x_xi :=  ( $cast ($uint<32>) iNsTr_68) $on $loopback indexx_x21x_xi_at_entry $on $entry
+    $endmerge
+    scevgepx_xi := @(DERIVbuff[indexx_x21x_xi])
+    ->(scevgepx_xi) := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    iNsTr_68 := (indexx_x21x_xi + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    exitcond1 := (iNsTr_68 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    $while (~exitcond1) 
+    $place [bbx_xnphx_xi_initFiltx_xexit] //begin: basic-block initFiltx_xexit
+    $merge bbx_xnphx_xi_initFiltx_xexit
+    $endmerge
+    LPy1 := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    LPy2 := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    HPy1 := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    WINsum := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    LPbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    HPbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    DERIVbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    WINbuff_ptr := ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) 
+    $place [initFiltx_xexit_UnifiedReturnBlock]
+    //begin: basic-block bb_8
+    $merge bb_0_bb_8
+    $endmerge
+    $call lpFilt ()  ()
+    $call hpFilt ()  ()
+    iNsTr_5 := HPout_pipe
+    // load 
+    iNsTr_6 := DERIVbuff_ptr
+    iNsTr_7 := @(DERIVbuff[iNsTr_6])
+    // load 
+    iNsTr_8 := ->(iNsTr_7) 
+    iNsTr_9 := (iNsTr_5 - iNsTr_8)
+    // compare instruction
+    isposx_xi := ( ($bitcast ( $int<32>) iNsTr_9) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b11111111111111111111111111111111 )  ) )
+    negx_xi := (( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  - iNsTr_9)
+    iNsTr_10 := ( $mux isposx_xi iNsTr_9 negx_xi)
+    ->(iNsTr_7) := iNsTr_5
+    iNsTr_12 := (iNsTr_6 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_13 := (iNsTr_12 == ( $bitcast ($uint<32> ) _b00000000000000000000000000000010 )  )
+    iNsTr_14 := ( $mux iNsTr_13 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_12)
+    DERIVbuff_ptr := iNsTr_14
+    DERIVout_pipe := iNsTr_10
+    iNsTr_19 := DERIVout_pipe
+    // load 
+    iNsTr_20 := WINbuff_ptr
+    // load 
+    iNsTr_21 := WINsum
+    iNsTr_22 := @(WINbuff[iNsTr_20])
+    // load 
+    iNsTr_23 := ->(iNsTr_22) 
+    iNsTr_24 := (iNsTr_21 + iNsTr_19)
+    iNsTr_25 := (iNsTr_24 - iNsTr_23)
+    WINsum := iNsTr_25
+    // compare instruction
+    iNsTr_27 := ( ($bitcast ( $int<32>) iNsTr_25) >  ($bitcast ( $int<32>) ( $bitcast ($uint<32> ) _b00000000000001111101000000000000 )  ) )
+    $if iNsTr_27 $then  $place [bb_8_mvWinx_xexit] $else $place [bb_8_bb_9] $endif 
+    //begin: basic-block bb_9
+    $merge bb_8_bb_9
+    $endmerge
+    // compare instruction
+    iNsTr_38 := (iNsTr_25 < ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 )  )
+    $if iNsTr_38 $then  $place [bb_9_mvWinx_xexit] $else $place [bb_9_bbx_xnph6x_xix_xpreheaderx_xi] $endif 
+    //begin: basic-block bbx_xnph6x_xix_xpreheaderx_xi
+    $merge bb_9_bbx_xnph6x_xix_xpreheaderx_xi
+    $endmerge
+    iNsTr_45 :=  ($bitcast ($uint<64>) ( $cast ($int< 64 > ) iNsTr_25) )
+    $place [bbx_xnph6x_xix_xpreheaderx_xi_bbx_xnph6x_xix_xi]
+    //begin: basic-block bbx_xnph6x_xix_xi
+    $merge bbx_xnph6x_xix_xpreheaderx_xi_bbx_xnph6x_xix_xi xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi
+    $phi xx_x05x_xix_xi :=  ( $cast ($uint<64>) iNsTr_57) $on xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi ( $cast ($uint<64>) iNsTr_45) $on bbx_xnph6x_xix_xpreheaderx_xi_bbx_xnph6x_xix_xi 
+    $phi quotientx_x04x_xix_xi :=  ( $cast ($uint<64>) iNsTr_56) $on xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000000 ) ) $on bbx_xnph6x_xix_xpreheaderx_xi_bbx_xnph6x_xix_xi 
+    $endmerge
+    iNsTr_48 := (xx_x05x_xix_xi >> ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_49 := (iNsTr_48 > ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 )  )
+    $if iNsTr_49 $then  $place [bbx_xnph6x_xix_xi_bbx_xnphx_xix_xix_xpreheader] $else $place [bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi] $endif 
+    //begin: basic-block bbx_xnphx_xix_xix_xpreheader
+    $merge bbx_xnph6x_xix_xi_bbx_xnphx_xix_xix_xpreheader
+    $endmerge
+    $place [bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi]
+    //begin: basic-block bbx_xnphx_xix_xi
+    $merge bbx_xnphx_xix_xi_bbx_xnphx_xix_xi bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi
+    $phi shifted_divisorx_x02x_xix_xi :=  ( $cast ($uint<64>) iNsTr_61) $on bbx_xnphx_xix_xi_bbx_xnphx_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 ) ) $on bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi 
+    $phi curr_quotientx_x01x_xix_xi :=  ( $cast ($uint<64>) iNsTr_62) $on bbx_xnphx_xix_xi_bbx_xnphx_xix_xi ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnphx_xix_xix_xpreheader_bbx_xnphx_xix_xi 
+    $endmerge
+    iNsTr_61 := (shifted_divisorx_x02x_xix_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    iNsTr_62 := (curr_quotientx_x01x_xix_xi << ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_63 := (iNsTr_61 < iNsTr_48 )
+    $if iNsTr_63 $then  $place [bbx_xnphx_xix_xi_bbx_xnphx_xix_xi] $else $place [bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit] $endif 
+    //begin: basic-block xx_x_crit_edgex_xix_xix_xloopexit
+    $merge bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit
+    $phi xx_xlcssa3 :=  ( $cast ($uint<64>) iNsTr_62) $on bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit 
+    $phi xx_xlcssa :=  ( $cast ($uint<64>) iNsTr_61) $on bbx_xnphx_xix_xi_xx_x_crit_edgex_xix_xix_xloopexit 
+    $endmerge
+    $place [xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi]
+    //begin: basic-block xx_x_crit_edgex_xix_xi
+    $merge bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi
+    $phi shifted_divisorx_x0x_xlcssax_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 ) ) $on bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi ( $cast ($uint<64>) xx_xlcssa) $on xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi 
+    $phi curr_quotientx_x0x_xlcssax_xix_xi :=  ( $cast ($uint<64>) ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000000001 ) ) $on bbx_xnph6x_xix_xi_xx_x_crit_edgex_xix_xi ( $cast ($uint<64>) xx_xlcssa3) $on xx_x_crit_edgex_xix_xix_xloopexit_xx_x_crit_edgex_xix_xi 
+    $endmerge
+    iNsTr_56 := (curr_quotientx_x0x_xlcssax_xix_xi + quotientx_x04x_xix_xi)
+    iNsTr_57 := (xx_x05x_xix_xi - shifted_divisorx_x0x_xlcssax_xix_xi)
+    // compare instruction
+    iNsTr_58 := (iNsTr_57 < ( $bitcast ($uint<64> ) _b0000000000000000000000000000000000000000000000000000000000010000 )  )
+    $if iNsTr_58 $then  $place [xx_x_crit_edgex_xix_xi_divideUnsignedx_xexitx_xloopexitx_xi] $else $place [xx_x_crit_edgex_xix_xi_bbx_xnph6x_xix_xi] $endif 
+    //begin: basic-block divideUnsignedx_xexitx_xloopexitx_xi
+    $merge xx_x_crit_edgex_xix_xi_divideUnsignedx_xexitx_xloopexitx_xi
+    $phi xx_xlcssa4 :=  ( $cast ($uint<64>) iNsTr_56) $on xx_x_crit_edgex_xix_xi_divideUnsignedx_xexitx_xloopexitx_xi 
+    $endmerge
+    extractx_xtx_xi := ($cast ($uint<32>) xx_xlcssa4)
+    $place [divideUnsignedx_xexitx_xloopexitx_xi_mvWinx_xexit]
+    //begin: basic-block mvWinx_xexit
+    $merge bb_8_mvWinx_xexit bb_9_mvWinx_xexit divideUnsignedx_xexitx_xloopexitx_xi_mvWinx_xexit
+    $phi outputx_x0x_xi :=  ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000111110100000000 ) ) $on bb_8_mvWinx_xexit ( $cast ($uint<32>) ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 ) ) $on bb_9_mvWinx_xexit ( $cast ($uint<32>) extractx_xtx_xi) $on divideUnsignedx_xexitx_xloopexitx_xi_mvWinx_xexit 
+    $endmerge
+    ->(iNsTr_22) := iNsTr_19
+    iNsTr_31 := (iNsTr_20 + ( $bitcast ($uint<32> ) _b00000000000000000000000000000001 ) )
+    // compare instruction
+    iNsTr_32 := (iNsTr_31 == ( $bitcast ($uint<32> ) _b00000000000000000000000000010000 )  )
+    iNsTr_33 := ( $mux iNsTr_32 ( $bitcast ($uint<32> ) _b00000000000000000000000000000000 )  iNsTr_31)
+    WINbuff_ptr := iNsTr_33
+    filt_output_pipe := outputx_x0x_xi
+    $place [mvWinx_xexit_UnifiedReturnBlock]
+    //begin: basic-block UnifiedReturnBlock
+    $merge initFiltx_xexit_UnifiedReturnBlock mvWinx_xexit_UnifiedReturnBlock
+    $endmerge
+    $place [return__]
+    $merge return__ $endmerge
+  }
+}
