@@ -18,13 +18,9 @@
 double threshold = 0.3125;
 int DDbuff_ptr, DDCALCbuff_ptr;
 int QRSbuff_ptr, RRbuff_ptr, NOISEbuff_ptr;
-int qpk_count, maxDer, lastMax, count, sbPeak;
-int initBlank, initMax, preBlank_count, sb_count, rset_count;
-int det_thresh;
-int sbLoc;
+int maxDer;
 int maxPeak, timeSinceMaxPeak; //variables for peak function
 int lastDatum;
-uint8_t init8Done;
 
 // global memory spaces //
 int DDbuff[DDbuff_size];
@@ -45,14 +41,11 @@ void initDet()
 		__loop_pipelining_on__(7,2,0);
 		DDCALCbuff[index]=0;
 	} 
-	qpk_count = maxDer = lastMax = count = rset_count = sbPeak = det_thresh = 0;
-	initMax = preBlank_count = DDbuff_ptr = DDCALCbuff_ptr = 0;
+	maxDer = 0;
+	DDbuff_ptr = DDCALCbuff_ptr = 0;
 	QRSbuff_ptr = RRbuff_ptr = NOISEbuff_ptr = 7;
-	initBlank = 0;
-	sb_count = sbLoc = MS1500;
 	maxPeak = timeSinceMaxPeak = 0;
 	lastDatum = 0;
-	init8Done = 0;
 }
 
 
@@ -211,15 +204,22 @@ void qrsDet()
 {
 	initDet();
 	QRSFilt(1); //initiate filter buffers, pointers and variables also to reset state;
-	int aPeak, newPeak, tempPeak = 0;
+	int aPeak, newPeak, tempPeak, sbPeak;
+	int qpk_count, count, initBlank, preBlank_count, rset_count;
+	int initMax, lastMax, det_thresh;
+	int sb_count, sbLoc;
+	initMax = det_thresh = lastMax = 0;
+	aPeak = newPeak = tempPeak = sbPeak = 0;
+	qpk_count = count = initBlank = preBlank_count = rset_count = 0;
+	sb_count = sbLoc = MS1500;
 	int qmean, rrmean, nmean;
 	int RSETbuff[8];
 	int qrsVal, rrVal, noiseVal;
-	uint8_t init8Done_next, onesec_cond;
+	uint8_t init8Done_next, onesec_cond, init8Done;
+	init8Done = 0;
 	uint8_t prelim_cond0, prelim_cond1, prelim_cond2, prelim_cond3;
 	uint8_t peakDet_cond0, peakDet_cond1, peakDet_cond2;
 	uint8_t bls_cond, QRSdet_cond0, QRSdet_cond1, QRSdet_final, NOISEdet_cond0, sbUpdate_cond;
-	int QRSdelay = 0;	
 	while(1)
 	{
 		int QRSdelay = 0;
