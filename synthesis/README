@@ -1,0 +1,7 @@
+To synthesize using Xilinx ISE
+	- first source the xilinx setup script
+		eg. source /cad/Xilinx/14.3/ISE_DS/settings32.sh
+	- run xst -ifn xilinx_synth.scr
+
+
+Report can be viewed in file xilinx_synth.srp
