@@ -56,11 +56,10 @@ Moody, G.B., Mark, R.G.:
 \newblock Engineering in Medicine and Biology Magazine, IEEE \textbf{20}(3)
   (2001)  45--50
 
-\bibitem{j:jacobsen13}
+\bibitem{c:jacobsen13}
 Jacobsen, M., Kastner, R.:
 \newblock {RIFFA 2.0: A reusable integration framework for FPGA accelerators}.
-\newblock Field Programmable Logic and Applications, IEEE \textbf{23} (2013)
-  1--8
+\newblock Volume~23. (2013)  1--8
 
 \bibitem{c:GPU}
 Caffarena, G.:

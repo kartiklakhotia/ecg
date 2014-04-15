@@ -32,7 +32,10 @@
 \usepackage{epsf}
 \urldef{\mailsa}\path|kartik@ee.iitb.ac.in|
 \urldef{\mailsb}\path|gabriel.caffarena@ceu.es|
-\urldef{\mailsc}\path|madhav@ee.iitb.ac.in|
+\urldef{\mailsc}\path|alberto.gilf@gmail.com|
+\urldef{\mailsd}\path|david.gonzalez.marquez@usc.es|
+\urldef{\mailse}\path|abraham.otero@gmail.com|
+\urldef{\mailsf}\path|madhav@ee.iitb.ac.in|
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
 \noindent\keywordname\enspace\ignorespaces#1}
 
@@ -58,6 +61,9 @@
 %
 \author{Kartik Lakhotia\inst{1} \and
  Gabriel Caffarena\inst{2} \and 
+ Alberto Gil\inst{3} \and
+ David G. Marquez \inst{3} \and 
+ Abraham Otero\inst{2} \and
  Madhav P. Desai \inst{1}}
 
 % if the list of authors exceeds the space for a headline,
@@ -79,6 +85,9 @@ Urb. Monteprincipe, 28668, Madrid, Spain\\
 %\mailsd\\
 \url{http://biolab.uspceu.com}\\
 %\mailsc\\
+\and
+Centro Singular de Investigacion en Tecnoloxías da Informacion (CITIUS),\\
+University of Santiago de Compostela, 15782 Santiago de Compostela, Spain
 }
 
 %
@@ -185,51 +194,44 @@ it is possible to use only these figures to perform morphological classification
 
 \section{Beginning the FPGA implementation: the algorithm}
 
-The algorithm used in the FPGA implementation is as follows: the 
-implementation first receives the values of the Hermite polynomial basis
-functions, and  stores them in distinct arrays in the hardware.  Distinct
-basic functions are needed for each $n$ and $\sigma$.  The current implementation
-uses six values of $n$ (from $0$ to $5$) and ten values of $\sigma$.
+The algorithm used in the FPGA implementation is illustrated in 
+Figure \ref{fig:FpgaAlgo}.
+\begin{figure}
+\begin{centering}
+\begin{verbatim}
+void HermiteBestFit()
+{  
+    receiveHermiteBasisFunctions();
 
-After this initialization step, the hardware listens for heart beats. When
+    while(1)
+    {
+        receiveHeartBeat();
+        innerProducts();
+        findBestFit();
+        reportResults();
+    }
+}
+\end{verbatim}
+\end{centering}
+\caption{High-level view of algorithm mapped to the FPGA}
+\label{fig:FpgaAlgo}
+\end{figure}
+
+The implementation first receives the values of the Hermite polynomial basis
+functions, and  stores them in distinct arrays in the hardware.  In the
+current implementation, we use six
+arrays to store the basis functions for order $n=0$ to $n=5$.  For each
+$n$, basis functions for ten different values of $\sigma$ are stored in the corresponding
+array.  
+
+After this initialization step, the hardware executes a continuous loop.  
+In the loop body, the hardware first listens for heart beats. When
 a complete heart-beat (144 samples) is received, the inner products of the
 heart-beat with all the basic functions is calculated in a double loop.  
 After all inner products are calculated, the inner product coefficients
 are used to compute the best fit among the different values of $\sigma$.
 The best-fit $\sigma$ index and the fitted values are then written
 out of the hardware.
-
-\begin{verbatim}
-// Hardware engine algorithm (Daemon)
-void HermiteBestFit()
-{  
-    // stored in 6 distinct arrays
-    // hF0,hF1,.. hF5.  hFn stores
-    // all the basic functions for 
-    // order n (for different values
-    // of sigma).
-    receiveHermiteBasisFunctions();
-
-    while(1)
-    {
-        // received in 144 entry
-        // double precision vector.
-        receiveHeartBeat();
-        // compute inner products
-        // with all basis functions
-        // (across n, sigma).
-        innerProducts();
-        // 
-        // best fit sigma
-        //
-        findBestFit();
-        //
-        // report results
-        //
-        reportResults();
-    }
-}
-\end{verbatim}
 
 The algorithm as described above is purely sequential
 and does not contain any explicit parallelization.  The AHIR compiler
@@ -395,8 +397,6 @@ the Xilinx ISE 14.3 toolset.
 %interface bridges RIFFA and AHIR generated FIFOs.
 %By incorporating functions provided by RIFFA driver, same testbench used for 
 %Software verification can be used for verifying the hardware.
-%=======
-%>>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
 %  Describe the 
 %    - overall system.
 %    - card
@@ -442,19 +442,12 @@ Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabula
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%<<<<<<< HEAD
-
 \begin{verbatim}
 Minimum latency achieved with Four-way-unrolling = 0.39 ms
 \end{verbatim}
 It is clear that FPGA can be used for real-time processing since the 
 computation time required to process single beat is much lesser than
 average beat period (~1ms). The observed power dissipation is 3.1W.  
-=======
-The observed power dissipation in the core of the 
-FPGA (used for actual processing) is 3W (for the 4-way unrolled case).  The
-power dissipation was measured using the system-monitor in the Virtex-6 FPGA.
-%>>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
 Hardware utilization in 4-way unrolled system is less than $55\%$ 
 of the FPGA resource.
 
@@ -471,8 +464,9 @@ These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz
 and NVIDIA TESLA C2050 (1.15GHz). Computation frequency on Virtex-6 was kept at 100MHz which is
 less than one-tenth of that on CPUs and GPUs. 
 
-Further, the average power consumption on the FPGA is 3W as compared to >100W on Core i7 processors and
->200W on GPU. Thus, the FPGA is an attractive option for low latency ECG classification
+Further, the average power consumption on the FPGA is 3W as compared to $100W+$ on Core i7 processors and
+$200W+$ on a GPU.  %% which GPU?
+Thus, the FPGA is an attractive option for low latency ECG classification
 applications in portable health monitoring devices.
 
 \section{Conclusions}\label{s:conclusions}

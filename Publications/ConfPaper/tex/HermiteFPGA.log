@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.1.8)  7 MAR 2014 17:39
-=======
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2012.11.26)  10 MAR 2014 17:14
->>>>>>> 419b336a2338d8edaabfc0fc114f0f0d9503cb05
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.11.26)  15 APR 2014 15:16
 entering extended mode
  %&-line parsing enabled.
 **HermiteFPGA.tex
@@ -161,15 +157,16 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/usr/share/texmf/tex/latex/config/graphics.cfg
 File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: dvips.def on input line 90.
+Package graphics Info: Driver file: pdftex.def on input line 90.
 
-(/usr/share/texmf/tex/latex/graphics/dvips.def
-File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+(/usr/share/texmf/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
+\Gread@gobject=\count115
 ))
 \Gin@req@height=\dimen124
 \Gin@req@width=\dimen125
 ) (./algorithm.sty
-\c@algorithm=\count115
+\c@algorithm=\count116
 \Blockindent=\skip45
 \algorithmindent=\skip46
 )
@@ -182,20 +179,20 @@ Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 (/usr/share/texmf/tex/latex/tools/calc.sty
 Package: calc 2005/08/06 v4.2 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count116
-\calc@Bcount=\count117
+\calc@Acount=\count117
+\calc@Bcount=\count118
 \calc@Adimen=\dimen126
 \calc@Bdimen=\dimen127
 \calc@Askip=\skip47
 \calc@Bskip=\skip48
 LaTeX Info: Redefining \setlength on input line 75.
 LaTeX Info: Redefining \addtolength on input line 76.
-\calc@Ccount=\count118
+\calc@Ccount=\count119
 \calc@Cskip=\skip49
 )
-\c@ALC@line=\count119
-\c@ALC@rem=\count120
-\c@ALC@depth=\count121
+\c@ALC@line=\count120
+\c@ALC@rem=\count121
+\c@ALC@depth=\count122
 \ALC@tlm=\skip50
 \algorithmicindent=\skip51
 )
@@ -215,7 +212,7 @@ Package: array 2005/08/23 v2.4b Tabular extension package (FMi)
 \TX@old@col=\dimen132
 \TX@target=\dimen133
 \TX@delta=\dimen134
-\TX@cols=\count122
+\TX@cols=\count123
 \TX@ftn=\toks21
 )
 (/usr/share/texmf/tex/latex/multirow/multirow.sty
@@ -223,9 +220,12 @@ Package: array 2005/08/23 v2.4b Tabular extension package (FMi)
 )
 (/usr/share/texmf/tex/latex/rotating/rotating.sty
 Package: rotating 1997/09/26, v2.13 Rotation package
-\c@r@tfl@t=\count123
+\c@r@tfl@t=\count124
 \rot@float@box=\box54
 )
+(/usr/share/texmf/tex/latex/comment/comment.sty
+\CommentStream=\write3
+ Excluding comment 'comment')
 (/usr/share/texmf/tex/latex/base/inputenc.sty
 Package: inputenc 2006/05/05 v1.1b Input encoding file
 \inpenc@prehook=\toks22
@@ -237,50 +237,73 @@ File: latin1.def 2006/05/05 v1.1b Input encoding file
 (/usr/share/texmf/tex/latex/ltxmisc/url.sty
 \Urlmuskip=\muskip10
 Package: url 2005/06/27  ver 3.2  Verb mode for urls, etc.
+)
+(/usr/share/texmf/tex/generic/epsf/epsf.sty
+This is `epsf.tex' v2.7.3 <23 July 2005>
+\epsffilein=\read1
+\epsfframemargin=\dimen136
+\epsfframethickness=\dimen137
+\epsfrsize=\dimen138
+\epsftmp=\dimen139
+\epsftsize=\dimen140
+\epsfxsize=\dimen141
+\epsfysize=\dimen142
+\pspoints=\dimen143
 ) (./HermiteFPGA.aux)
 \openout1 = `HermiteFPGA.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Try loading font information for U+msa on input line 90.
-
-(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
+LaTeX Font Info:    ... okay on input line 45.
+LaTeX Font Info:    Try loading font information for U+msa on input line 101.
+ (/usr/share/texmf/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 90.
+LaTeX Font Info:    Try loading font information for U+msb on input line 101.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 ) [1
 
 
-] [2] [3] [4] [5]
+{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5]
+<../figures/stateMachine.pdf, id=34, 391.18146pt x 292.292pt>
+File: ../figures/stateMachine.pdf Graphic file (type pdf)
 
-LaTeX Warning: Reference `fig:HWAlgorithm' on page 6 undefined on input line 36
-4.
-
-[6] [7] (./HermiteFPGA.bbl) [8] (./HermiteFPGA.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+<use ../figures/stateMachine.pdf> [6] [7 <../figures/stateMachine.pdf>]
+(./HermiteFPGA.bbl [8]) [9] (./HermiteFPGA.aux) ) 
 Here is how much of TeX's memory you used:
- 1777 strings out of 256217
- 20566 string characters out of 1917094
- 76388 words of memory out of 1500000
- 5034 multiletter control sequences out of 10000+200000
+ 1945 strings out of 256216
+ 22829 string characters out of 1917071
+ 79666 words of memory out of 1500000
+ 5189 multiletter control sequences out of 10000+200000
  13060 words of font info for 50 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 29i,14n,24p,632b,296s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 29i,14n,24p,632b,305s stack positions out of 5000i,500n,6000p,200000b,15000s
+</usr/share/texmf/fonts/type1/
+bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx12.pfb></usr
+/share/texmf/fonts/type1/bluesky/cm/cmbx9.pfb></usr/share/texmf/fonts/type1/blu
+esky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/sh
+are/texmf/fonts/type1/bluesky/cm/cmmi7.pfb></usr/share/texmf/fonts/type1/bluesk
+y/cm/cmmi9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmib10.pfb></usr/share
+/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/c
+m/cmr5.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr6.pfb></usr/share/texmf/
+fonts/type1/bluesky/cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr9.p
+fb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/
+type1/bluesky/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb>
+</usr/share/texmf/fonts/type1/bluesky/cm/cmtt9.pfb>
+Output written on HermiteFPGA.pdf (9 pages, 144799 bytes).
+PDF statistics:
+ 113 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on HermiteFPGA.dvi (8 pages, 25248 bytes).
