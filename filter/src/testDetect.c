@@ -19,7 +19,7 @@ DEFINE_THREAD(qrsDet)
 
 int main(int argc, char* argv[])
 {
-	int QRSdelay;
+	long QRSdelay;
 	if (argc < 2)
 	{
 		fprintf(stderr, "Supply data record file\n");
@@ -38,22 +38,22 @@ int main(int argc, char* argv[])
 	PTHREAD_DECL(qrsDet);
 	PTHREAD_CREATE(qrsDet);
 #endif
-	write_uint32("det_input_pipe", 0);
-	QRSdelay = read_uint32("det_output_pipe");
-	int dataSample;
-	fscanf(frec, "%d", &dataSample);
+	write_uint64("det_input_pipe", 0);
+	QRSdelay = read_uint64("det_output_pipe");
+	long dataSample;
+	fscanf(frec, "%ld", &dataSample);
 	long count = 0;
 	while(!feof(frec)){
 		count++;
-		write_uint32("det_input_pipe", dataSample);
-		QRSdelay = read_uint32("det_output_pipe");
+		write_uint64("det_input_pipe", dataSample);
+		QRSdelay = read_uint64("det_output_pipe");
 		if (QRSdelay != 0)
 		{
-			fprintf(fout, "%d, ", QRSdelay);
+			fprintf(fout, "%ld, ", QRSdelay);
 			fprintf(fout, "%ld\n", count);
 		}
 //			fprintf(fout, "%ld\n", count);
-		fscanf(frec, "%d", &dataSample);
+		fscanf(frec, "%ld", &dataSample);
 	}
 	fclose(frec);
 	fclose(fout);

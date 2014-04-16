@@ -1,1 +1,1 @@
-int meanCalc(int *buffer);
+int meanCalc(int *buff);

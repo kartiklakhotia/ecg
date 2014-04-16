@@ -211,7 +211,8 @@ void qrsDet()
 	while(1)
 	{
 		int QRSdelay = 0;
-		int prefilt_datum = read_uint32("det_input_pipe");  //clubbed in the lpfilt() function of Filter part
+		int64_t data_in = read_uint64("det_input_pipe");  //clubbed in the lpfilt() function of Filter part
+		int prefilt_datum = data_in;
 		write_uint32("filt_input_pipe", prefilt_datum);	
 		QRSFilt(0);
 
@@ -338,7 +339,8 @@ void qrsDet()
 			initMax = (newPeak > initMax) ? newPeak : initMax;
 		}	
 
-		write_uint32("det_output_pipe", QRSdelay);	
+		int64_t data_out = QRSdelay;
+		write_uint64("det_output_pipe", data_out);	
 	}
 }
 
