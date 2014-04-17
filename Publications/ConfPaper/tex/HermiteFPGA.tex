@@ -261,9 +261,7 @@ are currently in progress.
 
 \subsection{The inner product loop} \label{sec:InnerProduct}
 
-
 \begin{figure}
-\label{fig:InnerProduct}
 \begin{centering}
 \begin{verbatim}
 void  innerProduct()
@@ -292,6 +290,7 @@ void  innerProduct()
 \end{verbatim}
 \end{centering}
 \caption{Inner-product loop}
+\label{fig:InnerProduct}
 \end{figure}
 
 The inner product loop is shown in Figure \ref{fig:InnerProduct}.
@@ -308,7 +307,6 @@ distinct memory spaces, thus increasing the memory access bandwidth in the hardw
 \subsection{The minimum-mean-square loop} \label{sec:MMSE}
 
 \begin{figure}
-\label{fig:MMSE}
 \begin{centering}
 \begin{verbatim}
 void computeMSE()
@@ -344,11 +342,12 @@ void computeMSE()
 \end{verbatim}
 \end{centering}
 \caption{MMSE calculation loop}
+\label{fig:MMSE}
 \end{figure}
 
 
 The MMSE calculation hardware
-uses the algorithm shown in Figure \ref{fig:MMSE}
+uses the algorithm shown in Figure \ref{fig:MMSE}.
 Note that the inner loop again has considerable parallelism.
 One pipelined double precision multiplier and one
 pipelined double precision adder are used to implement
