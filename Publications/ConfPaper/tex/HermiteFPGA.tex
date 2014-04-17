@@ -77,16 +77,17 @@
 \institute{Indian Institute of Technology (Bombay), \\
 Powai, Mumbai 400076, \\
 India\\
+\mailsa\\
+\mailsf\\
 \and 
 University CEU-San Pablo,\\
 Urb. Monteprincipe, 28668, Madrid, Spain\\
-%\mailsa\\
 \mailsb\\
-%\mailsd\\
-\url{http://biolab.uspceu.com}\\
-%\mailsc\\
+\mailsc\\
+\mailsd\\
+\mailse\\
 \and
-Centro Singular de Investigacion en Tecnoloxías da Informacion (CITIUS),\\
+Centro Singular de Investigacion en Tecnologias da Informacion (CITIUS),\\
 University of Santiago de Compostela, 15782 Santiago de Compostela, Spain
 }
 
@@ -104,12 +105,12 @@ University of Santiago de Compostela, 15782 Santiago de Compostela, Spain
 \begin{abstract}
 The characterization of ECG heartbeats is a computationally intensive problem, and
 both off-line and on-line (real-time) solutions to this problem are of great interest.
-In this paper, we consider the use of a field-programmable gate-array (FPGA) to solve
-a critical component of this problem. We describe an implementation of
-a best-fit Hermite approximation of a heartbeat using six Hermite polynomials.  
+In this paper, we consider the use of a dedicated hardware implementation
+(using a field-programmable gate-array (FPGA)) to solve a critical component of this problem. 
+We describe an implementation of real-time best-fit Hermite approximation of a heartbeat using six Hermite polynomials.  
 The implementation is generated using an algorithm-to-hardware compiler tool-chain
 and the resulting hardware is characterized using an off-the-shelf FPGA card.
-The single beat best-fit computation latency is under $0.5ms$ with a power dissipation of under 10 watts. 
+The single beat best-fit computation latency is under $0.5ms$ with a power dissipation of 3 watts.
 
 \keywords{Hermite approximation, ECG, QRS, Arrhythmia,  FPGA, Parallelization}
 \end{abstract}
@@ -117,8 +118,8 @@ The single beat best-fit computation latency is under $0.5ms$ with a power dissi
 
 \section{Introduction}
 
-Automatic ECG analysis and characterization can help in 
-identifying anomalies in a long-term ECG recording. 
+Automatic ECG analysis and characterization can be of great help
+in patient monitoring.
 In particular, the characterization of the QRS complex by means of Hermite functions 
 seems to be a reliable mechanism  for automatic classification of heartbeats \cite{j:lagerholm00}. 
 The main advantages seem to be the low sensitivity to noise and artifacts, and the
@@ -138,16 +139,13 @@ In generating the hardware for heart-beat analysis, we make extensive use of
 algorithm-to-hardware techniques.  By this we mean that the hardware is
 generated from an algorithmic specification that is written in a
 high-level programming language ({\bf C} in this case), which is then
-transformed to a circuit implementation using a set of compiler tools \cite{c:ahir_thesis2009,c:ahir_dsd2010,c:ahir_usenix2012}.
+transformed to a circuit implementation using the AHIRV2 algorithm to hardware 
+compilation tools \cite{c:ahir_thesis2009,c:ahir_dsd2010,c:ahir_usenix2012}.
 The resulting hardware is then mapped to an FPGA card (the ML605 card from Xilinx,
 which uses a Virtex-6 FPGA).  The circuit is then exercised through the PCI-express 
 interface and used to classify beats.  The round-trip latency of a single
 beat classification was found to be under $0.5ms$.
 
-%\begin{itemize}
-%\item The assessment of the capabilities of GPUs for the off-line characterization of heartbeats using Hermite functions approximations
-%\item The assessment of the capabilities of GPUs for the on-line characterization of heartbeats using Hermite functions approximations
-%\end{itemize}
 
 \section{QRS approximation by means of Hermite polynomials}\label{s:arr}
 
@@ -155,13 +153,22 @@ The aim of using the Hermite approximation to estimate heartbeats is to
 reduce the number of dimensions required to carry out the ECG classification, 
 without sacrificing accuracy. 
 The benchmarks used in this work come from the MIT-BIH arrhythmia database \cite{j:moody01} which is made up of 
-48 ECG recordings whose beats  have been manually annotated by two cardiologists. Each file from the database 
+48 ECG recordings whose beats  have been manually annotated by two cardiologists. 
+Each file from the database 
 contains 2 ECG channels, sampled at a frequency of 360 Hz and with a duration of approximately 2000 beats. 
-In particular, here we are addressing the characterization of the morphology of the QRS complexes since this 
-morphology, together with the distance between each pair of consecutive heartbeats, permits the identification of the majority of arrhythmias.
 
-Firstly,  the ECG files are preprocessed to remove baseline drift. Secondly, the QRS complexes for each heartbeat are extracted by finding the peak of the beat (e.g. the R wave) and selecting a  window of 200 ms centered on the heartbeat. Given that all the Hermite functions converge to zero both in $t=\infty$ and $t=-\infty$, the original QRS signal is extended to 400 ms by adding 100-ms sequences of zeros at each side of the complex. Thus, the QRS data are stored in a 144-sample vector $\vec{x}=\{x(t)\}$. This vector can be estimated with a linear combination of $N$ Hermite basis functions
+Before doing the Hermite approximation, the ECG signal is processed to remove
+the base-line drift.  The QRS complexes for each heartbeat are extracted by 
+finding the peak of the beat (e.g. the R wave) and selecting a  window of 200 ms centered on the peak. 
+The beat-window is further extended to 400 ms by padding 100-ms sequences of zeros at each side of the complex. 
+Thus, the QRS beat data used as an input to the Hermite polynomial approximation
+consists of individual beats described as a 144-sample vector $\vec{x}=\{x(t)\}$ of double
+precision floating point numbers. 
+This vector is to be estimated with a linear combination of $N$ Hermite basis functions (for
+the work reported in this paper, we use $N=6$).
 
+The goal then is to find the best minimum-mean-square-error (MMSE)  approximation to
+$\{ x(t)\}$ as 
 \begin{equation}\label{eqn:hat}
 \hat{x}(t)=\sum_{n=0}^{N-1}c_n(\sigma )\phi_n(t,\sigma),
 \end{equation}
@@ -172,27 +179,31 @@ Firstly,  the ECG files are preprocessed to remove baseline drift. Secondly, the
 \phi_n(t,\sigma )=\frac{1}{\sqrt{\sigma 2^n n!\sqrt{\pi}}}e^{-t^2/2\sigma^2}H_n(t/\sigma) 
 \end{equation}
 
-\noindent being $H(t/\sigma)$ the Hermite polynomials. These polynomials can be computed recursively as
+\noindent where $H_n(t/\sigma)$ is the $n^{th}$ Hermite polynomial. 
+These polynomials can be computed recursively as
 
 \begin{equation}
 H_n(x)=2xH_{n-1}(x)-2(n-1)H_{n-2}(x),
 \end{equation}
 
 \noindent where $H_0(x)=1$ and $H_1(x)=2x$.
-
 The parameter $\sigma$ controls the width of the polynomials. In \cite{j:lagerholm00} the maximum value 
 of $\sigma$ for a given order $n$ is estimated.  As the value of $n$ increases, the value of $\sigma_{MAX}$ decreases.
 
-The optimal coefficients that minimize the estimation error for a given $\sigma$ are
+The Hermite polynomials are orthornormal.  Thus, the optimal coefficients that 
+minimize the estimation error for a given $\sigma$ are
 
 \begin{equation}\label{eqn:c}
-c_n(\sigma)=\sum_{t} x(t)\cdot \phi_n(t,\sigma) \textrm{~\cite{j:lagerholm00}.}
+c_n(\sigma)=\sum_{t} x(t)\cdot \phi_n(t,\sigma) 
 \end{equation}
 
-Once the suitable set of $\sigma$ and $\vec{c}=\{c_n(\sigma)\}$  \mbox{$(n\in [0,N-1])$} are found for each heartbeat, 
-it is possible to use only these figures to perform morphological classification of the heartbeats. 
+The best fit is calculated by comparing the MMSE approximation for each $\sigma$, and keeping
+the one with the smallest value.
+Once the best $\sigma$ and the corresponding fit coefficients $\vec{c}=\{c_n(\sigma)\}$  \mbox{$(n\in [0,N-1])$} 
+are found for each heartbeat, it is possible to use only these figures to perform morphological 
+classification of the heartbeats \textrm{~\cite{j:lagerholm00}}.
 
-\section{Beginning the FPGA implementation: the algorithm}
+\section{Beginning the FPGA implementation: the algorithm} \label{s:algorithm}
 
 The algorithm used in the FPGA implementation is illustrated in 
 Figure \ref{fig:FpgaAlgo}.
@@ -222,7 +233,7 @@ functions, and  stores them in distinct arrays in the hardware.  In the
 current implementation, we use six
 arrays to store the basis functions for order $n=0$ to $n=5$.  For each
 $n$, basis functions for ten different values of $\sigma$ are stored in the corresponding
-array.  
+array.  The values of $\sigma$ used range from $1/120$ to $1/90$.
 
 After this initialization step, the hardware executes a continuous loop.  
 In the loop body, the hardware first listens for heart beats. When
@@ -234,7 +245,7 @@ The best-fit $\sigma$ index and the fitted values are then written
 out of the hardware.
 
 The algorithm as described above is purely sequential
-and does not contain any explicit parallelization.  The AHIR compiler
+and does not contain any explicit parallelization.  The AHIRV2 compiler
 is intelligent enough to extract parallelism from the two critical
 loops (in the inner-product and best-fit functions).
 
@@ -242,24 +253,27 @@ Even with this simple coding of the hardware algorithm,
 we observe that excellent real-time performance
 is observed (in comparison with CPU/GPU implementations).
 Going further, it is possible to specify explicit parallelism by
-writing the processing as a two step pipeline consisting
-of separate threads for inner-product and best-fit
-computations  These investigations are ongoing.
+and exploit it by using multiple function units in hardware
+in order to reduce the processing latency.  These investigations
+are currently in progress.
 
 
 
 \subsection{The inner product loop} \label{sec:InnerProduct}
 
-The inner product loop can be described as follows:
+
+\begin{figure}
+\label{fig:InnerProduct}
+\begin{centering}
 \begin{verbatim}
 void  innerProduct()
 {
   int I;
   for (I=0; I < NSAMPLES; I++)
-  {
+  { // outer-loop
      double x = inputData[I];
      for(SI = 0; SI < NSIGMAS; SI++)
-     {
+     { // inner-loop
         int I0 = I + Offset[SI];
         double p0 = (x0*hF0[I0]);
         double p1 = (x0*hF1[I0]);
@@ -276,20 +290,26 @@ void  innerProduct()
      }
 }
 \end{verbatim}
+\end{centering}
+\caption{Inner-product loop}
+\end{figure}
+
+The inner product loop is shown in Figure \ref{fig:InnerProduct}.
 The outer loop is over the samples, and the inner
 loop across the $\sigma$ values.  There is a high-level
 of parallelism in the inner loop which can be further
-boosted by unrolling the outer loop.   The AHIR compiler
-implements this entire function using a single double-precision
-multiplier and a single double-precision adder.  Further
+boosted by unrolling the outer loop.   When translating
+this to hardware, the entire function uses one single double-precision
+multiplier and one single double-precision adder.  Further
 note that the arrays $hFn$ and $dotPn$ are declared on
-a per-$n$ basis. This allows the AHIR compiler to
-map the arrays to distinct memory spaces, thus increasing
-the memory access bandwidth in the hardware.
+a per-$n$ basis (for $n=0$ to $n=5$). This allows the arrays to be mapped to
+distinct memory spaces, thus increasing the memory access bandwidth in the hardware.
 
 \subsection{The minimum-mean-square loop} \label{sec:MMSE}
 
-This loop is also quite straightforward.
+\begin{figure}
+\label{fig:MMSE}
+\begin{centering}
 \begin{verbatim}
 void computeMSE()
 {
@@ -297,9 +317,9 @@ void computeMSE()
   best_mse = 1.0e+20;
   best_sigma_index = -1;
   for (I=0; I<NSAMPLES; I=I+4)
-  {
+  { // outer-loop
      for (SI=0; SI<NSIGMAS; SI++)
-     {
+     { // inner-loop
         int fetchIndex0 = I + Offset[SI]; 
         double p0 = (dotP0[SI]*hF0[fetchIndex0]);
         double p1 = (dotP1[SI]*hF1[fetchIndex0]);
@@ -322,15 +342,30 @@ void computeMSE()
     }
 }
 \end{verbatim}
+\end{centering}
+\caption{MMSE calculation loop}
+\end{figure}
+
+
+The MMSE calculation hardware
+uses the algorithm shown in Figure \ref{fig:MMSE}
+Note that the inner loop again has considerable parallelism.
+One pipelined double precision multiplier and one
+pipelined double precision adder are used to implement
+the loop.  The arrays referred to in the loop
+$dotPn$ and $hFn$ are all implemented in disjoint
+memories to give high memory access bandwidth.
+
 
 
 \subsection{Further optimizations}
 
 The current implementation uses a simple sequential specification.
-Further optimizations include: loop-unrolling, explicit pipelining,
-and the use of multiple floating point operators.  All these optimizations
-can be explored entirely at the algorithmic level using the AHIR
-compiler tools.
+We have investigated the impact of
+further optimizations.  In particular, we find that outer-loop
+unrolling (up to four) and inner-loop pipelining 
+have substantial impact on the performance of the generated hardware.
+This data is reported in Section \ref{s:results}.
 
 \section{Hardware Implementation Details}\label{s:implementation}
 
@@ -348,30 +383,27 @@ are provided on the FPGA card.
 \end{itemize}
 
 The algorithm mapped to the FPGA 
-is first described in a C program (code fragments descibed in Sections \ref{sec:InnerProduct} and \ref{sec:MMSE}).
-To summarize:
-\begin{enumerate}
-\item In the initialization phase, the hardware-side listens on an input FIFO to acquire
-the Hermite polynomials.  After the initialization, the hardware moves to the run-phase.
-\item In the run-phase, the hardware listens on the input FIFO and receives a 144 sample
+is first described in a C program (code fragments descibed in Sections \ref{s:algorithm},  \ref{sec:InnerProduct} and \ref{sec:MMSE}).
+The architecture of the hardware produced is shown in Figure \ref{fig:HardwareArchitecture}.
+In the initialization phase, the hardware-side listens on an input FIFO to acquire
+the Hermite polynomials (these are stored in six disjoint memories, one
+for each order $n=0,1,2,\ldots 5$).  After this step, the unit that receives
+the beat samples is triggered.  This unit listens on the input FIFO and receives a 144 sample
 heartbeat (coded as 144 double-precision floating point numbers).  After receiving
-the sample, it proceeds to the inner-product phase.
-\item In the inner-product phase, the hardware computes, for each $\sigma$ and
+the sample, it triggers the inner-product stage.  In the inner-product stage, the hardware computes, for each $\sigma$ and
 $n$, an inner product of the received beat with the Hermite polynomials $\phi_n(t,\sigma)$.
 We are using ten values of $\sigma$ and $6$ values of $n$.  Thus, 60 inner-products
-are computed in this phase.  After this phase, the hardware moves to the MMSE
-phase.
-\item  In the MMSE phase, the inner-products are used to find the best fit $\sigma$.
+are computed in this phase.  The inner products are stored in ten
+disjoint memories, one for each $\sigma$.  After this is done, the MMSE
+stage is triggered.  In the MMSE stage, the inner-products are used to find the best fit $\sigma$.
 The computed best-fit coefficients are sent back to the host using the output FIFO.
-The hardware moves back to the run-phase (waits for the next beat).
-\end{enumerate}
-An illustration of this scheme is given in Figure \ref{fig:HWAlgorithm}.
+The hardware unit which listens for the next beat is then triggered (wait for the next beat).
 
 \begin{figure}
 \begin{center}
-	\includegraphics[scale=0.80]{stateMachine.pdf}
-	\caption{Hardware Algorithm}
-	\label{fig:HWAlgorithm}
+	\includegraphics[scale=0.50]{HardwareArchitecture.pdf}
+	\caption{Hardware Architecture}
+	\label{fig:HardwareArchitecture}
 \end{center}
 \end{figure}
 
@@ -381,7 +413,6 @@ and the resulting design is synthesized and mapped to the Virtex-6 FPGA using
 the Xilinx ISE 14.3 toolset.
 
 
-%<<<<<<< HEAD
 %
 %HDL for this design is generated using AHIR HLS toolchain. It is equipped with a library 
 %of heavily pipelined Floating Point operators and Loop Pipelining mechanism which 
@@ -405,22 +436,25 @@ the Xilinx ISE 14.3 toolset.
 %
 \section{Results}\label{s:results}
 
-We calculate round-trip delay and FPGA core power consumption for processing one beat. 
+We measure the round-trip delay and FPGA core power consumption for processing one beat. 
 The round-trip delay is the time interval between the beginning of transmission of 
 beat-data from the host to the hardware and the beginning of reception of best fit
 coefficients from the hardware. 
+The test feeds a single beat at a time to the FPGA and measures the latency.
 
-For targeting real-time performance, size of block should be small. Also, since there 
-is only 1 core operating on FPGA, having multiple beats per block will reduce only the 
-communication time, which is not significant (~0.05ms average). Hence, the test feeds 
-only single beat at a time to the FPGA.
-
-In the implementation, the two loops were unrolled to different
+In the implementation, the two outer-loops described in Sections \ref{sec:InnerProduct} and
+ \ref{sec:MMSE} were unrolled to different
 extents to see the impact of unrolling on the system performance. 
-Three levels were tried: one-way, two-way and four-way
-unrolling.  The four-way unrolling gave the best performance,
+Three levels of unrolling were tried: one-way, two-way and four-way.  
+The four-way unrolling gave the best performance,
 as expected.  The results are summarized in Table \ref{table:Results} (the reported latency
-is the average value observed across 100 beats).
+is the average value observed across 100 beats).  
+The minimum latency achieved with four-way-unrolling was observed to be
+$0.39$ ms (for the processing of a single 144-sample beat).
+The power dissipation values are
+measured using hardware monitoring while the beats are being processed, and represent peak
+power dissipation.
+
 %%%%%%%% Results Table %%%%%%%%%%%%%
 \begin{table}[ht]
 \caption{Results:  FPGA utilization and latency for different loop-unrolling levels} %title
@@ -442,11 +476,9 @@ Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabula
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{verbatim}
-Minimum latency achieved with Four-way-unrolling = 0.39 ms
-\end{verbatim}
 It is clear that FPGA can be used for real-time processing since the 
-computation time required to process single beat is much lesser than
+computation time required to process a pair of beats (corresponding
+to a heart-beat sampled on two channels) is much smaller than
 average beat period (~1ms). The observed power dissipation is 3.1W.  
 Hardware utilization in 4-way unrolled system is less than $55\%$ 
 of the FPGA resource.
@@ -457,36 +489,38 @@ Hermite basis fitting has been evaluated on GPU and CPU implementations
 as well.  For example, in \cite{c:GPU}, the authors observe that
 the GPU implementation shows excellent scaling behaviour, so that 
 100K beats can be processed in 15.7 seconds.  However, when it comes
-to the latency needed to process a single beat, the FPGA outperforms both 
-the CPU and GPU by a considerable margin, with a 35X improvement relative to
-the CPU and an 11X improvement relative to the GPU. 
+to the latency needed to process a pair of beats, the FPGA outperforms both 
+the CPU and GPU by a considerable margin, with a 17X improvement relative to
+the CPU and an 5X improvement relative to the GPU. 
 These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz) 
-and NVIDIA TESLA C2050 (1.15GHz). Computation frequency on Virtex-6 was kept at 100MHz which is
-less than one-tenth of that on CPUs and GPUs. 
+and NVIDIA TESLA C2050 (1.15GHz) \cite{c:GPU}. The operating frequency on the FPGA
+card was 100MHz which is less than one-tenth of that used on CPUs and GPUs.
 
-Further, the average power consumption on the FPGA is 3W as compared to $100W+$ on Core i7 processors and
-$200W+$ on a GPU.  %% which GPU?
-Thus, the FPGA is an attractive option for low latency ECG classification
+The peak power consumption (while actually processing the beats) on the FPGA is 3W as compared to $100W+$ on Core i7 processors and
+$200W+$ on the GPU.  %% which GPU?
+Thus, the FPGA is an attractive option for low energy real-time ECG classification
 applications in portable health monitoring devices.
 
 \section{Conclusions}\label{s:conclusions}
 
-In this paper, a solution to the problem of Heart Beat characterization using FPGAs is presented.
-The mechanism for Hardware Generation via AHIR HLS tool and communicating with this Hardware have
-been explained in detail. The automated algorithm to Hardware compilation takes away complexity
-and reduces time taken for hardware design to a great extent.
+In this paper, a solution to the problem of Hermite polynomial
+based heart-beat characterization using FPGAs is presented.
+We have mapped the problem to hardware using algorithm-to-hardware
+techniques (with the AHIRV2 tools).  The Xilinx ML605 card with a
+Virtex-6 FPGA was used as the platform and the RIFFA host-interface was used to
+communicate with the FPGA card. 
 
 This methodology is presented as an alternative to existing software oriented approaches, 
 for real-time latency-sensitive signal processing. When using the FPGA, a substantial
 latency reduction in single-beat processing was observed (in comparison with both
 GPU and CPU implementations of the same algorithm).  
-Further, the power dissipation in
-the FPGA is almost two orders of magnitude lower in the FPGA implementation.
+Further, the peak power dissipation in
+the FPGA is almost two orders of magnitude lower than that observed in the CPU/GPU case.
 
 The highly parallel GPU and CPU architectures are very effective in off-line processing
-(processing of a large number of beats, but not in real-time).  When it comes to real-time,
-online beat processing, our work demonstrates that the FPGA offers a very competitive 
-platform for ECG signal processing.
+(processing of a large number of beats, not necessarily in real-time).  When it comes to real-time,
+online beat processing, our work demonstrates that dedicated hardware implementation
+using an FPGA offers a very competitive platform for ECG signal processing.
 
 %%%% Couple of lines on Future work %%%%
  

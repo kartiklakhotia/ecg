@@ -62,8 +62,9 @@ Jacobsen, M., Kastner, R.:
 \newblock Volume~23. (2013)  1--8
 
 \bibitem{c:GPU}
-Caffarena, G.:
-\newblock Gpu ecg etc.
-\newblock Preprint (2013)
+Gil, A., Caffarena, G., Marquez, D., Otero, A.:
+\newblock Hermite polynomial characterization of heartbeats with graphics
+  processing units.
+\newblock IWBBO 2014 (2014)
 
 \end{thebibliography}

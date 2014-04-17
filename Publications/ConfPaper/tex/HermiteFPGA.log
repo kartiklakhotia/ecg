@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.11.26)  15 APR 2014 15:16
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.11.26)  17 APR 2014 15:13
 entering extended mode
  %&-line parsing enabled.
 **HermiteFPGA.tex
@@ -264,46 +264,48 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 45.
 LaTeX Font Info:    ... okay on input line 45.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 45.
 LaTeX Font Info:    ... okay on input line 45.
-LaTeX Font Info:    Try loading font information for U+msa on input line 101.
+LaTeX Font Info:    Try loading font information for U+msa on input line 102.
  (/usr/share/texmf/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 101.
+LaTeX Font Info:    Try loading font information for U+msb on input line 102.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 ) [1
 
 
-{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5]
-<../figures/stateMachine.pdf, id=34, 391.18146pt x 292.292pt>
-File: ../figures/stateMachine.pdf Graphic file (type pdf)
+{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
+<HardwareArchitecture.pdf, id=36, 689.57625pt x 361.35pt>
+File: HardwareArchitecture.pdf Graphic file (type pdf)
 
-<use ../figures/stateMachine.pdf> [6] [7 <../figures/stateMachine.pdf>]
-(./HermiteFPGA.bbl [8]) [9] (./HermiteFPGA.aux) ) 
+<use HardwareArchitecture.pdf> [7]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./HardwareArchitecture.pdf>] (./HermiteFPGA.bbl [9]) [10] (./HermiteFPGA.a
+ux) ) 
 Here is how much of TeX's memory you used:
- 1945 strings out of 256216
- 22829 string characters out of 1917071
- 79666 words of memory out of 1500000
- 5189 multiletter control sequences out of 10000+200000
- 13060 words of font info for 50 fonts, out of 1200000 for 2000
+ 1946 strings out of 256216
+ 22855 string characters out of 1917071
+ 83694 words of memory out of 1500000
+ 5192 multiletter control sequences out of 10000+200000
+ 12892 words of font info for 49 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 29i,14n,24p,632b,305s stack positions out of 5000i,500n,6000p,200000b,15000s
-</usr/share/texmf/fonts/type1/
-bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx12.pfb></usr
-/share/texmf/fonts/type1/bluesky/cm/cmbx9.pfb></usr/share/texmf/fonts/type1/blu
-esky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/sh
-are/texmf/fonts/type1/bluesky/cm/cmmi7.pfb></usr/share/texmf/fonts/type1/bluesk
-y/cm/cmmi9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmib10.pfb></usr/share
-/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/c
-m/cmr5.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr6.pfb></usr/share/texmf/
-fonts/type1/bluesky/cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr9.p
-fb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/
-type1/bluesky/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb>
-</usr/share/texmf/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on HermiteFPGA.pdf (9 pages, 144799 bytes).
+ 29i,13n,24p,363b,345s stack positions out of 5000i,500n,6000p,200000b,15000s
+</usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share/texmf/font
+s/type1/bluesky/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx9.pf
+b></usr/share/texmf/fonts/type1/bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/t
+ype1/bluesky/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi7.pfb><
+/usr/share/texmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/share/texmf/fonts/type1
+/bluesky/cm/cmmib10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></us
+r/share/texmf/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/texmf/fonts/type1/blu
+esky/cm/cmr6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr7.pfb></usr/share/
+texmf/fonts/type1/bluesky/cm/cmr9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/
+cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy7.pfb></usr/share/texmf
+/fonts/type1/bluesky/cm/cmtt9.pfb>
+Output written on HermiteFPGA.pdf (10 pages, 130587 bytes).
 PDF statistics:
- 113 PDF objects out of 1000 (max. 8388607)
+ 107 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
