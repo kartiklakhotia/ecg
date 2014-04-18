@@ -238,7 +238,7 @@ array.  The values of $\sigma$ used range from $1/120$ to $1/90$.
 After this initialization step, the hardware executes a continuous loop.  
 In the loop body, the hardware first listens for heart beats. When
 a complete heart-beat (144 samples) is received, the inner products of the
-heart-beat with all the basic functions is calculated in a double loop.  
+heart-beat with all the basis functions are calculated in a double loop.  
 After all inner products are calculated, the inner product coefficients
 are used to compute the best fit among the different values of $\sigma$.
 The best-fit $\sigma$ index and the fitted values are then written
@@ -376,9 +376,6 @@ the best-fit coefficients from the FPGA card.
 \item The FPGA card, on which the best-fit algorithm is implemented.   We use the
 Xilinx ML605 card which features a Virtex-6 FPGA and an 8-lane PCI express interface.
 \item The FPGA card driver, which is based on the RIFFA infrastructure \cite{c:jacobsen13}. 
-Up to 12 independent channels for data transmission between FPGA card and the host
-computer are supported. Corresponding to each channel, separate Receive/Transmit FIFOs
-are provided on the FPGA card. 
 \end{itemize}
 
 The algorithm mapped to the FPGA 
@@ -477,25 +474,26 @@ Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabula
 
 It is clear that FPGA can be used for real-time processing since the 
 computation time required to process a pair of beats (corresponding
-to a heart-beat sampled on two channels) is much smaller than
-average beat period (~1ms). The observed power dissipation is 3.1W.  
-Hardware utilization in 4-way unrolled system is less than $55\%$ 
-of the FPGA resource.
+to a heart-beat sampled on two channels) is less than $1ms$, which is
+much smaller than time-interval between actual heart beats (which is about $1s$). 
+The observed power dissipation is 3.1W.  Hardware utilization in 4-way unrolled 
+system is less than $55\%$ of the FPGA resource.
 
 \subsection{Comparison with GPU/CPU implementations}
 
 Hermite basis fitting has been evaluated on GPU and CPU implementations
-as well.  For example, in \cite{c:GPU}, the authors observe that
-the GPU implementation shows excellent scaling behaviour, so that 
+as well.  For example, in \cite{c:GPU}, the authors demonstrate a
+GPU implementation that shows excellent scaling behaviour, so that 
 100K beats can be processed in 15.7 seconds.  However, when it comes
-to the latency needed to process a pair of beats, the FPGA outperforms both 
-the CPU and GPU by a considerable margin, with a 17X improvement relative to
-the CPU and an 5X improvement relative to the GPU. 
+to the latency needed to process a pair of beats, the FPGA can
+process a beat-pair in under $1ms$, whereas the CPU and GPU implementations
+can process a single beat-pair in $15ms$ and $5ms$ respectively.
+Thus, the FPGA beat-pair processing latency shows a 15X improvement relative to
+the CPU and a 5X improvement relative to the GPU. 
 These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz) 
 and NVIDIA TESLA C2050 (1.15GHz) \cite{c:GPU}. The operating frequency on the FPGA
 card was 100MHz which is less than one-tenth of that used on CPUs and GPUs.
-
-The peak power consumption (while actually processing the beats) on the FPGA is 3W as compared to $100W+$ on Core i7 processors and
+Further, the peak power consumption (while actually processing the beats) on the FPGA is 3W as compared to $100W+$ on Core i7 processors and
 $200W+$ on the GPU.  %% which GPU?
 Thus, the FPGA is an attractive option for low energy real-time ECG classification
 applications in portable health monitoring devices.
