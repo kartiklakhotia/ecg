@@ -35,4 +35,10 @@ Changing scope of variables. Segmentation fault avoided.
 Checked without search back. Working. Small mistake in noise buffer updation, wrong size value passed. Corrected.
 
 S/W check done. Working.
-Hardware generation bug still exists
+Hardware generation bug fixed. Mempool issue with pointer arguments.
+
+H/W debugging.
+At home directory.
+Bugs listed in research diary. Will be updated later.
+Not yet checked full functioning.
+Working on simulations currently.
