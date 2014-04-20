@@ -54,13 +54,14 @@ void initDet()
 /**************************************************
 ** PEAK DETECTOR (DOESN'T CONFIRM QRS)
 **************************************************/
+//int peak()
 int peak()
 {
 	int pk;
 	int timeSinceMax = timeSinceMaxPeak;
 	int max = maxPeak;
 	int datum = read_uint32("filt_output_pipe");
-
+	
 	timeSinceMax = (timeSinceMax > 0) ? (timeSinceMax+1) : timeSinceMax;	
 	uint8_t newPeak_cond = ((datum > lastDatum) && (datum > max));
 	uint8_t peakConfirm_cond = (((datum < (max >> 1)) || (timeSinceMax > MS95)) && (!newPeak_cond)) ;
@@ -201,6 +202,9 @@ void qrsDet()
 	qpk_count = count = initBlank = preBlank_count = rset_count = 0;
 	sb_count = sbLoc = MS1500;
 	int qmean, rrmean, nmean;
+	qmean = 0;
+	nmean = 0;
+	rrmean = MS1000; 
 	int RSETbuff[8];
 	int qrsVal, rrVal, noiseVal;
 	uint8_t init8Done_next, onesec_cond, init8Done;
@@ -215,12 +219,10 @@ void qrsDet()
 		int prefilt_datum = data_in;
 		write_uint32("filt_input_pipe", prefilt_datum);	
 		QRSFilt(0);
-
-		int postfilt_datum = read_uint32("filt_output_pipe");
-
 	///////////////// PEAK DETECTION AND VERIFICATION OF POINT OF OCCURRENCE ////////////
-/*		aPeak = peak();	
+	//	int postfilt_datum = read_uint32("filt_output_pipe");
 
+		aPeak = peak();	
 		prelim_cond0 = (aPeak > 0);
 		prelim_cond1 = (preBlank_count > 0); 
 		prelim_cond2 = (aPeak > tempPeak);
@@ -266,7 +268,7 @@ void qrsDet()
 		} 
 
 	// Check if peak is QRS peak or NOISE peak. If noise and exceeds previous peak in search back, update search back location//
-		else
+/*		else
 		{
 			bls_cond = blsCheck();
 			QRSdet_cond0 = ((newPeak > det_thresh) && (!bls_cond));
@@ -284,8 +286,8 @@ void qrsDet()
 			sbLoc = (sbUpdate_cond) ? (count - WINbuff_size) : sbLoc;	
 
 
-			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
-//			QRSdet_cond1 = 0;
+//			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
+			QRSdet_cond1 = 0;
 			QRSdet_final = (QRSdet_cond0 || QRSdet_cond1);
 			qrsVal = (QRSdet_cond0) ? newPeak : qrsVal;
 			rrVal = (QRSdet_cond0) ? (count - WINbuff_size) : rrVal;	
@@ -313,36 +315,37 @@ void qrsDet()
 		init8Done = init8Done_next;
 	
 // In background, check for threshold change if there is no peak for 8 consecutive seconds //			
-		if(init8Done)
-		{
-			onesec_cond = (++initBlank == MS1000);
-			initBlank = (onesec_cond) ? 0 : initBlank;	 	
-			RSETbuff[rset_count] = initMax;
-			initMax = (onesec_cond) ? 0 : initMax;
-			rset_count = (onesec_cond) ? (rset_count + 1) : rset_count;
-			uint8_t timeout_cond = (rset_count == 8);
-			nmean = (timeout_cond) ? 0 : nmean;
-			rrmean = (timeout_cond) ? MS1000 : rrmean;
-			sb_count = (timeout_cond) ? (MS1500 + MS150) : sb_count;
-			initBlank = (timeout_cond) ? 0 : initBlank;
-			rset_count = (timeout_cond) ? 0 : rset_count;
-			if (timeout_cond)
-			{
-				int i;
-				for (i=0; i<8; i++)
-				{
-					QRSbuff[i] = RSETbuff[i];
-					NOISEbuff[i] = 0;
-				}
-				qmean = meanCalc(QRSbuff);
-				det_thresh = threshCalc(qmean, nmean);	
-			}
-			initMax = (newPeak > initMax) ? newPeak : initMax;
-		}	
-
-		int64_t data_out = QRSdelay;
+//		if(init8Done)
+//		{
+//			onesec_cond = (++initBlank == MS1000);
+//			initBlank = (onesec_cond) ? 0 : initBlank;	 	
+//			RSETbuff[rset_count] = initMax;
+//			initMax = (onesec_cond) ? 0 : initMax;
+//			rset_count = (onesec_cond) ? (rset_count + 1) : rset_count;
+//			uint8_t timeout_cond = (rset_count == 8);
+//			nmean = (timeout_cond) ? 0 : nmean;
+//			rrmean = (timeout_cond) ? MS1000 : rrmean;
+//			sb_count = (timeout_cond) ? (MS1500 + MS150) : sb_count;
+//			initBlank = (timeout_cond) ? 0 : initBlank;
+//			rset_count = (timeout_cond) ? 0 : rset_count;
+//			if (timeout_cond)
+//			{
+//				int i;
+//				for (i=0; i<8; i++)
+//				{
+//					QRSbuff[i] = RSETbuff[i];
+//					NOISEbuff[i] = 0;
+//				}
+//				qmean = meanCalc(QRSbuff);
+//				det_thresh = threshCalc(qmean, nmean);	
+//			}
+//			initMax = (newPeak > initMax) ? newPeak : initMax;
+//		}	
 */
-		int64_t data_out = postfilt_datum;
+
+		init8Done = init8Done_next;
+		int64_t data_out = qmean;
+
 		write_uint64("det_output_pipe", data_out);	
 	}
 }

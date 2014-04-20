@@ -95,13 +95,8 @@ void lpFilt()
 	LPy2 = LPy1;
 	LPy1 = LPy0;
 	output = divideSigned (LPy0, LPbuff_halfSize * LPbuff_halfSize);
-//	output = LPy0 / (LPbuff_halfSize*LPbuff_halfSize);  
 	LPbuff[ptr] = datum;
 	LPbuff_ptr = circUpdateFilt(ptr, LPbuff_size);
-//	if (ptr == LP_maxptr)
-//		ptr = 0;
-//	else
-//		ptr = ptr + 1;
 	write_uint32("LPout_pipe", output); // send this output for high pass filtering	
 					   // no need to pass argument to and from main function
 }
@@ -125,20 +120,13 @@ void hpFilt()
 
 	halfPtr = ptr-HPbuff_halfSize;
 	halfPtr = (halfPtr < 0) ? halfPtr + HPbuff_size : halfPtr;
-//	if (halfPtr < 0)
-//		halfPtr += HPbuff_size;
 
 	HPy0 = HPy1 + datum - HPbuff[ptr];
 	HPy1 = HPy0;
 	output = HPbuff[halfPtr] - divideSigned(HPy0, HPbuff_size);
-//	output = HPbuff[halfPtr] - (HPy0/HPbuff_size);	
 
 	HPbuff[ptr] = datum;
 	HPbuff_ptr = circUpdateFilt(ptr, HPbuff_size);
-//	if (ptr == HP_maxptr)
-//		ptr = 0;
-//	else
-//		ptr = ptr + 1;
 	write_uint32("HPout_pipe", output);
 }		
 
@@ -159,10 +147,6 @@ void deriv()
 	int output = abs(datum - DERIVbuff[ptr]);
 	DERIVbuff[ptr] = datum;
 	DERIVbuff_ptr = circUpdateFilt(ptr, DERIVbuff_size);
-//	if (ptr == DERIV_maxptr)
-//		ptr = 0;
-//	else
-//		ptr = ptr + 1;
 	write_uint32("DERIVout_pipe", output);
 }
 
@@ -182,7 +166,7 @@ void mvWin()
 	int output;
 
 	WINsum = WINsum + datum - WINbuff[ptr];	
-	output = (int)(divideSigned(WINsum, WINbuff_size)); 	
+	output = divideSigned(WINsum, WINbuff_size); 	
 	output = (output > WINout_saturation) ? WINout_saturation : output;
 
 	WINbuff[ptr] = datum;
