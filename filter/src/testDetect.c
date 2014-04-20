@@ -50,11 +50,11 @@ int main(int argc, char* argv[])
 #ifdef HW
 		printf("value received for QRS delay is %ld\n", QRSdelay);
 #endif
-		if (1)//QRSdelay != 0)
+		if (QRSdelay != 0)
 		{
-			fprintf(fout, "%ld, ", QRSdelay);
-			fprintf(fout, "%ld\n", count);
-//			fprintf(fout, "%ld\n", QRSdelay - count);
+//			fprintf(fout, "%ld, ", QRSdelay);
+//			fprintf(fout, "%ld\n", count);
+			fprintf(fout, "%ld\n", QRSdelay - count);
 		}
 //			fprintf(fout, "%ld\n", count);
 		fscanf(frec, "%ld", &dataSample);

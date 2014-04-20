@@ -29,19 +29,19 @@ My implementation not working.
 
 Checked with Search Back. Working
 
-Beat Detection is ok but it is generating segmentation fault after a very long stream for some unknown reason. The point at which segmentation fault is being generated is not at all unusual. Its at a beat detected in usual manner and not in searchback
-
-Changing scope of variables. Segmentation fault avoided. 
-Checked without search back. Working. Small mistake in noise buffer updation, wrong size value passed. Corrected.
-
-S/W check done. Working.
 Hardware generation bug fixed. Mempool issue with pointer arguments.
 
 H/W debugging.
-At home directory.
-Not yet checked full functioning.
 Working on simulations currently.
 
 Bug #1 : WINbuff not initialized before read access.
 Status : fixed.
 
+filter checked in H/W. Working correctly.
+Detector yet to be verified.
+
+without search back and without threshold adaptation to blank no detection periods.
+failing. Bound check failed.
+
+checking the qmean in first loop which runs for first 8 seconds. That is running ok.
+Bound check still failing. Reason unknown

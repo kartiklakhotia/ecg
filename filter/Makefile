@@ -31,16 +31,14 @@ TOPMODULES=-T qrsDet
 
 # compile with SW defined.
 # note the use of IOLIB in building the testbench.
-#SW: $(SRC)/divide.c $(SRC)/filter.c  $(SRC)/ptrFunc.c $(SRC)/qrsDet.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/ptrFunc.h $(SRC)/qrsDet.h  $(FUNCTIONLIB)/src/timer.c 
-SW: $(SRC)/divide.c $(SRC)/filter.c $(SRC)/qrsDet.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/qrsDet.h $(FUNCTIONLIB)/src/timer.c 
+SW: $(SRC)/divide.c $(SRC)/filter.c  $(SRC)/ptrFunc.c $(SRC)/qrsDet.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/ptrFunc.h $(SRC)/qrsDet.h  $(FUNCTIONLIB)/src/timer.c 
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/divide.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
-#	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/ptrFunc.c
+	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/ptrFunc.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/qrsDet.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(FUNCTIONLIB)/include -I$(SRC) $(FUNCTIONLIB)/src/timer.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(PTHREADUTILS_INCLUDE) -I$(SRC) $(SRC)/testDetect.c
-	gcc  -o testbench_sw divide.o filter.o qrsDet.o timer.o testDetect.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
-#	gcc  -o testbench_sw divide.o filter.o ptrFunc.o qrsDet.o timer.o testDetect.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
+	gcc  -o testbench_sw divide.o filter.o ptrFunc.o qrsDet.o timer.o testDetect.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
 
 # five steps from C to vhdl simulator.
 HW: c2llvmbc llvmbc2aa  aalink aa2vc  vc2vhdl  vhdlsim
@@ -49,8 +47,7 @@ AA2VHDL: aa2vc vc2vhdl vhdlsim
 
 # C to llvm byte-code.. use clang.
 CLANGOPTS=-O3
-#c2llvmbc: $(SRC)/divide.c $(SRC)/divide.h $(SRC)/filter.c $(SRC)/filter.h $(SRC)/ptrFunc.c $(SRC)/ptrFunc.h $(SRC)/qrsDet.c $(SRC)/qrsDet.h
-c2llvmbc: $(SRC)/divide.c $(SRC)/divide.h $(SRC)/filter.c $(SRC)/filter.h $(SRC)/qrsDet.c $(SRC)/qrsDet.h
+c2llvmbc: $(SRC)/divide.c $(SRC)/divide.h $(SRC)/filter.c $(SRC)/filter.h $(SRC)/ptrFunc.c $(SRC)/ptrFunc.h $(SRC)/qrsDet.c $(SRC)/qrsDet.h
 	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/qrsDet.c
 	opt --indvars --loopsimplify qrsDet.o -o qrsDet.opt.o
 	llvm-dis qrsDet.opt.o
@@ -60,28 +57,24 @@ c2llvmbc: $(SRC)/divide.c $(SRC)/divide.h $(SRC)/filter.c $(SRC)/filter.h $(SRC)
 	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/divide.c
 	opt --indvars --loopsimplify divide.o -o divide.opt.o
 	llvm-dis divide.opt.o
-#	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/ptrFunc.c
-#	opt --indvars --loopsimplify ptrFunc.o -o ptrFunc.opt.o
-#	llvm-dis ptrFunc.opt.o
+	clang $(CLANGOPTS) -I/usr/include/i386-linux-gnu -std=gnu89 $(PROGDEFS) -I$(SRC)  -I$(SOCKETLIB_INCLUDE) -I$(FUNCTIONLIB)/include -emit-llvm -c $(SRC)/ptrFunc.c
+	opt --indvars --loopsimplify ptrFunc.o -o ptrFunc.opt.o
+	llvm-dis ptrFunc.opt.o
 
 # llvm byte-code to Aa..
-#llvmbc2aa:  divide.opt.o filter.opt.o ptrFunc.opt.o qrsDet.opt.o 
-llvmbc2aa: divide.opt.o filter.opt.o qrsDet.opt.o 
+llvmbc2aa:  divide.opt.o filter.opt.o ptrFunc.opt.o qrsDet.opt.o 
 	llvm2aa $(LLVM2AAOPTS)  divide.opt.o | vcFormat >  divide.aa
 	llvm2aa $(LLVM2AAOPTS)  filter.opt.o | vcFormat >  filter.aa
-#	llvm2aa $(LLVM2AAOPTS)  ptrFunc.opt.o | vcFormat >  ptrFunc.aa
+	llvm2aa $(LLVM2AAOPTS)  ptrFunc.opt.o | vcFormat >  ptrFunc.aa
 	llvm2aa $(LLVM2AAOPTS)  qrsDet.opt.o | vcFormat >  qrsDet.aa
 
 # Aa to vC
-#aalink:  qrsDet.aa filter.aa divide.aa ptrFunc.aa
-aalink:  qrsDet.aa filter.aa divide.aa
-	AaLinkExtMem divide.aa filter.aa qrsDet.aa | vcFormat > prog.linked.aa
-#	AaLinkExtMem -I 1 -E mempool divide.aa filter.aa ptrFunc.aa qrsDet.aa | vcFormat > prog.linked.aa
+aalink:  qrsDet.aa filter.aa divide.aa ptrFunc.aa
+	AaLinkExtMem -I 1 -E mempool divide.aa filter.aa ptrFunc.aa qrsDet.aa | vcFormat > prog.linked.aa
 	AaOpt -B prog.linked.aa | vcFormat > prog.linked.opt.aa
 
 aa2vc: prog.linked.opt.aa
-	Aa2VC -O -C prog.linked.opt.aa | vcFormat > prog.vc
-#	Aa2VC -I mempool -O -C prog.linked.opt.aa | vcFormat > prog.vc
+	Aa2VC -I mempool -O -C prog.linked.opt.aa | vcFormat > prog.vc
 
 # vC to VHDL
 vc2vhdl: prog.vc
@@ -104,7 +97,7 @@ vhdlsim: ahir_system.vhdl ahir_system_test_bench.vhdl $(SRC)/testDetect.c vhdlCS
 	ghdl -i --work=work ahir_system_global_package.vhdl
 	ghdl -i --work=work ahir_system.vhdl
 	ghdl -i --work=work ahir_system_test_bench.vhdl
-	ghdl -m --work=work -Wl,-L$(SOCKETLIB_LIB) -Wl,-lVhpi ahir_system_test_bench 
+	ghdl -m -g --work=work -Wl,-L$(SOCKETLIB_LIB) -Wl,-lVhpi ahir_system_test_bench 
 
 clean:
 	rm -rf *.o* *.cf *.*vhdl vhdlCStubs.* *.vcd in_data* out_data* testbench_sw testbench_hw ahir_system_test_bench vhpi.log *.aa *.vc *.lso xst *.ngc *_xmsgs *.xrpt pipeHandler.log *.srp *.ghw *.dot

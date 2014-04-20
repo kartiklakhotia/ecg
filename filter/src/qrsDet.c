@@ -44,7 +44,7 @@ void initDet()
 	} 
 	maxDer = 0;
 	DDbuff_ptr = DDCALCbuff_ptr = 0;
-	QRSbuff_ptr = RRbuff_ptr = NOISEbuff_ptr = 7;
+	QRSbuff_ptr = RRbuff_ptr = NOISEbuff_ptr = 0;
 	maxPeak = timeSinceMaxPeak = 0;
 	lastDatum = 0;
 }
@@ -124,8 +124,10 @@ int ddCalc(int datum)
 *************************************************/
 int threshCalc(int qmean, int nmean)
 {
-	double temp = (qmean - nmean);
-	int threshval = nmean + (int)(threshold*temp);
+//	double temp = (qmean - nmean);
+//	int threshval = nmean + (int)(threshold*temp);
+	int temp = qmean - nmean;
+	int threshval = nmean + (temp >> 4) + (temp >> 2);
 	return threshval;
 }
 			 
@@ -136,8 +138,8 @@ int threshCalc(int qmean, int nmean)
 uint8_t blsCheck()
 {
 	int max, min, maxt, mint, t, x;
-	max = 0;
-	min = 0;
+	max = min = 0;
+	maxt = mint = 0;
 	int ptr = DDbuff_ptr;
 	for (t=0; t<MS220; ++t)
 	{
@@ -207,6 +209,7 @@ void qrsDet()
 	rrmean = MS1000; 
 	int RSETbuff[8];
 	int qrsVal, rrVal, noiseVal;
+	qrsVal = rrVal = noiseVal = 0;
 	uint8_t init8Done_next, onesec_cond, init8Done;
 	init8Done = 0;
 	uint8_t prelim_cond0, prelim_cond1, prelim_cond2, prelim_cond3;
@@ -254,12 +257,9 @@ void qrsDet()
 			initMax = (onesec_cond) ? 0 : initMax;
 			qpk_count = (onesec_cond) ? qpk_count + 1 : qpk_count;
 			init8Done_next = (onesec_cond && (qpk_count == 8));			
-		//	qmean = (init8Done) ? meancalc(QRSbuff) : qmean;
 			nmean = 0;
 			rrmean = MS1000;
 			sb_count = MS1500 + MS150;
-		//	qmean = (init8Done_next) ? meanCalc(QRSbuff) : qmean;
-		//	det_thresh = (init8Done_next) ? threshCalc(qmean, nmean) : det_thresh;
 			initMax = (newPeak > initMax) ? newPeak : initMax;
 			if (init8Done_next){
 				qmean = meanCalc(QRSbuff);
@@ -268,7 +268,7 @@ void qrsDet()
 		} 
 
 	// Check if peak is QRS peak or NOISE peak. If noise and exceeds previous peak in search back, update search back location//
-/*		else
+		else
 		{
 			bls_cond = blsCheck();
 			QRSdet_cond0 = ((newPeak > det_thresh) && (!bls_cond));
@@ -341,10 +341,9 @@ void qrsDet()
 //			}
 //			initMax = (newPeak > initMax) ? newPeak : initMax;
 //		}	
-*/
 
-		init8Done = init8Done_next;
-		int64_t data_out = qmean;
+
+		int64_t data_out = QRSdelay;
 
 		write_uint64("det_output_pipe", data_out);	
 	}
