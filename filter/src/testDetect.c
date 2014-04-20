@@ -38,8 +38,8 @@ int main(int argc, char* argv[])
 	PTHREAD_DECL(qrsDet);
 	PTHREAD_CREATE(qrsDet);
 #endif
-	write_uint64("det_input_pipe", 0);
-	QRSdelay = read_uint64("det_output_pipe");
+//	write_uint64("det_input_pipe", 0);
+//	QRSdelay = read_uint64("det_output_pipe");
 	long dataSample;
 	fscanf(frec, "%ld", &dataSample);
 	long count = 0;
@@ -47,10 +47,14 @@ int main(int argc, char* argv[])
 		count++;
 		write_uint64("det_input_pipe", dataSample);
 		QRSdelay = read_uint64("det_output_pipe");
-		if (QRSdelay != 0)
+#ifdef HW
+		printf("value received for QRS delay is %ld\n", QRSdelay);
+#endif
+		if (1)//QRSdelay != 0)
 		{
 			fprintf(fout, "%ld, ", QRSdelay);
 			fprintf(fout, "%ld\n", count);
+//			fprintf(fout, "%ld\n", QRSdelay - count);
 		}
 //			fprintf(fout, "%ld\n", count);
 		fscanf(frec, "%ld", &dataSample);

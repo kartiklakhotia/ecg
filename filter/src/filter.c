@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <Pipes.h>
 #include <pipeHandler.h>
+#include "divide.h"
 #include "filter.h"
 
 //declare loop pipelining as a NOP function for SW execution
@@ -26,54 +27,6 @@ int DERIVbuff[DERIVbuff_size];
 int WINbuff[WINbuff_size];
 
 
-//// DIVISION ALGORITHM /////
-uint64_t divideUnsigned(uint64_t dividend, uint32_t divisor)
-{
-        uint64_t quotient = 0;
-        if (divisor != 0)
-        {
-                while (dividend >= divisor)
-                {
-                        uint64_t curr_quotient = 1;
-                        uint64_t shifted_divisor = divisor;
-                        uint64_t reduced_dividend_by_2 = (dividend >> 1);
-                        while (shifted_divisor < reduced_dividend_by_2)
-                        {
-                                        shifted_divisor = (shifted_divisor << 1);
-                                        curr_quotient = (curr_quotient << 1);
-                        }
-                        quotient += curr_quotient;
-                        dividend -= shifted_divisor;
-                }
-        }
-        return (quotient);
-}
-
-int64_t divideSigned(int64_t dividend, int32_t divisor)
-{
-        int8_t sign = 1; 
-        uint64_t udividend;
-        uint32_t udivisor;
-	dividend = (dividend < 0) ? (-dividend) : dividend;
-	sign = (dividend < 0) ? (-sign) : sign;
-	divisor = (divisor < 0) ? (-divisor) : divisor;
-	sign = (divisor < 0) ? (-sign) : sign;
-	udividend = (uint64_t) dividend;
-	udivisor = (uint32_t) divisor;
-
-        int64_t quotient = 0;
-        if (udivisor != 0)
-        {
-                quotient = divideUnsigned(udividend, udivisor);
-		quotient = (sign < 0) ? -quotient : quotient;
-        }
-        return (quotient);
-}
-
-
-
-
-
 //initialize all buffers and pointers
 void initFilt()
 {
@@ -93,6 +46,11 @@ void initFilt()
 		__loop_pipelining_on__(7,2,0);
 		DERIVbuff[index]=0;
 	} 
+	for (index = 0; index < WINbuff_size; index++)
+	{
+		__loop_pipelining_on__(7,2,0);
+		WINbuff[index] = 0;
+	}
 	LPy1 = 0;
 	LPy2 = 0;
 	HPy1 = 0;
@@ -224,18 +182,11 @@ void mvWin()
 	int output;
 
 	WINsum = WINsum + datum - WINbuff[ptr];	
-	if (WINsum > WINsum_saturation)
-		output = WINout_saturation;
-	else					// why this saturation value
-		output = divideUnsigned(WINsum, WINbuff_size); 	// also, doesn't saturate sum. Sum is stored as it is without clipping but output is clipped
-//	output = (WINsum > WINsum_saturation) ? WINout_saturation : WINsum/WINbuff_size;
+	output = (int)(divideSigned(WINsum, WINbuff_size)); 	
+	output = (output > WINout_saturation) ? WINout_saturation : output;
 
 	WINbuff[ptr] = datum;
 	WINbuff_ptr = circUpdateFilt(ptr, WINbuff_size);
-//	if (ptr == WIN_maxptr)
-//		ptr = 0;
-//	else
-//		ptr = ptr + 1;
 	write_uint32("filt_output_pipe", output);
 }
 

@@ -18,7 +18,7 @@
 ** DETECTOR STUFF **
 ********************************/
 
-#define PRE_BLANK 	39//((int) (195/ms_per_sample + 0.5)) //200ms min gap between consecutive QRS peaks
+#define PRE_BLANK 	40//((int) (200/ms_per_sample + 0.5)) //200ms min gap between consecutive QRS peaks
 
 #define MIN_PEAK_AMP	7 //prevent detection of peaks below 150 uV
 

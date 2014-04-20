@@ -216,9 +216,10 @@ void qrsDet()
 		write_uint32("filt_input_pipe", prefilt_datum);	
 		QRSFilt(0);
 
+		int postfilt_datum = read_uint32("filt_output_pipe");
 
 	///////////////// PEAK DETECTION AND VERIFICATION OF POINT OF OCCURRENCE ////////////
-		aPeak = peak();	
+/*		aPeak = peak();	
 
 		prelim_cond0 = (aPeak > 0);
 		prelim_cond1 = (preBlank_count > 0); 
@@ -340,6 +341,8 @@ void qrsDet()
 		}	
 
 		int64_t data_out = QRSdelay;
+*/
+		int64_t data_out = postfilt_datum;
 		write_uint64("det_output_pipe", data_out);	
 	}
 }

@@ -39,6 +39,9 @@ Hardware generation bug fixed. Mempool issue with pointer arguments.
 
 H/W debugging.
 At home directory.
-Bugs listed in research diary. Will be updated later.
 Not yet checked full functioning.
 Working on simulations currently.
+
+Bug #1 : WINbuff not initialized before read access.
+Status : fixed.
+
