@@ -1,0 +1,72 @@
+\begin{thebibliography}{10}
+
+\bibitem{j:lagerholm00}
+Martin Lagerholm, Carsten Peterson, Guido Braccini, Lars Edenbr, and Leif
+  Sörnmo,
+\newblock ``{Clustering ECG complexes using Hermite functions and
+  self-organizing maps},''
+\newblock {\em IEEE Trans. Biomed. Eng}, vol. 47, pp. 838--848, 2000.
+
+\bibitem{c:marquez13}
+David~G. Márquez, Abraham Otero, Paulo Félix, and Constantino~A. García,
+\newblock ``{On the Accuracy of Representing Heartbeats with Hermite Basis
+  Functions},''
+\newblock in {\em BIOSIGNALS}, Sergio Alvarez, Jordi Solé-Casals, Ana L.~N.
+  Fred, and Hugo Gamboa, Eds. 2013, pp. 338--341, SciTePress.
+
+\bibitem{c:braccini97}
+G.~Braccini, L.~Edenbrandt, M.~Lagerholm, C.~Peterson, O.~Rauer, R.~Rittner,
+  and L.~Sornmo,
+\newblock ``{Self-organizing maps and Hermite functions for classification of
+  ECG complexes},''
+\newblock in {\em Computers in Cardiology 1997}, 1997, pp. 425--428.
+
+\bibitem{j:linh03a}
+Tran~Hoai Linh, Stanislaw Osowski, and Maciej Stodolski,
+\newblock ``{On-line heart beat recognition using Hermite polynomials and
+  neuro-fuzzy network},''
+\newblock {\em Instrumentation and Measurement, IEEE Transactions on}, vol. 52,
+  no. 4, pp. 1224--1231, 2003.
+
+\bibitem{j:linh03b}
+Tran~Hoai Linh, Stanislaw Osowski, and Maciej Stodolski,
+\newblock ``{On-line heart beat recognition using Hermite polynomials and
+  neuro-fuzzy network},''
+\newblock {\em Instrumentation and Measurement, IEEE Transactions on}, vol. 52,
+  no. 4, pp. 1224--1231, 2003.
+
+\bibitem{c:ahir_thesis2009}
+Sameer~D. Sahasrabuddhe,
+\newblock {\em A competitive pathway from high-level programs to hardware.},
+\newblock Ph.D. thesis, IIT Bombay, 2009.
+
+\bibitem{c:ahir_dsd2010}
+S.~D. Sahasrabudhe, S.~Subramanian, K.~Ghosh, K.~Arya, and M.~P. Desai,
+\newblock ``A c-to-rtl flow as an energy efficient alternative to the use of
+  embedded processors in digital systems,''
+\newblock in {\em DSD 2010}, 2010, pp. 147--154.
+
+\bibitem{c:ahir_usenix2012}
+T.~Rinta-Aho, M.~Karlstedt, and M.P. Desai,
+\newblock ``The clicktonetfpga tool-chain,''
+\newblock in {\em USENIX ATC-2012}. 2012, USENIX Association, Berkeley CA.
+
+\bibitem{j:moody01}
+George~B Moody and Roger~G Mark,
+\newblock ``{The impact of the MIT-BIH arrhythmia database},''
+\newblock {\em Engineering in Medicine and Biology Magazine, IEEE}, vol. 20,
+  no. 3, pp. 45--50, 2001.
+
+\bibitem{c:jacobsen13}
+M.~Jacobsen and R.~Kastner,
+\newblock ``{RIFFA 2.0: A reusable integration framework for FPGA
+  accelerators},''
+\newblock 2013, vol.~23, pp. 1--8.
+
+\bibitem{c:GPU}
+A.~Gil, G.~Caffarena, D.~Marquez, and A.~Otero,
+\newblock ``Hermite polynomial characterization of heartbeats with graphics
+  processing units,''
+\newblock {\em IWBBO 2014}, 2014.
+
+\end{thebibliography}

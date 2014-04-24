@@ -1,0 +1,232 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2013.3.21)  23 APR 2014 14:22
+entering extended mode
+**G:/CEU_PRINCIPAL/CEU/RESEARCH/LAST/DASIP2014/IEEE/HermiteFPGA.tex
+(G:/CEU_PRINCIPAL/CEU/RESEARCH/LAST/DASIP2014/IEEE/HermiteFPGA.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
+(G:\CEU_PRINCIPAL\CEU\RESEARCH\LAST\DASIP2014\IEEE\IEEEtran.cls
+Document Class: IEEEtran 2012/11/21 V1.8c by Harald Hanche-Olsen and Anders Chr
+istensen
+-- Based on V1.7a by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpcountA=\count79
+\@IEEEtrantmpcountB=\count80
+\@IEEEtrantmptoksA=\toks14
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 373.
+
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\psnfss\ot1ptm.fd"
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen104
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen105
+\CLASSINFOnormalsizeunitybaselineskip=\dimen106
+\IEEEnormaljot=\dimen107
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 731.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 731.
+\IEEEilabelindentA=\dimen108
+\IEEEilabelindentB=\dimen109
+\IEEEilabelindent=\dimen110
+\IEEEelabelindent=\dimen111
+\IEEEdlabelindent=\dimen112
+\IEEElabelindent=\dimen113
+\IEEEiednormlabelsep=\dimen114
+\IEEEiedmathlabelsep=\dimen115
+\IEEEiedtopsep=\skip41
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@IEEEsubequation=\count85
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count86
+\c@table=\count87
+\@IEEEeqnnumcols=\count88
+\@IEEEeqncolcnt=\count89
+\@IEEEtmpitemindent=\dimen116
+\c@IEEEbiography=\count90
+\@IEEEtranrubishbin=\box26
+) ("C:\Archivos de programa\MiKTeX 2.8\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count91
+))
+\Gin@req@height=\dimen117
+\Gin@req@width=\dimen118
+)
+(G:\CEU_PRINCIPAL\CEU\RESEARCH\LAST\DASIP2014\IEEE\HermiteFPGA.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 354.
+LaTeX Font Info:    ... okay on input line 354.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 354.
+LaTeX Font Info:    ... okay on input line 354.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 354.
+LaTeX Font Info:    ... okay on input line 354.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 354.
+LaTeX Font Info:    ... okay on input line 354.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 354.
+LaTeX Font Info:    ... okay on input line 354.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 354.
+LaTeX Font Info:    ... okay on input line 354.
+
+("C:\Archivos de programa\MiKTeX 2.8\tex\context\base\supp-pdf.tex"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count92
+\scratchdimen=\dimen119
+\scratchbox=\box27
+\nofMPsegments=\count93
+\nofMParguments=\count94
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count95
+\MPscratchDim=\dimen120
+\MPnumerator=\count96
+\everyMPtoPDFconversion=\toks17
+)
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <11> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7.69997> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5.5> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 415.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 415.
+ [1{C:/Documents and Settings/USUARIO/Configuración local/Datos de programa/MiK
+TeX/2.8/pdftex/config/pdftex.map}
+
+
+]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 550.
+
+
+("C:\Archivos de programa\MiKTeX 2.8\tex\latex\psnfss\ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Overfull \hbox (1.3503pt too wide) in paragraph at lines 683--683
+[]                      \OT1/pcr/m/n/8 ((p0+p1) + (p2+p3) + (p4+p5)));[] 
+ []
+
+[2] <./figures/HardwareArchitecture.pdf, id=22, 689.57625pt x 361.35pt>
+File: ./figures/HardwareArchitecture.pdf Graphic file (type pdf)
+
+<use ./figures/HardwareArchitecture.pdf>
+Overfull \hbox (1.18167pt too wide) in paragraph at lines 800--814
+ [][] 
+ []
+
+[3 <G:/CEU_PRINCIPAL/CEU/RESEARCH/LAST/DASIP2014/IEEE/figures/HardwareArchitect
+ure.pdf>] (G:\CEU_PRINCIPAL\CEU\RESEARCH\LAST\DASIP2014\IEEE\HermiteFPGA.bbl
+Missing character: There is no ö in font ptmr7t!
+Missing character: There is no á in font ptmr7t!
+Missing character: There is no é in font ptmr7t!
+Missing character: There is no í in font ptmr7t!
+Missing character: There is no é in font ptmr7t!
+)
+
+** Conference Paper **
+Before submitting the final camera ready copy, remember to:
+
+ 1. Manually equalize the lengths of two columns on the last page
+ of your paper;
+
+ 2. Ensure that any PostScript and/or PDF output post-processing
+ uses only Type 1 fonts and that every step in the generation
+ process uses the appropriate paper size.
+
+[4] (G:\CEU_PRINCIPAL\CEU\RESEARCH\LAST\DASIP2014\IEEE\HermiteFPGA.aux) ) 
+Here is how much of TeX's memory you used:
+ 1688 strings out of 495269
+ 26781 string characters out of 3179499
+ 86446 words of memory out of 3000000
+ 4928 multiletter control sequences out of 15000+200000
+ 42328 words of font info for 81 fonts, out of 3000000 for 9000
+ 17 hyphenation exceptions out of 8191
+ 32i,13n,24p,898b,284s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Ar
+chivos de programa/MiKTeX 2.8/fonts/enc/dvips/fontname/8r.enc}<C:/Archivos de p
+rograma/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Archivos de pr
+ograma/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Archivos de pro
+grama/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Archivos de progr
+ama/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Archivos de program
+a/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Archivos de programa/M
+iKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Archivos de programa/MiKT
+eX 2.8/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Archivos de programa/MiKTe
+X 2.8/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Archivos de programa/MiKTeX 
+2.8/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Archivos de programa/MiKTeX 2.
+8/fonts/type1/urw/courier/ucrr8a.pfb><C:/Archivos de programa/MiKTeX 2.8/fonts/
+type1/urw/times/utmb8a.pfb><C:/Archivos de programa/MiKTeX 2.8/fonts/type1/urw/
+times/utmbi8a.pfb><C:/Archivos de programa/MiKTeX 2.8/fonts/type1/urw/times/utm
+r8a.pfb><C:/Archivos de programa/MiKTeX 2.8/fonts/type1/urw/times/utmri8a.pfb>
+Output written on HermiteFPGA.pdf (4 pages, 177398 bytes).
+PDF statistics:
+ 79 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+
