@@ -49,3 +49,6 @@ Bound check still failing. Reason unknown
 ### Bug #2 : bug in place trigger with loop pipelining.
 Removed loop pipelining from initiation functions.
 Simulation results verified. Working.
+
+Checked on FPGA without search back. Working.
+checked with search back. Working.

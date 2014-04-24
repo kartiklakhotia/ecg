@@ -286,7 +286,6 @@ void qrsDet()
 
 
 			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
-			QRSdet_cond1 = 0;
 			QRSdet_final = (QRSdet_cond0 || QRSdet_cond1);
 			qrsVal = (QRSdet_cond0) ? newPeak : qrsVal;
 			rrVal = (QRSdet_cond0) ? (count - WINbuff_size) : rrVal;	
@@ -314,32 +313,32 @@ void qrsDet()
 		init8Done = init8Done_next;
 	
 // In background, check for threshold change if there is no peak for 8 consecutive seconds //			
-//		if(init8Done)
-//		{
-//			onesec_cond = (++initBlank == MS1000);
-//			initBlank = (onesec_cond) ? 0 : initBlank;	 	
-//			RSETbuff[rset_count] = initMax;
-//			initMax = (onesec_cond) ? 0 : initMax;
-//			rset_count = (onesec_cond) ? (rset_count + 1) : rset_count;
-//			uint8_t timeout_cond = (rset_count == 8);
-//			nmean = (timeout_cond) ? 0 : nmean;
-//			rrmean = (timeout_cond) ? MS1000 : rrmean;
-//			sb_count = (timeout_cond) ? (MS1500 + MS150) : sb_count;
-//			initBlank = (timeout_cond) ? 0 : initBlank;
-//			rset_count = (timeout_cond) ? 0 : rset_count;
-//			if (timeout_cond)
-//			{
-//				int i;
-//				for (i=0; i<8; i++)
-//				{
-//					QRSbuff[i] = RSETbuff[i];
-//					NOISEbuff[i] = 0;
-//				}
-//				qmean = meanCalc(QRSbuff);
-//				det_thresh = threshCalc(qmean, nmean);	
-//			}
-//			initMax = (newPeak > initMax) ? newPeak : initMax;
-//		}	
+		if(init8Done)
+		{
+			onesec_cond = (++initBlank == MS1000);
+			initBlank = (onesec_cond) ? 0 : initBlank;	 	
+			RSETbuff[rset_count] = initMax;
+			initMax = (onesec_cond) ? 0 : initMax;
+			rset_count = (onesec_cond) ? (rset_count + 1) : rset_count;
+			uint8_t timeout_cond = (rset_count == 8);
+			nmean = (timeout_cond) ? 0 : nmean;
+			rrmean = (timeout_cond) ? MS1000 : rrmean;
+			sb_count = (timeout_cond) ? (MS1500 + MS150) : sb_count;
+			initBlank = (timeout_cond) ? 0 : initBlank;
+			rset_count = (timeout_cond) ? 0 : rset_count;
+			if (timeout_cond)
+			{
+				int i;
+				for (i=0; i<8; i++)
+				{
+					QRSbuff[i] = RSETbuff[i];
+					NOISEbuff[i] = 0;
+				}
+				qmean = meanCalc(QRSbuff);
+				det_thresh = threshCalc(qmean, nmean);	
+			}
+			initMax = (newPeak > initMax) ? newPeak : initMax;
+		}	
 
 
 		int64_t data_out = QRSdelay;
