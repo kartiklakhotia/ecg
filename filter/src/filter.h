@@ -2,23 +2,41 @@
 //constants for different filter stages
 //check readme for the source of constant values used in the program
 
-#define sample_rate 200
+#define SAMPLE_RATE 200
 #define ms_per_sample ((double)1000/(double)sample_rate)
 
-//#define LPfilt_range ((int)(25/ms_per_sample + 0.5)) // why 25, buff size should be upto 48ms, hence, should use 24 here ?? 
-						     // however, with ms_per_sample 5, it doesn't make difference
-
+#define MS10	(int)((SAMPLE_RATE*10+500)/1000)//	((int) (10/ MS_PER_SAMPLE + 0.5))
+#define MS20	(int)((SAMPLE_RATE*20+500)/1000)//	((int) (10/ MS_PER_SAMPLE + 0.5))
+#define MS25	(int)((SAMPLE_RATE*25+500)/1000)//	((int) (25/MS_PER_SAMPLE + 0.5))
+#define MS30	(int)((SAMPLE_RATE*30+500)/1000)//	((int) (30/MS_PER_SAMPLE + 0.5))
+#define MS40	(int)((SAMPLE_RATE*40+500)/1000)//	((int) (30/MS_PER_SAMPLE + 0.5))
+#define MS80	(int)((SAMPLE_RATE*80+500)/1000)//	((int) (80/MS_PER_SAMPLE + 0.5))
+#define MS95	(int)((SAMPLE_RATE*95+500)/1000)//	((int) (95/MS_PER_SAMPLE + 0.5))
+#define MS100	(int)((SAMPLE_RATE*100+500)/1000)//	((int) (100/MS_PER_SAMPLE + 0.5))
+#define MS125	(int)((SAMPLE_RATE*125+500)/1000)//	((int) (125/MS_PER_SAMPLE + 0.5))
+#define MS150	(int)((SAMPLE_RATE*150+500)/1000)//	((int) (150/MS_PER_SAMPLE + 0.5))
+#define MS160	(int)((SAMPLE_RATE*160+500)/1000)//	((int) (160/MS_PER_SAMPLE + 0.5))
+#define MS175	(int)((SAMPLE_RATE*175+500)/1000)//	((int) (175/MS_PER_SAMPLE + 0.5))
+#define MS195	(int)((SAMPLE_RATE*195+500)/1000)//	((int) (195/MS_PER_SAMPLE + 0.5))
+#define MS200	(int)((SAMPLE_RATE*200+500)/1000)//	((int) (200/MS_PER_SAMPLE + 0.5))
+#define MS220	(int)((SAMPLE_RATE*220+500)/1000)//	((int) (220/MS_PER_SAMPLE + 0.5))
+#define MS250	(int)((SAMPLE_RATE*250+500)/1000)//	((int) (250/MS_PER_SAMPLE + 0.5))
+#define MS300	(int)((SAMPLE_RATE*300+500)/1000)//	((int) (300/MS_PER_SAMPLE + 0.5))
+#define MS360	(int)((SAMPLE_RATE*360+500)/1000)//	((int) (360/MS_PER_SAMPLE + 0.5))
+#define MS450	(int)((SAMPLE_RATE*450+500)/1000)//	((int) (450/MS_PER_SAMPLE + 0.5))
+#define MS1000	(int)(SAMPLE_RATE)
+#define MS1500	(int)((SAMPLE_RATE*1500+500)/1000)//	((int) (1500/MS_PER_SAMPLE))
 /********************************
 ** FILTER STUFF **
 ********************************/
 
-#define LPbuff_size 10//((int)(50/ms_per_sample + 0.5)) 
-#define HPbuff_size 25//((int)(125/ms_per_sample + 0.5))
-#define DERIVbuff_size 2//((int)(10/ms_per_sample + 0.5))
-#define WINbuff_size 16//((int)(80/ms_per_sample + 0.5))
+#define LPbuff_size (int)(2*MS25) 
+#define HPbuff_size (int)(MS125)
+#define DERIVbuff_size (int)(MS10)
+#define WINbuff_size (int)(MS80)
 
-#define LPbuff_halfSize LPbuff_size/2
-#define HPbuff_halfSize HPbuff_size/2
+#define LPbuff_halfSize (int)(LPbuff_size/2)
+#define HPbuff_halfSize (int)(HPbuff_size/2)
 
 #define WINout_saturation 32000
 #define WINsum_saturation WINout_saturation*WINbuff_size
@@ -27,5 +45,5 @@
 
 
 
-void QRSFilt(uint8_t initialize);
-
+void QRSFilt();
+void initFilt();

@@ -33,22 +33,18 @@ void initFilt()
 	int index;
 	for (index = 0; index < LPbuff_size; index++)
 	{
-		__loop_pipelining_on__(7,2,0);
 		LPbuff[index]=0;
 	} 
 	for (index = 0; index < HPbuff_size; index++)
 	{
-		__loop_pipelining_on__(7,2,0);
 		HPbuff[index]=0;
 	} 
 	for (index = 0; index < DERIVbuff_size; index++)
 	{
-		__loop_pipelining_on__(7,2,0);
 		DERIVbuff[index]=0;
 	} 
 	for (index = 0; index < WINbuff_size; index++)
 	{
-		__loop_pipelining_on__(7,2,0);
 		WINbuff[index] = 0;
 	}
 	LPy1 = 0;
@@ -88,8 +84,6 @@ void lpFilt()
 	int ptr = LPbuff_ptr; //avoid reading global pointer value at multiple places
 
 	halfPtr = ptr-LPbuff_halfSize;
-//	if (halfPtr < 0)
-//		halfPtr += LPbuff_size;
 	halfPtr = (halfPtr < 0) ? halfPtr + LPbuff_size : halfPtr;
 	LPy0 = (LPy1 << 1) - LPy2 + datum - (LPbuff[halfPtr] << 1) + LPbuff[ptr];		
 	LPy2 = LPy1;
@@ -179,28 +173,13 @@ void mvWin()
 // Parent Function
 // Will call all above defined functions in correct sequence
 //////////////////////////////////////////////////////////////////////////////////////////////
-void QRSFilt(uint8_t initialize)
+void QRSFilt()
 {
-//	initfilt();
-//	while(1){
-//		int beatSample = read_uint32("input_pipe");
-//		write_uint32("sample_pipe", beatSample); //both can be clubbed by reading input pipe directly in the lpfilt()
 		
-		if (initialize)
-			initFilt();
-		else
-		{	
-			lpFilt();	
-			hpFilt();
-			deriv();
-			mvWin();
-//#ifdef SW
-//			printf("first iteration done\n");
-//#endif
-		}
-//		int output = read_uint32("WINout_pipe");
-//		write_uint32("output_pipe", output); // both can be clubbed by writing output pipe directly in mvwin()
-//	}
+	lpFilt();	
+	hpFilt();
+	deriv();
+	mvWin();
 }
 
 

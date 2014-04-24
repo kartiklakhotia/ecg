@@ -33,13 +33,12 @@ void initDet()
 	int index;
 	for (index=0; index<8; index++)
 	{
-	__loop_pipelining_on__(7,2,0);
 		NOISEbuff[index] = 0;
 		RRbuff[index] = MS1000; 	
+		QRSbuff[index] = 0;
 	}
 	for (index = 0; index < DERIVbuff_size; index++)
 	{
-		__loop_pipelining_on__(7,2,0);
 		DDCALCbuff[index]=0;
 	} 
 	maxDer = 0;
@@ -194,7 +193,7 @@ void noiseUpdate(int noiseVal)
 void qrsDet()
 {
 	initDet();
-	QRSFilt(1); //initiate filter buffers, pointers and variables also to reset state;
+	initFilt(); //initiate filter buffers, pointers and variables also to reset state;
 	int aPeak, newPeak, tempPeak, sbPeak;
 	int qpk_count, count, initBlank, preBlank_count, rset_count;
 	int initMax, lastMax, det_thresh;
@@ -221,7 +220,7 @@ void qrsDet()
 		int64_t data_in = read_uint64("det_input_pipe");  //clubbed in the lpfilt() function of Filter part
 		int prefilt_datum = data_in;
 		write_uint32("filt_input_pipe", prefilt_datum);	
-		QRSFilt(0);
+		QRSFilt();
 	///////////////// PEAK DETECTION AND VERIFICATION OF POINT OF OCCURRENCE ////////////
 	//	int postfilt_datum = read_uint32("filt_output_pipe");
 
@@ -286,7 +285,7 @@ void qrsDet()
 			sbLoc = (sbUpdate_cond) ? (count - WINbuff_size) : sbLoc;	
 
 
-//			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
+			QRSdet_cond1 = ((count > sb_count) && (sbPeak > (det_thresh >> 1)) && (!QRSdet_cond0));
 			QRSdet_cond1 = 0;
 			QRSdet_final = (QRSdet_cond0 || QRSdet_cond1);
 			qrsVal = (QRSdet_cond0) ? newPeak : qrsVal;

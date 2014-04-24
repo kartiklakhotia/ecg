@@ -34,7 +34,7 @@ Hardware generation bug fixed. Mempool issue with pointer arguments.
 H/W debugging.
 Working on simulations currently.
 
-Bug #1 : WINbuff not initialized before read access.
+#### Bug #1 : WINbuff not initialized before read access.
 Status : fixed.
 
 filter checked in H/W. Working correctly.
@@ -45,3 +45,7 @@ failing. Bound check failed.
 
 checking the qmean in first loop which runs for first 8 seconds. That is running ok.
 Bound check still failing. Reason unknown
+
+### Bug #2 : bug in place trigger with loop pipelining.
+Removed loop pipelining from initiation functions.
+Simulation results verified. Working.
