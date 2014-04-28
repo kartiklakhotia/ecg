@@ -341,7 +341,21 @@ void qrsDet()
 		}	
 
 
-		int64_t data_out = QRSdelay;
+	/// CENTERING, remove the shift in peak detection ///
+		int sweepIndex = (QRSdelay > 0) ? FILTERbuff_ptr + LHPFILT_DELAY - QRSdelay  - MS20 : 0;
+		int sweepCount = -MS20;
+		int sweepMaxVal = 0;
+		int sweepMaxIndex = 0;
+		sweepIndex = (sweepIndex < 0) ? sweepIndex + FILTERbuff_size : sweepIndex;
+		while (sweepCount < MS20)
+		{
+			uint8_t maxCond = (FILTERbuff[sweepIndex] > sweepMaxVal);
+			sweepMaxVal = maxCond ? FILTERbuff[sweepIndex] : sweepMaxVal;
+			sweepMaxIndex = maxCond ? sweepCount : sweepMaxIndex;
+			sweepIndex = circUpdateDet(sweepIndex, FILTERbuff_size);
+			sweepCount++;
+		}
+		int64_t data_out = (QRSdelay > 0) ? (QRSdelay - sweepMaxIndex) : 0; 
 
 		write_uint64("det_output_pipe", data_out);	
 	}
