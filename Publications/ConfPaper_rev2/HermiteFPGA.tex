@@ -355,7 +355,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Low-latency Hermite Polynomial Characterization of Heartbeats using a Field-Programmable Gate Array}
+\title{Real-time Hermite Polynomial Characterization of Heartbeats using a Field-Programmable Gate Array}
 
 
 % author names and affiliations
@@ -386,7 +386,7 @@
 % of the page, use this alternative format:
 % 
 
-\author{\IEEEauthorblockN{Kartik Lakhoti\IEEEauthorrefmark{1},
+\author{\IEEEauthorblockN{Kartik Lakhotia\IEEEauthorrefmark{1},
 Gabriel Caffarena\IEEEauthorrefmark{2},
 Alberto Gil\IEEEauthorrefmark{2}, 
 David G. M\'{a}rquez\IEEEauthorrefmark{3},
@@ -417,7 +417,16 @@ Email: david.gonzalez.marquez@usc.es}}
 
 \begin{abstract}
 %\boldmath
-The abstract goes here.
+The characterization of ECG heartbeats is a computationally intensive problem, and
+both off-line and on-line (real-time) solutions to this problem are of great interest.
+In this paper, we consider the use of a dedicated hardware implementation
+(using a field-programmable gate-array (FPGA)) to solve a critical component of this problem,
+namely,  the best-fit Hermite approximation of a heartbeat.
+The implementation is generated using an algorithm-to-hardware compiler tool-chain
+and the resulting hardware is characterized using an off-the-shelf FPGA card.
+The single beat best-fit computation latency when using six Hermite basis
+polynomials is under $0.5ms$ with a power dissipation of 3 watts, demonstrating
+true real-time applicability. 
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -521,7 +530,8 @@ H_n(x)=2xH_{n-1}(x)-2(n-1)H_{n-2}(x),
 \end{equation}
 
 \noindent where $H_0(x)=1$ and $H_1(x)=2x$.
-The parameter $\sigma$ controls the width of the polynomials. In \cite{j:lagerholm00} the maximum value 
+The parameter $\sigma$ is a time-scaling factor in the polynomials which needs
+to be chosen carefully.   In \cite{j:lagerholm00} the maximum value 
 of $\sigma$ for a given order $n$ is estimated.  As the value of $n$ increases, the value of $\sigma_{MAX}$ decreases.
 
 The Hermite polynomials are orthonormal.  Thus, the optimal coefficients that 
@@ -538,8 +548,205 @@ are found for each heartbeat, it is possible to use only these figures to perfor
 classification of the heartbeats \textrm{~\cite{j:lagerholm00}}.
 
 
-\section{AHIRV2: A C-2-VHDL compiler} \label{s:AHIR}
-(Madhav, reuse some text and figures from other publications to explain AHIR methodology. Also, it would be interesting to mention the way that AHIR handles data types (int and float)
+\section{AHIRV2: A C-2-VHDL compiler} \label{s:AHIRV2}
+%%(Madhav, reuse some text and figures from other publications to explain AHIR methodology. 
+%% Also, it would be interesting to mention the way that AHIR handles data types (int and float)
+%%
+The AHIRV2 compiler tool-chain \cite{c:ahir_thesis2009, c:ahir_dsd2010, c:ahir_usenix2012} 
+provides a pathway from a C-program to actual synthesizable hardware.  The tool-chain
+takes a description of an algorithm (described in C) and produces a VHDL logic circuit
+description which is equivalent to the algorithm.
+
+The AHIRV2 compiler starts with a C program and produces VHDL.  For the
+The clang-2.8 compiler\footnote{www.clang.org} is used as the C front-end
+and is used to emit LLVM byte-code\footnote{www.llvm.org}, 
+which is then transformed to VHDL using the following transformations:
+\begin{enumerate}
+\item The LLVM byte-code is translated to an internal intermediate
+format, which is itself a static-single assignment centric 
+control-flow language (named {\bf Aa}) which allows the description of parallelism
+using fork-join structures as well as arbitrary branching.
+\item The {\bf Aa} description is translated to a virtual circuit (the model
+is described in the next section).  During this translation, the
+following major optimizations
+are performed:  declared storage objects are partitioned into disjoint memory
+spaces using pointer reference analysis, and dependency analysis is used to
+generate appropriate sequencing of operations in order to maximize the 
+parallelism.  Inner loops in the {\bf Aa} code are pipelined so that
+multiple iterations of a loop can be executed concurrently.  
+\item The virtual circuit is then translated to VHDL.  At this point,
+decisions about operator sharing are taken.  Concurrency analysis is
+used to determine if a shared hardware unit needs arbitration. Optimizations
+related to clock-frequency maximization are also carried out here.
+The generated VHDL uses a pre-designed library of useful operators ranging from
+multiplexors, arbiters to pipelined floating point arithmetic units (arbitrary
+precision arithmetic is supported, and in particular, there is
+full support for IEEE-754 single precision and double precision add/multiply with
+all rounding modes).
+\end{enumerate}
+
+
+\subsection{An illustration of the virtual circuit generated by the AHIRV2 compiler}
+
+The virtual circuit generated by the AHIRV2 compiler consists of three
+cooperating components: the control-path, the data-path and
+the storage system \cite{c:ahir_dsd2010,c:ahir_usenix2012}.
+
+To illustrate the model, we consider a simple example.
+\begin{verbatim}
+float a[1024], b[1024];
+float dotp = 0.0;
+for(i=0; i < 1024; i++)
+{
+   dotp += a[i]*b[i];
+}
+\end{verbatim}
+The AHIRV2 tool-chain transforms this program to 
+produce a virtual circuit which is depicted in Figure \ref{fig:dotP}. The
+virtual circuit is then translated to synthesizable VHDL.
+The virtual circuit consists of three components independent parts, namely
+the data-path, the storage-subsystem and the control-path.
+
+\begin{figure*}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{dotP.pdf}
+  \caption{Control-data-storage virtual circuit model.}
+  \label{fig:dotP}
+\end{figure*}
+
+
+
+\subsubsection{The data-path}
+
+The data-path is a directed hyper-graph with nodes being
+operations and arcs being nets (shown as ovals).  Each
+net has at most one operation which drives it.  Further, most
+operations have  a split protocol handshake with
+the control-path:  two pairs of request/acknowledge 
+associations (*sr/*sa for sampling the inputs  and *cr/*ca for
+updating the outputs).    The operation samples its inputs
+on receiving the sr request symbol and acknowledges the completion
+of this action by emitting the sa acknowledge symbol.  After receiving
+the cr symbol, the operation will update its output net
+using the newly computed value. The sequencing is required to be
+\begin{verbatim}
+sr -> sa -> cr -> ca
+\end{verbatim}
+Note that an operation can be re-triggered while an earlier
+edition of the operation
+is in progress (this is important if the operation is implemented
+using a pipelined operator).
+
+Some data-path operations (such as the multiplexor
+shown on the top and the decision operation shown at the bottom
+left in Figure \ref{fig:dotP}) follow a simpler protocol.  The multiplexor
+has a pair of requests and a single acknowledge, with the condition
+that at most one of the requests is received at any time instant.
+The input corresponding to the request is then sampled and stored
+in the output net of the multiplexor.
+The decision operation has a single request and two acknowledes.  Upon
+receipt of the request symbol, the decision operation checks its input net
+and emits one of the two acknowledges depending on whether the input
+is zero/non-zero.
+
+In Figure \ref{fig:dotP}, the following data-path operations
+are instantiated:
+\begin{verbatim}
+mI, mdotP  multiplexors for I, dotP.
+INCR       increment for I++
+LA         load for a[I]
+LB         load for b[I]
+FMUL       multiply for p=a[I]*b[I]
+FADD       add for dotP += a*b
+CMP EQ     compare for COND=(I==1023)
+D          decision  COND?
+\end{verbatim}
+
+
+\noindent
+{\bf Remark}
+Note that the data-path only shows the operations and their interconnection.
+When the data-path is implemented as hardware, multiple operations may
+be mapped to a single operator depending on cost/performance tradeoffs.  When
+this is done, multiplexing logic is introduced in the hardware.  These
+decisions and manipulations are performed in the compiler stage which is
+responsible for transforming the virtual circuit to VHDL.
+
+\subsubsection{Storage subsystem}
+
+%%
+%% time-stamping scheme, in order completion.
+%%
+The load and store operations in the data-path
+are associated with memory subsystems.  In general, there
+can be multiple disjoint memory subsystems inferred by the
+compiler.  In this particular case, the arrays a[] and b[] 
+are mapped to disjoint memories, due to which the two
+loads are allowed to proceed in parallel (the relaxed consistency
+model is enforced).
+In order to maintain the relaxed consistency model, the
+memory subsystems are designed to use a time-stamping 
+scheme which guarantees first-come-first-served access to
+the same memory location.
+
+\subsubsection{Control-path}
+%%
+%%  control path and data-flow
+%%
+
+
+%% 
+%% Petri-net, constructed according to
+%% certain rules.  Req/Ack transitions
+%%
+The control-path in the virtual circuit encodes
+all the sequencing that is necessary for correct
+operation of the assembly.
+The control-path (shown on the left
+in Figure \ref{fig:dotP}) is modeled as a Petri-net with
+a unique entry point and a unique exit point.  The Petri-net
+is constructed using a set of production rules which guarantee
+liveness and safeness \cite{c:ahir_dsd2010}.  Transitions in the Petri-net
+are associated with output symbols to the data-path (these can
+be described by the regular expressions *sr and *cr)
+and input symbols from the data-path (these are of the form *sa and
+*ca).  The *sr symbols instruct an element in the data-path to
+sample its inputs and the *cr symbols instruct an element in the
+data-path to update its outputs (all outputs of data-path elements
+are registered).  The *sa and *ca symbols are acknowledgements
+from the data-path which indicate that the corresponding requests
+have been served.  
+
+The following classes of dependencies are
+encoded in the control Petri-net:
+\begin{itemize}
+\item Read-after-write (RAW):  If the result of operator A is used
+as an input to operator B, the sr symbol to B can be emitted only after
+the ca symbol from A has been received.
+\item Write-after-read (WAR): If B writes to a net whose value needs
+to have been used by A earlier, for example as in
+\begin{verbatim}
+a = (b+c) -- operation A reads c
+c = (p*q) -- operation B writes to c
+\end{verbatim}
+where there is a WAR dependency through c,
+ then the cr request to B can be
+issued only after the sa acknowledge from A has been received.
+\item Load-Store ordering:  If P,Q are load/store operations
+to the same memory subsystem, and if at least one of P,Q is a
+store, and if P is supposed to happen before Q,  then the sr request
+to Q must be emitted only after the sa acknowledge from Q
+has been received.  The memory subsystem itself guarantees
+that requests finish in the same order that they were
+initiated.  This takes care of WAR, RAW and WAW memory
+dependencies.
+\end{itemize}
+
+The control-path in Figure \ref{fig:dotP} shows the sequencing
+generated by these rules.  When pipelining an inner loop,
+the execution of an operation in a particular iteration is
+enabled as soon as its dependencies on results from previous
+iterations are satisfied.  
 
 \section{Beginning the FPGA implementation: the algorithm} \label{s:algorithm}
 
@@ -613,12 +820,12 @@ void  innerProduct()
      for(SI = 0; SI < NSIGMAS; SI++)
      { // inner-loop
         int I0 = I + Offset[SI];
-        double p0 = (x0*hF0[I0]);
-        double p1 = (x0*hF1[I0]);
-        double p2 = (x0*hF2[I0]);
-        double p3 = (x0*hF3[I0]);
-        double p4 = (x0*hF4[I0]);
-        double p5 = (x0*hF5[I0]);
+        double p0 = (x*hF0[I0]);
+        double p1 = (x*hF1[I0]);
+        double p2 = (x*hF2[I0]);
+        double p3 = (x*hF3[I0]);
+        double p4 = (x*hF4[I0]);
+        double p5 = (x*hF5[I0]);
         dotP0[SI] += p0;
         dotP1[SI] += p1;
         dotP2[SI] += p2;
@@ -699,14 +906,65 @@ memories to give high memory access bandwidth.
 
 
 
-\subsection{Further optimizations}
+\subsection{Optimizations: loop unrolling and loop pipelining}
 
 The current implementation uses a simple sequential specification.
 We have investigated the impact of
 further optimizations.  In particular, we find that outer-loop
 unrolling (up to four) and inner-loop pipelining 
 have substantial impact on the performance of the generated hardware.
-This data is reported in Section \ref{s:results}.
+
+If we look at the inner loop in Figure \ref{fig:InnerProduct},
+we observe that because of the accumulation of products in each
+loop iteration, the time interval between successive loop initiations
+is equal to the latency of the adder (because the next loop iteration
+needs to wait for the completion of the sum in the current iteration).  This
+latency is around 20 cycles in our case, and becomes a performance limiter.
+
+If the outer loop in the innner-product function
+(Section \ref{sec:InnerProduct}) is unrolled four times, the 
+resulting code will have the form shown in Figure \ref{fig:InnerProductUnrolled}.
+The amount of parallelism in the inner loop increases by a considerable
+margin.  The loop iteration initiation latency stays about the same, but the
+amount of computation done in each loop iteration is quadrupled, thus
+leading to higher performance.  In Section \ref{s:results}, we
+provide actual measurements in hardware which support this observation.
+
+A similar improvement is observed by unrolling the outer loop in the MMSE computation
+shown in Figure \ref{fig:MMSE}.
+
+\begin{figure}
+\begin{centering}
+\small\begin{verbatim}
+void  innerProduct()
+{
+  for (I=0; I < NSAMPLES; I += 4)
+  { // outer-loop
+     double x0 = inputData[I];
+     double x1 = inputData[I+1];
+     double x2 = inputData[I+2];
+     double x3 = inputData[I+3];
+     for(SI = 0; SI < NSIGMAS; SI++)
+     { 
+        int I0 = I + Offset[SI];
+        I1 = I0+1; I2 = I0+2; I3 = I0+3;
+        // compute inner product of 
+        // (x0,x1,x2,x3) with
+        // (hFn[I0], hFn[I1], hFn[I2], hFn[I3])
+        // for n=0,1,2,..5.
+        // 
+        // accumulate into dotPn[SI].
+        //
+     }
+}
+\end{verbatim}
+\normalsize
+\end{centering}
+\caption{Inner-product loop unrolled four times.}
+\label{fig:InnerProductUnrolled}
+\end{figure}
+
+
 
 \section{Hardware Implementation Details}\label{s:implementation}
 
@@ -745,7 +1003,8 @@ The hardware unit which listens for the next beat is then triggered (wait for th
 \end{center}
 \end{figure}
 
-The VHDL hardware for this design is generated using AHIR-V2 toolchain \cite{c:ahir_usenix2012}.  
+The VHDL hardware for this design is generated using the AHIRV2 toolchain
+which was described in Section \ref{s:AHIRV2}.  
 The generated VHDL is instantiated in the FPGA together with the RIFFA wrappers,
 and the resulting design is synthesized and mapped to the Virtex-6 FPGA using
 the Xilinx ISE 14.3 toolset.
@@ -772,6 +1031,7 @@ the Xilinx ISE 14.3 toolset.
 %    - the driver
 %    - the hardware generation process.
 %
+
 \section{Results}\label{s:results}
 
 We measure the round-trip delay and FPGA core power consumption for processing one beat. 
@@ -814,7 +1074,7 @@ Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabula
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-It is clear that FPGA can be used for real-time processing since the 
+It is clear that FPGA can be used for {\em true} real-time processing since the 
 computation time required to process a pair of beats (corresponding
 to a heart-beat sampled on two channels) is less than $1ms$, which is
 much smaller than time-interval between actual heart beats (which is about $1s$). 
@@ -826,14 +1086,25 @@ system is less than $55\%$ of the FPGA resource.
 Hermite basis fitting has been evaluated on GPU and CPU implementations
 as well.  For example, in \cite{c:GPU}, the authors demonstrate a
 GPU implementation that shows excellent scaling behaviour in real-time, so that 
-100K beats can be processed in 15.7 seconds. The average processing latency per pair of beats if 0.022 msecs. However, it must be stressed that in general the GPU achieves full parallelization when a huge set of data is processed and real-time requires the processing of small sets of data. Real-time is achieved on the GPU by means of processing chunks of 10 and 100 beats, resulting in latencies of around 10 seconds and around 100 seconds respectively. Thus, real-time processing is not fully acomplished since latencies are too long. on the other hand, a CPU is able to do low-latency real-time wih a latency per beat of around 30 msecs per pair of beats. As for out FPGA implementation, the latency needed to process a pair of beats is under $1ms$. Since the beats are processed one at a time, actual real-time is achieved. 
+100K beats can be processed in 15.7 seconds. The average processing latency per 
+pair of beats if 0.022 msecs.  However, it must be stressed that in general the GPU achieves 
+full parallelization when a huge set of data is processed and real-time requires the processing 
+of small sets of data. Real-time is achieved on the GPU by means of processing chunks of 10 and 100 beats, 
+resulting in latencies of around 10 seconds and around 100 seconds respectively. Thus, 
+{\em true} real-time processing is not fully acomplished since latencies are too long. 
+On the other hand, a CPU is able to do low-latency real-time wih a latency per beat of around 
+30 msecs per pair of beats.  As for our FPGA implementation, the latency needed to process a pair of beats 
+is under $1ms$. Since the beats are processed one at a time, actual real-time is achieved. 
 
-These comparisons are made against same algorithm executed on Intel-i7 PC(1.6GHz) 
+These comparisons are made against the same algorithm executed on Intel-i7 PC(1.6GHz) 
 and NVIDIA TESLA C2050 (1.15GHz) \cite{c:GPU}. The operating frequency on the FPGA
 card was 100MHz which is less than one-tenth of that used on CPUs and GPUs.
-Further, the peak power consumption (while actually processing the beats) on the FPGA is 3W as compared to $100W+$ on Core i7 processors and
-$200W+$ on the GPU.  %% which GPU?
-In summary, the FPGA achieves a better average latency than the CPU and it ourperforms the GPU in term of the low-latency requirements for \textit{actual} real-time capabilities, displaying a power comsumptiontions 2 orders of magnitude lower than the other two technologies. Thus, the FPGA is an attractive option for low energy real-time ECG classification
+Further, the peak power consumption (while actually processing the beats) on the FPGA is $3W$ as compared to 
+$100W+$ on Core i7 processors and $200W+$ on the GPU.  %% which GPU?
+In summary, the FPGA achieves a better average latency than the CPU and it ourperforms the 
+GPU in term of the low-latency requirements for \textit{actual} real-time capabilities, 
+displaying a power comsumption which is two orders of magnitude lower than the other two technologies. 
+Thus, the FPGA is an attractive option for low energy real-time ECG classification
 applications in portable health monitoring devices.
 
 \section{Conclusions}\label{s:conclusions}
@@ -864,11 +1135,11 @@ using an FPGA offers a very competitive platform for ECG signal processing.
 
 
 % use section* for acknowledgement
+
 \section*{Acknowledgment}
 
-
-The authors would like to thank...
-
+The authors would like to thank Rakesh Mehta for providing access to
+the Xilinx ML605 FPGA board.
 
 
 
