@@ -52,3 +52,6 @@ Simulation results verified. Working.
 
 Checked on FPGA without search back. Working.
 checked with search back. Working.
+
+Checked with the peak centering correction and with storing high pass filtered data. Working.
+Detector implementation finished. sign off.

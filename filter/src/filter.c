@@ -47,14 +47,13 @@ void initFilt()
 	{
 		WINbuff[index] = 0;
 	}
-	LPy1 = 0;
-	LPy2 = 0;
-	HPy1 = 0;
+	for (index = 0; index < FILTERbuff_size; index++)
+	{
+		FILTERbuff[index] = 0;
+	}
+	LPy1 = LPy2 = HPy1 = 0;
 	WINsum = 0;
-	LPbuff_ptr = 0;
-	HPbuff_ptr = 0;
-	DERIVbuff_ptr = 0;
-	WINbuff_ptr = 0;
+	LPbuff_ptr = HPbuff_ptr = DERIVbuff_ptr = WINbuff_ptr = FILTERbuff_ptr = 0;
 }
 
 
@@ -139,8 +138,9 @@ void deriv()
 	int ptr = DERIVbuff_ptr;
 
 	int output = abs(datum - DERIVbuff[ptr]);
-	DERIVbuff[ptr] = datum;
+	DERIVbuff[ptr] = FILTERbuff[FILTERbuff_ptr] = datum;
 	DERIVbuff_ptr = circUpdateFilt(ptr, DERIVbuff_size);
+	FILTERbuff_ptr = circUpdateFilt(FILTERbuff_ptr, FILTERbuff_size);
 	write_uint32("DERIVout_pipe", output);
 }
 

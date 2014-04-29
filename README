@@ -15,3 +15,5 @@ Reference fixed, figure for statemachine added to paper.
 
 Working on Filter and QRS detector.
 Filter function file prepared.
+
+Detector H/W implementation finished; tested and verified.
