@@ -548,7 +548,223 @@ are found for each heartbeat, it is possible to use only these figures to perfor
 classification of the heartbeats \textrm{~\cite{j:lagerholm00}}.
 
 
-\section{AHIRV2: A C-2-VHDL compiler} \label{s:AHIRV2}
+\section{Beginning the FPGA implementation: the algorithm} \label{s:algorithm}
+
+The algorithm used in the FPGA implementation is illustrated in 
+Figure \ref{fig:FpgaAlgo}.
+\begin{figure}
+\begin{centering}
+\small\begin{verbatim}
+void HermiteBestFit()
+{  
+    receiveHermiteBasisFunctions();
+
+    while(1)
+    {
+        receiveHeartBeat();
+        innerProducts();
+        findBestFit();
+        reportResults();
+    }
+}
+\end{verbatim}
+\normalsize
+\end{centering}
+\caption{High-level view of algorithm mapped to the FPGA}
+\label{fig:FpgaAlgo}
+\end{figure}
+
+The implementation first receives the values of the Hermite polynomial basis
+functions, and  stores them in distinct arrays in the hardware.  In the
+current implementation, we use six
+arrays to store the basis functions for order $n=0$ to $n=5$.  For each
+$n$, basis functions for ten different values of $\sigma$ are stored in the corresponding
+array.  The values of $\sigma$ used range from $1/120$ to $1/90$.
+
+After this initialization step, the hardware executes a continuous loop.  
+In the loop body, the hardware first listens for heart beats. When
+a complete heart-beat (144 samples) is received, the inner products of the
+heart-beat with all the basis functions are calculated in a double loop.  
+After all inner products are calculated, the inner product coefficients
+are used to compute the best fit among the different values of $\sigma$.
+The best-fit $\sigma$ index and coefficients
+%fitted values 
+are then written out of the hardware. 
+
+The algorithm as described above is purely sequential
+and does not contain any explicit parallelization.  The AHIRV2 compiler
+(described later in Section \ref{s:AHIRV2}) is intelligent enough to extract 
+parallelism from the two critical loops (in the inner-product and best-fit functions).
+Even with this simple coding of the hardware algorithm,
+we observe that excellent real-time performance
+is observed (in comparison with CPU/GPU implementations).
+Going further, it is possible to specify explicit parallelism by
+and exploit it by using multiple function units in hardware
+in order to reduce the processing latency.  These investigations
+are currently in progress.
+
+
+
+\subsection{The inner product loop} \label{sec:InnerProduct}
+
+\begin{figure}
+\begin{centering}
+\small\begin{verbatim}
+void  innerProduct()
+{
+  int I;
+  for (I=0; I < NSAMPLES; I++)
+  { // outer-loop
+     double x = inputData[I];
+     for(SI = 0; SI < NSIGMAS; SI++)
+     { // inner-loop
+        int I0 = I + Offset[SI];
+        double p0 = (x*hF0[I0]);
+        double p1 = (x*hF1[I0]);
+        double p2 = (x*hF2[I0]);
+        double p3 = (x*hF3[I0]);
+        double p4 = (x*hF4[I0]);
+        double p5 = (x*hF5[I0]);
+        dotP0[SI] += p0;
+        dotP1[SI] += p1;
+        dotP2[SI] += p2;
+        dotP3[SI] += p3;
+        dotP4[SI] += p4;
+        dotP5[SI] += p5;
+     }
+}
+\end{verbatim}
+\normalsize
+\end{centering}
+\caption{Inner-product loop}
+\label{fig:InnerProduct}
+\end{figure}
+
+The inner product loop is shown in Figure \ref{fig:InnerProduct}.
+The outer loop is over the samples, and the inner
+loop across the $\sigma$ values.  There is a high-level
+of parallelism in the inner loop which can be further
+boosted by unrolling the outer loop.   When translating
+this to hardware, the entire function uses one single double-precision
+multiplier and one single double-precision adder.  Further
+note that the arrays $hFn$ and $dotPn$ are declared on
+a per-$n$ basis (for $n=0$ to $n=5$). This allows the arrays to be mapped to
+distinct memory spaces, thus increasing the memory access bandwidth in the hardware.
+
+\subsection{The minimum-mean-square loop} \label{sec:MMSE}
+
+\begin{figure}
+\begin{centering}
+\footnotesize\begin{verbatim}
+void computeMSE()
+{
+  int I, SI;
+  best_mse = 1.0e+20;
+  best_sigma_index = -1;
+  for (I=0; I<NSAMPLES; I=I+4)
+  { // outer-loop
+     for (SI=0; SI<NSIGMAS; SI++)
+     { // inner-loop
+        int fetchIndex0 = I + Offset[SI]; 
+        double p0 = (dotP0[SI]*hF0[fetchIndex0]);
+        double p1 = (dotP1[SI]*hF1[fetchIndex0]);
+        double p2 = (dotP2[SI]*hF2[fetchIndex0]);
+        double p3 = (dotP3[SI]*hF3[fetchIndex0]);
+        double p4 = (dotP4[SI]*hF4[fetchIndex0]);
+        double p5 = (dotP5[SI]*hF5[fetchIndex0]);
+        double diff = (inputData[I]-
+                      ((p0+p1) + (p2+p3) + (p4+p5)));
+        err[SI] += (diff*diff);
+      }
+    }
+    for (SI=0; SI<NSIGMAS; SI++)
+    {
+        if(err[SI] <  best_mse)
+        {
+           best_mse = err[SI];
+           best_sigma_index = SI;
+        }
+    }
+}
+\end{verbatim}
+\normalsize
+\end{centering}
+\caption{MMSE calculation loop}
+\label{fig:MMSE}
+\end{figure}
+
+
+The MMSE calculation hardware
+uses the algorithm shown in Figure \ref{fig:MMSE}.
+Note that the inner loop again has considerable parallelism.
+One pipelined double precision multiplier and one
+pipelined double precision adder are used to implement
+the loop.  The arrays referred to in the loop
+$dotPn$ and $hFn$ are all implemented in disjoint
+memories to give high memory access bandwidth.
+
+
+
+\subsection{Optimizations: loop unrolling and loop pipelining}
+
+The current implementation uses a simple sequential specification.
+We have investigated the impact of
+further optimizations.  In particular, we find that outer-loop
+unrolling (up to four) and inner-loop pipelining 
+have substantial impact on the performance of the generated hardware.
+
+If we look at the inner loop in Figure \ref{fig:InnerProduct},
+we observe that because of the accumulation of products in each
+loop iteration, the time interval between successive loop initiations
+is equal to the latency of the adder (because the next loop iteration
+needs to wait for the completion of the sum in the current iteration).  This
+latency is around 20 cycles in our case, and becomes a performance limiter.
+
+If the outer loop in the innner-product function
+(Section \ref{sec:InnerProduct}) is unrolled four times, the 
+resulting code will have the form shown in Figure \ref{fig:InnerProductUnrolled}.
+The amount of parallelism in the inner loop increases by a considerable
+margin.  The loop iteration initiation latency stays about the same, but the
+amount of computation done in each loop iteration is quadrupled, thus
+leading to higher performance.  In Section \ref{s:results}, we
+provide actual measurements in hardware which support this observation.
+
+A similar improvement is observed by unrolling the outer loop in the MMSE computation
+shown in Figure \ref{fig:MMSE}.
+
+\begin{figure}
+\begin{centering}
+\small\begin{verbatim}
+void  innerProduct()
+{
+  for (I=0; I < NSAMPLES; I += 4)
+  { // outer-loop
+     double x0 = inputData[I];
+     double x1 = inputData[I+1];
+     double x2 = inputData[I+2];
+     double x3 = inputData[I+3];
+     for(SI = 0; SI < NSIGMAS; SI++)
+     { 
+        int I0 = I + Offset[SI];
+        I1 = I0+1; I2 = I0+2; I3 = I0+3;
+        // compute inner product of 
+        // (x0,x1,x2,x3) with
+        // (hFn[I0], hFn[I1], hFn[I2], hFn[I3])
+        // for n=0,1,2,..5.
+        // 
+        // accumulate into dotPn[SI].
+        //
+     }
+}
+\end{verbatim}
+\normalsize
+\end{centering}
+\caption{Inner-product loop unrolled four times.}
+\label{fig:InnerProductUnrolled}
+\end{figure}
+
+
+\section{From algorith-to-hardware using AHIRV2, a C-2-VHDL compiler} \label{s:AHIRV2}
 %%(Madhav, reuse some text and figures from other publications to explain AHIR methodology. 
 %% Also, it would be interesting to mention the way that AHIR handles data types (int and float)
 %%
@@ -747,223 +963,6 @@ generated by these rules.  When pipelining an inner loop,
 the execution of an operation in a particular iteration is
 enabled as soon as its dependencies on results from previous
 iterations are satisfied.  
-
-\section{Beginning the FPGA implementation: the algorithm} \label{s:algorithm}
-
-The algorithm used in the FPGA implementation is illustrated in 
-Figure \ref{fig:FpgaAlgo}.
-\begin{figure}
-\begin{centering}
-\small\begin{verbatim}
-void HermiteBestFit()
-{  
-    receiveHermiteBasisFunctions();
-
-    while(1)
-    {
-        receiveHeartBeat();
-        innerProducts();
-        findBestFit();
-        reportResults();
-    }
-}
-\end{verbatim}
-\normalsize
-\end{centering}
-\caption{High-level view of algorithm mapped to the FPGA}
-\label{fig:FpgaAlgo}
-\end{figure}
-
-The implementation first receives the values of the Hermite polynomial basis
-functions, and  stores them in distinct arrays in the hardware.  In the
-current implementation, we use six
-arrays to store the basis functions for order $n=0$ to $n=5$.  For each
-$n$, basis functions for ten different values of $\sigma$ are stored in the corresponding
-array.  The values of $\sigma$ used range from $1/120$ to $1/90$.
-
-After this initialization step, the hardware executes a continuous loop.  
-In the loop body, the hardware first listens for heart beats. When
-a complete heart-beat (144 samples) is received, the inner products of the
-heart-beat with all the basis functions are calculated in a double loop.  
-After all inner products are calculated, the inner product coefficients
-are used to compute the best fit among the different values of $\sigma$.
-The best-fit $\sigma$ index and coefficients
-%fitted values 
-are then written out of the hardware. 
-
-The algorithm as described above is purely sequential
-and does not contain any explicit parallelization.  The AHIRV2 compiler
-is intelligent enough to extract parallelism from the two critical
-loops (in the inner-product and best-fit functions).
-
-Even with this simple coding of the hardware algorithm,
-we observe that excellent real-time performance
-is observed (in comparison with CPU/GPU implementations).
-Going further, it is possible to specify explicit parallelism by
-and exploit it by using multiple function units in hardware
-in order to reduce the processing latency.  These investigations
-are currently in progress.
-
-
-
-\subsection{The inner product loop} \label{sec:InnerProduct}
-
-\begin{figure}
-\begin{centering}
-\small\begin{verbatim}
-void  innerProduct()
-{
-  int I;
-  for (I=0; I < NSAMPLES; I++)
-  { // outer-loop
-     double x = inputData[I];
-     for(SI = 0; SI < NSIGMAS; SI++)
-     { // inner-loop
-        int I0 = I + Offset[SI];
-        double p0 = (x*hF0[I0]);
-        double p1 = (x*hF1[I0]);
-        double p2 = (x*hF2[I0]);
-        double p3 = (x*hF3[I0]);
-        double p4 = (x*hF4[I0]);
-        double p5 = (x*hF5[I0]);
-        dotP0[SI] += p0;
-        dotP1[SI] += p1;
-        dotP2[SI] += p2;
-        dotP3[SI] += p3;
-        dotP4[SI] += p4;
-        dotP5[SI] += p5;
-     }
-}
-\end{verbatim}
-\normalsize
-\end{centering}
-\caption{Inner-product loop}
-\label{fig:InnerProduct}
-\end{figure}
-
-The inner product loop is shown in Figure \ref{fig:InnerProduct}.
-The outer loop is over the samples, and the inner
-loop across the $\sigma$ values.  There is a high-level
-of parallelism in the inner loop which can be further
-boosted by unrolling the outer loop.   When translating
-this to hardware, the entire function uses one single double-precision
-multiplier and one single double-precision adder.  Further
-note that the arrays $hFn$ and $dotPn$ are declared on
-a per-$n$ basis (for $n=0$ to $n=5$). This allows the arrays to be mapped to
-distinct memory spaces, thus increasing the memory access bandwidth in the hardware.
-
-\subsection{The minimum-mean-square loop} \label{sec:MMSE}
-
-\begin{figure}
-\begin{centering}
-\footnotesize\begin{verbatim}
-void computeMSE()
-{
-  int I, SI;
-  best_mse = 1.0e+20;
-  best_sigma_index = -1;
-  for (I=0; I<NSAMPLES; I=I+4)
-  { // outer-loop
-     for (SI=0; SI<NSIGMAS; SI++)
-     { // inner-loop
-        int fetchIndex0 = I + Offset[SI]; 
-        double p0 = (dotP0[SI]*hF0[fetchIndex0]);
-        double p1 = (dotP1[SI]*hF1[fetchIndex0]);
-        double p2 = (dotP2[SI]*hF2[fetchIndex0]);
-        double p3 = (dotP3[SI]*hF3[fetchIndex0]);
-        double p4 = (dotP4[SI]*hF4[fetchIndex0]);
-        double p5 = (dotP5[SI]*hF5[fetchIndex0]);
-        double diff = (inputData[I]-
-                      ((p0+p1) + (p2+p3) + (p4+p5)));
-        err[SI] += (diff*diff);
-      }
-    }
-    for (SI=0; SI<NSIGMAS; SI++)
-    {
-        if(err[SI] <  best_mse)
-        {
-           best_mse = err[SI];
-           best_sigma_index = SI;
-        }
-    }
-}
-\end{verbatim}
-\normalsize
-\end{centering}
-\caption{MMSE calculation loop}
-\label{fig:MMSE}
-\end{figure}
-
-
-The MMSE calculation hardware
-uses the algorithm shown in Figure \ref{fig:MMSE}.
-Note that the inner loop again has considerable parallelism.
-One pipelined double precision multiplier and one
-pipelined double precision adder are used to implement
-the loop.  The arrays referred to in the loop
-$dotPn$ and $hFn$ are all implemented in disjoint
-memories to give high memory access bandwidth.
-
-
-
-\subsection{Optimizations: loop unrolling and loop pipelining}
-
-The current implementation uses a simple sequential specification.
-We have investigated the impact of
-further optimizations.  In particular, we find that outer-loop
-unrolling (up to four) and inner-loop pipelining 
-have substantial impact on the performance of the generated hardware.
-
-If we look at the inner loop in Figure \ref{fig:InnerProduct},
-we observe that because of the accumulation of products in each
-loop iteration, the time interval between successive loop initiations
-is equal to the latency of the adder (because the next loop iteration
-needs to wait for the completion of the sum in the current iteration).  This
-latency is around 20 cycles in our case, and becomes a performance limiter.
-
-If the outer loop in the innner-product function
-(Section \ref{sec:InnerProduct}) is unrolled four times, the 
-resulting code will have the form shown in Figure \ref{fig:InnerProductUnrolled}.
-The amount of parallelism in the inner loop increases by a considerable
-margin.  The loop iteration initiation latency stays about the same, but the
-amount of computation done in each loop iteration is quadrupled, thus
-leading to higher performance.  In Section \ref{s:results}, we
-provide actual measurements in hardware which support this observation.
-
-A similar improvement is observed by unrolling the outer loop in the MMSE computation
-shown in Figure \ref{fig:MMSE}.
-
-\begin{figure}
-\begin{centering}
-\small\begin{verbatim}
-void  innerProduct()
-{
-  for (I=0; I < NSAMPLES; I += 4)
-  { // outer-loop
-     double x0 = inputData[I];
-     double x1 = inputData[I+1];
-     double x2 = inputData[I+2];
-     double x3 = inputData[I+3];
-     for(SI = 0; SI < NSIGMAS; SI++)
-     { 
-        int I0 = I + Offset[SI];
-        I1 = I0+1; I2 = I0+2; I3 = I0+3;
-        // compute inner product of 
-        // (x0,x1,x2,x3) with
-        // (hFn[I0], hFn[I1], hFn[I2], hFn[I3])
-        // for n=0,1,2,..5.
-        // 
-        // accumulate into dotPn[SI].
-        //
-     }
-}
-\end{verbatim}
-\normalsize
-\end{centering}
-\caption{Inner-product loop unrolled four times.}
-\label{fig:InnerProductUnrolled}
-\end{figure}
-
 
 
 \section{Hardware Implementation Details}\label{s:implementation}

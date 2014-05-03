@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.11.26)  29 APR 2014 15:59
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.11.26)  3 MAY 2014 11:55
 entering extended mode
  %&-line parsing enabled.
 **HermiteFPGA.tex
@@ -158,29 +158,29 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 ]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 596.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 557.
 
 
 (/usr/share/texmf/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-<dotP.pdf, id=14, 1221.56375pt x 730.73pt>
-File: dotP.pdf Graphic file (type pdf)
- <use dotP.pdf> [2] [3 <./dotP.pdf>]
-Overfull \hbox (1.3503pt too wide) in paragraph at lines 890--890
+Overfull \hbox (1.3503pt too wide) in paragraph at lines 689--689
 []                      \OT1/pcr/m/n/8 ((p0+p1) + (p2+p3) + (p4+p5)));[] 
  []
 
-[4]
-Overfull \hbox (0.74985pt too wide) in paragraph at lines 960--960
+[2]
+Overfull \hbox (0.74985pt too wide) in paragraph at lines 759--759
 []        \OT1/pcr/m/n/9 // (hFn[I0], hFn[I1], hFn[I2], hFn[I3])[] 
  []
 
-<HardwareArchitecture.pdf, id=38, 694.595pt x 361.35pt>
+[3] <dotP.pdf, id=27, 1221.56375pt x 730.73pt>
+File: dotP.pdf Graphic file (type pdf)
+ <use dotP.pdf> [4]
+<HardwareArchitecture.pdf, id=31, 694.595pt x 361.35pt>
 File: HardwareArchitecture.pdf Graphic file (type pdf)
 
-<use HardwareArchitecture.pdf> [5]
-Overfull \hbox (1.18167pt too wide) in paragraph at lines 1060--1074
+<use HardwareArchitecture.pdf> [5 <./dotP.pdf>]
+Overfull \hbox (1.18167pt too wide) in paragraph at lines 1059--1073
  [][] 
  []
 
@@ -212,7 +212,7 @@ Here is how much of TeX's memory you used:
  4689 multiletter control sequences out of 10000+200000
  45340 words of font info for 88 fonts, out of 1200000 for 2000
  648 hyphenation exceptions out of 8191
- 32i,13n,24p,361b,280s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 32i,13n,24p,361b,284s stack positions out of 5000i,500n,6000p,200000b,15000s
 {/usr/share/texmf/fonts/enc/dvips/base/8r.enc}</usr/shar
 e/texmf/fonts/type1/bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky
 /cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi7.pfb></usr/share/t
@@ -225,7 +225,7 @@ usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf/fonts/type
 1/urw/times/utmb8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmbi8a.pfb></us
 r/share/texmf/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf/fonts/type1/ur
 w/times/utmri8a.pfb>
-Output written on HermiteFPGA.pdf (7 pages, 163885 bytes).
+Output written on HermiteFPGA.pdf (7 pages, 163930 bytes).
 PDF statistics:
  107 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
