@@ -15,7 +15,8 @@ int main(int argc, char* argv[])
 		fprintf(stderr, "Supply data record file \n");
 		return(1);
 	}
-	int *QRSdelay;
+	long *QRSdelay;
+	QRSdelay = (long *) malloc(sizeof(long));
 	FILE* frec = fopen(argv[1], "r");
 	FILE* fout = fopen("delay.txt", "w");
 	if (frec == NULL)
@@ -25,12 +26,12 @@ int main(int argc, char* argv[])
 	}
 	fpga = fpga_open(0);
 	fpga_reset(fpga);
-	int *datum;
-	*datum = 0;
+	long *datum;
+	datum = (long *) malloc(sizeof(long));
 	int sampleSent, recv;
-	sampleSent = fpga_send(fpga, 0, datum, 1, 0, 1, 0);
-	recv = fpga_recv(fpga, 0, QRSdelay, 1, 0);
-	fscanf(frec, "%d", datum);
+	sampleSent = fpga_send(fpga, 0, datum, 2, 0, 1, 0);
+	recv = fpga_recv(fpga, 0, QRSdelay, 2, 0);
+	fscanf(frec, "%ld", datum);
 	long count = 1;
 	while(!feof(frec))
 	{
@@ -49,10 +50,10 @@ int main(int argc, char* argv[])
 		}
 		if (*QRSdelay != 0)
 		{
-			fprintf(fout, "%d, ", *QRSdelay);
+			fprintf(fout, "%ld, ", *QRSdelay);
 			fprintf(fout, "%ld\n", count);
 		}
-		fscanf(frec, "%d", datum);
+		fscanf(frec, "%ld", datum);
 	}	
 	fclose(frec);
 	fclose(fout);
