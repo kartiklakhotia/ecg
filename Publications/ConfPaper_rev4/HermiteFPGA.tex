@@ -417,7 +417,9 @@
 
 \begin{abstract}
 %\boldmath
-The characterization of ECG heartbeats is a computationally intensive problem, and
+Characterization of the heartbeat is one of the first and most important steps 
+in the processing of the ECG, since it affects the performance of any posterior analysis. 
+This characterization is computationally intensive, and
 both off-line and on-line (real-time) solutions to this problem are of great interest.
 In this paper, we consider the use of a dedicated hardware implementation
 (using a field-programmable gate-array (FPGA)) to solve a critical component of this problem,
@@ -462,14 +464,12 @@ true real-time applicability.
 
 
 
-Automatic ECG analysis and characterization can be of great help
-in patient monitoring. In particular, the characterization of the QRS complex -- the part of the ECG related to the electrical activity of the ventricles -- by means of Hermite functions 
-%seems to be%
-stands as a reliable mechanism  for automatic classification of heartbeats \cite{j:lagerholm00}. 
-The main advantages seem to be the low sensitivity to noise and artifacts, and the
-compactness of the representation (e.g. a 144-sample QRS can be characterized with 7 parameters \cite{c:marquez13}). 
+Cardiovascular disease is the number one cause of death worldwide \cite{j:lagerholm00}. The
+electrocardiogram (ECG) is the main diagnostic tool of the pathologies that affect the heart. Visual inspection of the ECG is a tedious and time-consuming task due to the large amount of data; for example, a 24-hour Holter recording can contain up to 100.000 heartbeats per lead, and often multiple leads are used in each recording. Therefore,
+computational tools are needed to support this analysis. The first step in the analysis is the detection and characterization of the beats. This is a very important step because errors in this step invalidate the subsequent analysis. The QRS complex is the portion of the ECG related to the electrical activity of the ventricles and it commonly used to indentify arrhythmias\cite{j:lagerholm00, c:marquez13}. The use of Hermite functions has been proposed to characterize these complexes since %seems to be% \cite{j:lagerholm00}. 
+this representation displays a low sensitivity to noise and artifacts and it reduces the dimensions of the problem (e.g. a 144-sample QRS can be reasonably characterized with 7 parameters \cite{c:marquez13}). 
 These advantages have made the Hermite representation a very common tool for characterizing the 
-morphology of the beats \cite{j:lagerholm00,c:marquez13,c:braccini97,j:linh03a,j:linh03b}. 
+morphology of the beats \cite{j:lagerholm00,c:marquez13,c:braccini97,j:linh03}. 
 
 ECG analysis using Hermite functions has a
 substantial amount of parallelism.  Solutions to the problem have been investigated
@@ -477,9 +477,13 @@ using processors (and multi-cores) and graphics processing units (GPU's).
 In this paper, we consider the alternative route of using an FPGA to implement
 the computations.  In particular, our work is motivated by the potential
 of an FPGA (or eventually, a dedicated application-specific circuit) for low-latency
-energy efficient heart-beat analysis.  
+energy efficient heart-beat analysis.  Such a device could be part of a werable solution 
+for ubiquitously monitoring a chronic patient in order to identify arrhythmias or other pathologies affecting the heart \cite{c:philipp13,c:voykin13}.
 
-In generating the hardware for heart-beat analysis, we make extensive use of
+
+
+
+When generating the hardware for heartbeat analysis, we make extensive use of
 algorithm-to-hardware techniques.  By this we mean that the hardware is
 generated from an algorithmic specification that is written in a
 high-level programming language ({\bf C} in this case), which is then
@@ -502,7 +506,7 @@ The benchmarks used in this work come from the MIT-BIH arrhythmia database \cite
 Each file from the database 
 contains 2 ECG channels, sampled at a frequency of 360 Hz and with a duration of approximately 2000 beats. 
 
-Before doing the Hermite approximation, the ECG signal is processed to remove
+Before performing the QRS characterization, the ECG signal is processed to remove
 the base-line drift.  The QRS complexes for each heartbeat are extracted by 
 finding the peak of the beat (e.g. the R wave) and selecting a  window of 200 ms centered on the peak. 
 The beat-window is further extended to 400 ms by padding 100-ms sequences of zeros at each side of the complex. 
@@ -510,10 +514,9 @@ Thus, the QRS beat data used as an input to the Hermite polynomial approximation
 consists of individual beats described as a 144-sample vector $\vec{x}=\{x(t)\}$ of double
 precision floating point numbers. 
 This vector is to be estimated with a linear combination of $N$ Hermite basis functions (for
-the work reported in this paper, we use $N=6$).
+the work reported in this paper, we use $N=6$, which provides a good compromise between having a compact representation and having a good accuracy in the representation of the beat \cite{c:marquez13}).
 
-The goal then is to find the best minimum-mean-square-error (MMSE)  approximation to
-$\{ x(t)\}$ as 
+The goal then is to find the best minimum-mean-square-error (MMSE) approximation to the QRS complex $\{ x(t)\}$. The approximation of $x(t)$ is expressed as
 \begin{equation}\label{eqn:hat}
 \hat{x}(t)=\sum_{n=0}^{N-1}c_n(\sigma )\phi_n(t,\sigma),
 \end{equation}
@@ -544,7 +547,7 @@ c_n(\sigma)=\sum_{t} x(t)\cdot \phi_n(t,\sigma)
 \end{equation}
 
 The best fit is calculated by comparing the MMSE approximation for each $\sigma$, and keeping
-the one with the smallest value.
+the one with the smallest value. An iterative stepwise increment of $\sigma$ was done by computing (\ref{eqn:c}) for each value and then calculating the MSE.
 Once the best $\sigma$ and the corresponding fit coefficients $\vec{c}=\{c_n(\sigma)\}$  \mbox{$(n\in [0,N-1])$} 
 are found for each heartbeat, it is possible to use only these figures to perform morphological 
 classification of the heartbeats \textrm{~\cite{j:lagerholm00}} (see Fig.~\ref{fig:qrs}).
@@ -612,6 +615,7 @@ and exploit it by using multiple function units in hardware
 in order to reduce the processing latency.  These investigations
 are currently in progress.
 
+% REPEATED IN THE CONCLUSION
 
 
 \subsection{The inner product loop} \label{sec:InnerProduct}
@@ -650,8 +654,8 @@ void  innerProduct()
 \end{figure}
 
 The inner product loop is shown in Figure \ref{fig:InnerProduct}.
-The outer loop is over the samples, and the inner
-loop across the $\sigma$ values.  There is a high-level
+The outer loop iterates over the samples, and the inner
+loop over the $\sigma$ values.  There is a high-level
 of parallelism in the inner loop which can be further
 boosted by unrolling the outer loop.   When translating
 this to hardware, the entire function uses one single double-precision
@@ -1084,25 +1088,24 @@ Unroll-level & \begin{tabular}[c]{@{}c@{}}Slice LUT  \\ Utilization  \end{tabula
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 It is clear that FPGA can be used for {\em true} real-time processing since the 
-computation time required to process a pair of beats (corresponding
-to a heart-beat sampled on two channels) is less than $1ms$, which is
-much smaller than time-interval between actual heart beats (which is about $1s$). 
+computation time required to process a beat over two leads is less than $1ms$, which is
+much smaller than time-interval between actual heartbeats (which is about $1s$). 
 The observed power dissipation is 3.1W.  Hardware utilization in 4-way unrolled 
 system is less than $55\%$ of the FPGA resource.
 
 \subsection{Comparison with GPU/CPU implementations}
 
-Hermite basis fitting has been evaluated on GPU and CPU implementations
+Hermite basis fitting of hearbeats has been evaluated on GPU and CPU implementations
 as well.  For example, in \cite{c:GPU}, the authors demonstrate a
 GPU implementation that shows excellent scaling behaviour in real-time, so that 
 100K beats can be processed in 15.7 seconds. The average processing latency per 
-pair of beats if 0.022 msecs.  However, it must be stressed that in general the GPU achieves 
+beat using two leads if 0.022 msecs.  However, it must be stressed that in general the GPU achieves 
 full parallelization when a huge set of data is processed and real-time requires the processing 
 of small sets of data. Real-time is achieved on the GPU by means of processing chunks of 10 and 100 beats, 
 resulting in latencies of around 10 seconds and around 100 seconds respectively. Thus, 
 {\em true} real-time processing is not fully acomplished since latencies are too long. 
-On the other hand, a CPU is able to do low-latency real-time wih a latency per beat of around 
-30 msecs per pair of beats.  As for our FPGA implementation, the latency needed to process a pair of beats 
+On the other hand, a CPU is able to do low-latency real-time wih a latency per beat using two lead of around 
+30 msecs.  As for our FPGA implementation, the latency needed to process a beat with two leads
 is under $1ms$. Since the beats are processed one at a time, actual real-time is achieved. 
 
 These comparisons are made against the same algorithm executed on Intel-i7 PC(1.6GHz) 
