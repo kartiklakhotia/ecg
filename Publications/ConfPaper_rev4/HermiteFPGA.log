@@ -1,11 +1,16 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.1.8)  10 MAY 2014 16:44
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.11.26)  13 MAY 2014 10:57
 entering extended mode
  %&-line parsing enabled.
 **HermiteFPGA.tex
 (./HermiteFPGA.tex
-LaTeX2e <2009/09/24>
-Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, arabic, basque, bulgarian, coptic, welsh, czech, slovak, german, ng
+erman, danish, esperanto, spanish, catalan, galician, estonian, farsi, finnish,
+ french, greek, monogreek, ancientgreek, croatian, hungarian, interlingua, ibyc
+us, indonesian, icelandic, italian, latin, mongolian, dutch, norsk, polish, por
+tuguese, pinyin, romanian, russian, slovenian, uppersorbian, serbian, swedish, 
+turkish, ukenglish, ukrainian, loaded.
 (./IEEEtran.cls
 Document Class: IEEEtran 2012/11/21 V1.8c by Harald Hanche-Olsen and Anders Chr
 istensen
@@ -19,7 +24,7 @@ istensen
 \@IEEEtrantmptoksA=\toks14
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 373.
 
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
+(/usr/share/texmf/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 -- Using 8.5in x 11in (letter) paper.
@@ -92,26 +97,26 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
 \@IEEEtmpitemindent=\dimen116
 \c@IEEEbiography=\count90
 \@IEEEtranrubishbin=\box26
-) (/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+) (/usr/share/texmf/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks15
 )
-(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+(/usr/share/texmf/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/etc/texmf/tex/latex/config/graphics.cfg
-File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+(/usr/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 90.
 
-(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+(/usr/share/texmf/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2007/01/08 v0.04d Graphics/color for pdfTeX
 \Gread@gobject=\count91
 ))
 \Gin@req@height=\dimen117
@@ -131,19 +136,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 354.
 LaTeX Font Info:    ... okay on input line 354.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 354.
 LaTeX Font Info:    ... okay on input line 354.
- (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count92
-\scratchdimen=\dimen119
-\scratchbox=\box27
-\nofMPsegments=\count93
-\nofMParguments=\count94
-\everyMPshowfont=\toks16
-\MPscratchCnt=\count95
-\MPscratchDim=\dimen120
-\MPnumerator=\count96
-\everyMPtoPDFconversion=\toks17
-)
+
 
 LaTeX Warning: No \author given.
 
@@ -155,7 +148,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 430.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 496.
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+[1{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
@@ -168,7 +161,7 @@ File: qrs_hermite.pdf Graphic file (type pdf)
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 569.
 
 
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
+(/usr/share/texmf/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ) [2 <./qrs_hermite.pdf, page is rotated 90 degrees>]
 Overfull \hbox (1.3503pt too wide) in paragraph at lines 702--702
@@ -176,12 +169,12 @@ Overfull \hbox (1.3503pt too wide) in paragraph at lines 702--702
  []
 
 
-Overfull \hbox (0.74985pt too wide) in paragraph at lines 772--772
+Overfull \hbox (0.74985pt too wide) in paragraph at lines 773--773
 []        \OT1/pcr/m/n/9 // (hFn[I0], hFn[I1], hFn[I2], hFn[I3])[] 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 790.
+(Font)              <8> on input line 791.
 [3] <dotP.pdf, id=32, 1221.56375pt x 730.73pt>
 File: dotP.pdf Graphic file (type pdf)
  <use dotP.pdf> [4]
@@ -189,7 +182,7 @@ File: dotP.pdf Graphic file (type pdf)
 File: HardwareArchitecture.pdf Graphic file (type pdf)
 
 <use HardwareArchitecture.pdf> [5 <./dotP.pdf>]
-Overfull \hbox (1.18167pt too wide) in paragraph at lines 1073--1087
+Overfull \hbox (1.18167pt too wide) in paragraph at lines 1074--1088
  [][] 
  []
 
@@ -215,30 +208,27 @@ Before submitting the final camera ready copy, remember to:
 
 ] (./HermiteFPGA.aux) ) 
 Here is how much of TeX's memory you used:
- 1699 strings out of 495061
- 26125 string characters out of 1182622
- 85780 words of memory out of 3000000
- 4895 multiletter control sequences out of 15000+50000
- 42839 words of font info for 83 fonts, out of 3000000 for 9000
- 31 hyphenation exceptions out of 8191
- 26i,13n,20p,563b,286s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</
-usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/t
-exmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texliv
-e/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type
-1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
-5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/urw/c
-ourier/ucrr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></
-usr/share/texmf-texlive/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-tex
-live/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw
-/times/utmri8a.pfb>
-Output written on HermiteFPGA.pdf (7 pages, 257723 bytes).
+ 1373 strings out of 256216
+ 21642 string characters out of 1917071
+ 76435 words of memory out of 1500000
+ 4681 multiletter control sequences out of 10000+200000
+ 42839 words of font info for 83 fonts, out of 1200000 for 2000
+ 648 hyphenation exceptions out of 8191
+ 26i,13n,20p,563b,286s stack positions out of 5000i,500n,6000p,200000b,15000s
+{/usr/share/texmf/fonts/enc/dvips/base/8r.enc}</usr/shar
+e/texmf/fonts/type1/bluesky/cm/cmex10.pfb></usr/share/texmf/fonts/type1/bluesky
+/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi7.pfb></usr/share/t
+exmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/
+cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/texmf/f
+onts/type1/bluesky/cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr9.pf
+b></usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/t
+ype1/bluesky/cm/cmsy7.pfb></usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb>
+</usr/share/texmf/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf/fonts/type
+1/urw/times/utmbi8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmr8a.pfb></us
+r/share/texmf/fonts/type1/urw/times/utmri8a.pfb>
+Output written on HermiteFPGA.pdf (7 pages, 201990 bytes).
 PDF statistics:
- 107 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
+ 109 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
