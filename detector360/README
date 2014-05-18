@@ -1,0 +1,6 @@
+Sampling frequency = 360Hz
+Floats used for only lhp filtering;
+which essentially passes the data 
+forth to Hermite Coefficient Calculator.
+
+Tested and Verified working.
