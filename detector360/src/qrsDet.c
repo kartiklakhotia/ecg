@@ -8,12 +8,6 @@
 #include "qrsDet.h"
 #include "ptrFunc.h"
 
-//declare loop pipelining as a NOP function for SW execution
-//#ifdef SW
-//void __loop_pipelining_on__(int A, int B, int C) {}
-//#else
-//void __loop_pipelining_on__(int, int, int);
-//#endif
 
 //global variables and pointers
 double threshold = 0.3125;

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <pthreadUtils.h>
 #include <Pipes.h>
 #include <pipeHandler.h>
@@ -47,7 +48,7 @@ void Exit(int sig)
 		}}
 	
 
-void Sender(void* infile_arg)
+void Sender(char* infile_arg)
 {
 	double sigma;
 	int SI, idx;
@@ -86,8 +87,8 @@ void Sender(void* infile_arg)
 	FILE* frec = fopen(infile_arg, "r");
 	if(frec == NULL)
 	{
-		fprintf(stderr, "could not open the record file %s\n", argv[1]);
-		return(1);
+		fprintf(stderr, "could not open the record file %s\n", infile_arg);
+		return;
 	}
 	double data;
 	fscanf(frec, "%lf", &data);
@@ -113,7 +114,7 @@ void Receiver()
 		double p3 = read_float64("dotP_output_pipe");
 		double p4 = read_float64("dotP_output_pipe");
 		double p5 = read_float64("dotP_output_pipe");
-		fprintf(fout, " Best sigma= %f (index = %ld).\n", (MIN_SIGMA + (((float)(best_sigma_index))*(MAX_SIGMA - MIN_SIGMA)/NSIGMAS)), best_sigma_index);
+		fprintf(fout, " Best sigma= %f, (index = %"PRId64").\n", (MIN_SIGMA + (((float)(best_sigma_index))*(MAX_SIGMA - MIN_SIGMA)/NSIGMAS)), best_sigma_index);
 		fprintf(fout, "best fit coeffs are = %le,%le,%le,%le,%le,%le\n\n\n", p0, p1, p2, p3, p4, p5);
 		printf("characterized %d number of beats\n", count);
 	}	

@@ -7,11 +7,11 @@
 #include "bestFit.h"
 #include "filter.h"
 
-#ifdef SW
-void __loop_pipelining_on__(int A,int B,int C) {}
-#else
-void __loop_pipelining_on__(int,int,int); 
-#endif	
+//#ifdef SW
+//void __loop_pipelining_on__(int A,int B,int C) {}
+//#else
+//void __loop_pipelining_on__(int,int,int); 
+//#endif	
 
 int best_sigma_index ;
 
