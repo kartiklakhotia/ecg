@@ -1,0 +1,8 @@
+$module [global_storage_initializer_] $in () $out () $is {
+$parallelblock [pb] { 
+$call dividex_xoptx_xo_storage_initializer_ () () 
+$call filterx_xoptx_xo_storage_initializer_ () () 
+$call ptrFuncx_xoptx_xo_storage_initializer_ () () 
+$call qrsDetx_xoptx_xo_storage_initializer_ () () 
+}
+}

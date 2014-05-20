@@ -31,7 +31,7 @@ TOPMODULES=-T qrsDet
 
 # compile with SW defined.
 # note the use of IOLIB in building the testbench.
-SW: $(SRC)/divide.c $(SRC)/filter.c  $(SRC)/ptrFunc.c $(SRC)/qrsDet.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/ptrFunc.h $(SRC)/qrsDet.h  $(FUNCTIONLIB)/src/timer.c 
+SW: $(SRC)/divide.c $(SRC)/filter.c  $(SRC)/ptrFunc.c $(SRC)/qrsDet.c $(SRC)/testDetect.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/ptrFunc.h $(SRC)/qrsDet.h  $(FUNCTIONLIB)/src/timer.c 
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/divide.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/ptrFunc.c

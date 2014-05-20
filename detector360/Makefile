@@ -26,19 +26,21 @@ LLVM2AAOPTS=-extract_do_while=true --storageinit=true -pipedepths=pipedepths.txt
 #PROGDEFS=-DUNROLL
 PROGDEFS=
 
-TOPMODULES=-T qrsDet 
+TOPMODULES=-T qrsDet bestFit
 
 
 # compile with SW defined.
 # note the use of IOLIB in building the testbench.
-SW: $(SRC)/divide.c $(SRC)/filter.c  $(SRC)/ptrFunc.c $(SRC)/qrsDet.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/ptrFunc.h $(SRC)/qrsDet.h  $(FUNCTIONLIB)/src/timer.c 
+SW: $(SRC)/divide.c $(SRC)/filter.c  $(SRC)/ptrFunc.c $(SRC)/qrsDet.c $(SRC)/hermite.c $(SRC)/bestFit.c $(SRC)/testBestFit.c $(SRC)/divide.h $(SRC)/filter.h $(SRC)/ptrFunc.h $(SRC)/qrsDet.h $(SRC)/hermite.h $(SRC)/bestFit.h $(FUNCTIONLIB)/src/timer.c 
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/divide.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/filter.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/ptrFunc.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/qrsDet.c
+	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/hermite.c
+	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(FUNCTIONLIB)/include -I$(SRC) $(SRC)/bestFit.c
 	gcc -g -c -DSW $(PROGDEFS) -I$(FUNCTIONLIB)/include -I$(SRC) $(FUNCTIONLIB)/src/timer.c
-	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(PTHREADUTILS_INCLUDE) -I$(SRC) $(SRC)/testDetect.c
-	gcc  -o testbench_sw divide.o filter.o ptrFunc.o qrsDet.o timer.o testDetect.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
+	gcc -g -c -DSW $(PROGDEFS) -I$(PIPEHANDLER_INCLUDE) -I$(PTHREADUTILS_INCLUDE) -I$(SRC) $(SRC)/testBestFit.c
+	gcc  -o testbench_sw divide.o filter.o ptrFunc.o qrsDet.o hermite.o bestFit.o timer.o testBestFit.o -L$(PIPEHANDLER_LIB) -lPipeHandler -lpthread -lm -lrt
 
 # five steps from C to vhdl simulator.
 HW: c2llvmbc llvmbc2aa  aalink aa2vc  vc2vhdl  vhdlsim

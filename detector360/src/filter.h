@@ -43,7 +43,7 @@
 
 #define PRE_BLANK 	MS200  //200ms min gap between consecutive QRS peaks
 #define LHPFILT_DELAY (int)((LPbuff_size + HPbuff_size - 3)/2) 
-#define FILTER_DELAY 	(DERIVbuff_size + LPbuff_size + HPbuff_size -3)/2 + PRE_BLANK
+#define FILTER_DELAY 	(DERIVbuff_size)/2 + PRE_BLANK
 #define FILTERbuff_size  MS1500 + WINbuff_size - MS360 + FILTER_DELAY + MS200
 		// 1.5 times r-r interval in case peak is detected in search back
 		// search back location is atleast 360ms from previous qrs, to remove T-waves from being considered as search back peaks

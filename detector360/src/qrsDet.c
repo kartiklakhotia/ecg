@@ -198,6 +198,7 @@ void qrsDet()
 	int qpk_count, count, initBlank, preBlank_count, rset_count;
 	int initMax, lastMax, det_thresh;
 	int sb_count, sbLoc;
+	int i;
 	initMax = det_thresh = lastMax = 0;
 	aPeak = newPeak = tempPeak = sbPeak = 0;
 	qpk_count = count = initBlank = preBlank_count = rset_count = 0;
@@ -329,7 +330,6 @@ void qrsDet()
 			rset_count = (timeout_cond) ? 0 : rset_count;
 			if (timeout_cond)
 			{
-				int i;
 				for (i=0; i<8; i++)
 				{
 					QRSbuff[i] = RSETbuff[i];
@@ -343,22 +343,30 @@ void qrsDet()
 
 
 	/// CENTERING, remove the shift in peak detection ///
-		int sweepIndex = (QRSdelay > 0) ? FILTERbuff_ptr + LHPFILT_DELAY - QRSdelay  - MS20 : 0;
-		int sweepCount = -MS20;
-		float sweepMaxVal = 0;
-		int sweepMaxIndex = 0;
-		sweepIndex = (sweepIndex < 0) ? sweepIndex + FILTERbuff_size : sweepIndex;
-		while (sweepCount < MS20)
+		if (QRSdelay > 0)
 		{
-			uint8_t maxCond = (FILTERbuff[sweepIndex] > sweepMaxVal);
-			sweepMaxVal = maxCond ? FILTERbuff[sweepIndex] : sweepMaxVal;
-			sweepMaxIndex = maxCond ? sweepCount : sweepMaxIndex;
-			sweepIndex = circUpdateDet(sweepIndex, FILTERbuff_size);
-			sweepCount++;
-		}
-		int64_t data_out = (QRSdelay > 0) ? (QRSdelay - sweepMaxIndex) : 0; 
-
-		write_uint64("det_output_pipe", data_out);	
+			int sweepIndex = (QRSdelay > 0) ? FILTERbuff_ptr - QRSdelay  - MS20 : 0;
+			int sweepCount = -MS20;
+			float sweepMaxVal = 0;
+			int sweepMaxIndex = 0;
+			sweepIndex = (sweepIndex < 0) ? sweepIndex + FILTERbuff_size : sweepIndex;
+			while (sweepCount < MS20)
+			{
+				uint8_t maxCond = (FILTERbuff[sweepIndex] > sweepMaxVal);
+				sweepMaxVal = maxCond ? FILTERbuff[sweepIndex] : sweepMaxVal;
+				sweepMaxIndex = maxCond ? sweepCount : sweepMaxIndex;
+				sweepIndex = circUpdateDet(sweepIndex, FILTERbuff_size);
+				sweepCount++;
+			}
+			QRSdelay = QRSdelay - sweepMaxIndex;
+			sweepIndex = FILTERbuff_ptr - QRSdelay - MS100;
+			sweepIndex = (sweepIndex < 0) ? sweepIndex + FILTERbuff_size : sweepIndex; 
+			for (i = 0; i < MS200; i++)
+			{
+				write_float32("det_output_pipe", FILTERbuff[sweepIndex]); 
+				sweepIndex = circUpdateDet(sweepIndex, FILTERbuff_size);
+			}
+		}	
 	}
 }
 

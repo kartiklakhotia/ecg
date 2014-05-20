@@ -3,4 +3,11 @@ Floats used for only lhp filtering;
 which essentially passes the data 
 forth to Hermite Coefficient Calculator.
 
-Tested and Verified working.
+Tested the Detector and Verified working.
+
+Adding the bestfit function as a thread
+listening to output of detector. Modified 
+testbench accordingly to send input samples
+and parallely listen to output of bestfit 
+function.
+
