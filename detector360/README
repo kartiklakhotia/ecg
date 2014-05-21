@@ -4,6 +4,9 @@ which essentially passes the data
 forth to Hermite Coefficient Calculator.
 
 Tested the Detector and Verified working.
+Beats detected are at exactly same location
+and exactly same in number as the 100.annt 
+states.
 
 Adding the bestfit function as a thread
 listening to output of detector. Modified 
@@ -11,3 +14,10 @@ testbench accordingly to send input samples
 and parallely listen to output of bestfit 
 function.
 
+Beats getting detected correctly but LHP 
+output data is not as expected. It is much flatter
+and doesn't resemble the OneBeat.data at all.
+
+Include Derivative in the data being checked and
+remove Derivative delay from QRSdelay
+Post derivative is actually worse.
