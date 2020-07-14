@@ -1,0 +1,46 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\title{A low-latency, low-power FPGA implementation of ECG signal characterization using Hermite polynomials}
+
+
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{Madhav Desai, Kartik Lakhotia \\
+Indian Institute of Technology (Bombay)\\
+Mumbai, India \\
+Gabriel Caffarena \\
+CEU San Pablo\\
+Madrid, Spain}
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+ECG signal characterization is of critical importance in patient monitoring
+and diagnosis.
+This characterization is computationally intensive, and
+both off-line and on-line (real-time) solutions to this problem are of great interest.
+In this paper, we present a dedicated hardware implementation of the ECG signal
+chain.  Starting from 12-bit ADC samples of the ECG signal, the hardware implements
+filtering, peak and QRS detection and least-squares Hermite polynomial fit on the 
+heart-beats.  The hardware implementation has been validated on a Field Programmable 
+Gate Array (FPGA).  The implementation is generated using an algorithm-to-hardware 
+compiler tool-chain and the resulting hardware is characterized using an off-the-shelf 
+FPGA card.  
+The hardware complexity of the entire system is XXXX LUTs and YYYY flip-flops.
+The single beat best-fit computation latency when using six Hermite basis
+polynomials is under $0.5ms$ with an average power dissipation of less than
+30mW, demonstrating true real-time applicability.  
+\end{abstract}
+\end{document}
+
+
+
