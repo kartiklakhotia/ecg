@@ -1,0 +1,42 @@
+To run the software model, you can use the executable
+
+
+	./bin/test_best_fit_sw 
+
+
+The program is invoked with the following arguments
+	./bin/test_best_fit_sw  <moving-average-filter-order>  <bandpass-filter-coeffs>  <data-file>
+
+We keep the moving-average-filter order at 32, use filter/tfilter2.i16.2.dc.txt as the filter
+file, and for the data-set, use one of the files in the data/ directory.
+
+
+For example
+
+	./bin/test_best_fit_sw 32 filter/tfilter2.i16.2.dc.txt data/mlii.txt  
+
+
+This produces a big log file which gives intermediate results as well as the
+final fit coefficients for the beats.  To save the log file, run the 
+example as 
+
+	./bin/test_best_fit_sw 32 filter/tfilter2.i16.2.dc.txt data/mlii.txt   2>&1 | tee run.sw.log
+
+
+and to see the fits
+
+	grep "FIT:" run.sw.log
+
+You can also examine post band-pass-filter samples
+
+	grep "BPF:" run.sw.log
+
+or post moving-average
+
+	grep "MAR:" run.sw.log
+
+or post derivative filter
+
+	grep "DER:" run.sw.log
+
+

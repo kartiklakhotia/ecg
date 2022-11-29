@@ -1,0 +1,7 @@
+beat.txt
+	beat data post BPF filter
+	obtained by Qrs detection algorithm.
+
+rebeat.txt
+	beat data reconstructed from 
+	Hermite fit data.

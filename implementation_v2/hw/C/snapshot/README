@@ -1,0 +1,52 @@
+
+
+	The software model of the whole chain.
+
+	include/
+		data structures
+
+	src/	
+		source code of ECG chain
+
+	driver/
+		source code of testbench for ECG
+		chain.
+
+	To compile
+		./compile_sw_driver.sh
+			(note AHIR must be set up)
+
+	This produces an executable 
+		bin/test_best_fit_sw
+
+	The executable takes 3 arguments
+
+		moving-average-filter order 
+			keep it 32  for now.
+
+		filter coefficient file
+			../filter/tfilter...txt
+	
+		ecg sample data file
+			../data/mlii.txt for example
+
+	and prints the fits to stdout.  Also generates
+	lots of useful info to stderr.  See ../observations/run.sw.log
+	for a run log.
+
+	You could run this as
+
+	./test_best_fit_sw 32 ../filter/tfilter2.i16.2.dc.txt ../data/mlii.txt 2>&1 | tee run.sw.log
+
+
+
+	In the run.sw.log file, you can see the following information
+		
+		BPF:   band-pass results
+		DER:   derivative filter results.
+		MAR:   moving average results.
+		QRS:   QRS peak results
+		FIT:   best fits with beat information.
+		
+	and lots of other information.
+		

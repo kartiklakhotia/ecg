@@ -1,0 +1,12 @@
+1. To change the baud rate:
+	In file src/uart_binary_link.c change the
+	#define  for  BAUDRATE to the value you
+	wish.  It is currently set to B115200
+
+2. To build
+	In the parent directory, type
+		scons
+	Note that the environment variable AHIR_RELEASE
+	must be set up.
+
+3. After the build, you will have the library in lib/libuart_interface.a
