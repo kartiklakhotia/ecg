@@ -1,0 +1,45 @@
+You will need to have AHIR installed to build
+things.
+
+0.  Go to the AHIR release area and 
+
+	source ahir_bashrc
+
+1.  Come back to this directory.
+
+2.  Build the software test setup 
+
+	./build_sw_only.sh
+
+    Check out the software model, using
+    the check_sw.sh script in the C/
+    directory.
+
+3.a To build the VHDL simulation option for
+     the normal hardware (no clock gating).
+
+    Run 
+
+	./build_vhdlsim_only.sh 
+
+    and follow the instructions in C/README.VHDLSIM
+    file to perform the VHDL simulation.
+
+3.b To build the VHDL simulation option for
+     the hardware with clock gating.
+
+    Run 
+
+	./build_vhdlsim_only.gated_clock.sh 
+
+    and follow the instructions in C/README.VHDLSIM
+    file.
+
+4.  Build the hardware setup:
+	Open the build_all.sh and edit the options
+	in that file as indicated.
+
+	Then run
+
+	./build_all.sh
+

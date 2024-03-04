@@ -1,0 +1,601 @@
+/*
+
+Xilinx Vivado v2019.1 (64-bit) [Major: 2019, Minor: 1]
+SW Build: 2552052 on Fri May 24 14:47:09 MDT 2019
+IP Build: 2548770 on Fri May 24 18:01:18 MDT 2019
+
+Process ID (PID): 4931
+License: Customer
+
+Current time: 	Thu Nov 12 14:36:53 IST 2020
+Time zone: 	India Standard Time (Asia/Kolkata)
+
+OS: Ubuntu
+OS Version: 4.15.0-122-generic
+OS Architecture: amd64
+Available processors (cores): 4
+
+Display: :0
+Screen size: 1366x768
+Screen resolution (DPI): 100
+Available screens: 1
+Available disk space: 89 GB
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	9.0.4 64-bit
+Java home: 	/opt/Xilinx/Vivado/2019.1/tps/lnx64/jre9.0.4
+Java executable location: 	/opt/Xilinx/Vivado/2019.1/tps/lnx64/jre9.0.4/bin/java
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	madhav
+User home directory: /home/madhav
+User working directory: /home/madhav/ecg/implementation_v2/hw/basys3/bit_file
+User country: 	IN
+User language: 	en
+User locale: 	en_IN
+
+RDI_BASEROOT: /opt/Xilinx/Vivado
+HDI_APPROOT: /opt/Xilinx/Vivado/2019.1
+RDI_DATADIR: /opt/Xilinx/Vivado/2019.1/data
+RDI_BINDIR: /opt/Xilinx/Vivado/2019.1/bin
+
+Vivado preferences file location: /home/madhav/.Xilinx/Vivado/2019.1/vivado.xml
+Vivado preferences directory: /home/madhav/.Xilinx/Vivado/2019.1/
+Vivado layouts directory: /home/madhav/.Xilinx/Vivado/2019.1/layouts
+PlanAhead jar file location: 	/opt/Xilinx/Vivado/2019.1/lib/classes/planAhead.jar
+Vivado log file location: 	/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/vivado.log
+Vivado journal file location: 	/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/vivado.jou
+Engine tmp dir: 	./.Xil/Vivado-4931-madhav-HP-348-G4
+
+Xilinx Environment Variables
+----------------------------
+XILINX: /opt/Xilinx/Vivado/2019.1/ids_lite/ISE
+XILINX_DSP: /opt/Xilinx/Vivado/2019.1/ids_lite/ISE
+XILINX_PLANAHEAD: /opt/Xilinx/Vivado/2019.1
+XILINX_SDK: /opt/Xilinx/SDK/2019.1
+XILINX_VIVADO: /opt/Xilinx/Vivado/2019.1
+XILINX_VIVADO_HLS: /opt/Xilinx/Vivado/2019.1
+
+
+GUI allocated memory:	154 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 790 MB
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+selectButton(PAResourceEtoH.GettingStartedView_OPEN_HARDWARE_MANAGER, "Open Hardware Manager"); // x (w, cl)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_HARDWARE_MANAGER
+// Tcl Command: 'rdi::info_commands get_hw_probes'
+// Tcl Command: 'load_features labtools'
+// TclEventType: LOAD_FEATURE
+// by (cl):  Open Hardware Manager : addNotify
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// Tcl Message: open_hw 
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 66 MB (+66715kb) [00:00:21]
+// [Engine Memory]: 843 MB (+732834kb) [00:00:21]
+// TclEventType: HW_SESSION_OPEN
+// WARNING: HEventQueue.dispatchEvent() is taking  2311 ms.
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/opt/Xilinx/Vivado/2019.1/data/ip'. 
+// HMemoryUtils.trashcanNow. Engine heap size: 873 MB. GUI used memory: 49 MB. Current time: 11/12/20, 2:36:58 PM IST
+// TclEventType: HW_SESSION_OPEN
+// [GUI Memory]: 106 MB (+38349kb) [00:00:23]
+// [Engine Memory]: 887 MB (+1547kb) [00:00:23]
+// WARNING: HEventQueue.dispatchEvent() is taking  1107 ms.
+// 'Q' command handler elapsed time: 5 seconds
+dismissDialog("Open Hardware Manager"); // by (cl)
+selectButton(PAResourceOtoP.ProgramDebugTab_OPEN_TARGET, "Open target"); // h (cS, cl)
+selectMenuItem(PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET, "Auto Connect"); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET
+// [Engine Memory]: 938 MB (+7228kb) [00:00:33]
+// by (cl):  Auto Connect : addNotify
+// Tcl Message: connect_hw_server 
+// Tcl Message: INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121 INFO: [Labtools 27-2222] Launching hw_server... 
+// TclEventType: HW_SERVER_UPDATE
+// Tcl Message: INFO: [Labtools 27-2221] Launch Output:  ****** Xilinx hw_server v2019.1   **** Build date : May 24 2019 at 15:06:40     ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.   
+// TclEventType: HW_SERVER_UPDATE
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// WARNING: HEventQueue.dispatchEvent() is taking  1992 ms.
+// Tcl Message: open_hw_target 
+// Tcl Message: INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210183795152A 
+// Tcl Message: current_hw_device [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1435] Device xc7a35t (JTAG device index = 0) is not programmed (DONE status = 0). 
+// [Engine Memory]: 1,893 MB (+951384kb) [00:00:37]
+dismissDialog("Auto Connect"); // by (cl)
+// PAPropertyPanels.initPanels (xc7a35t_0) elapsed time: 0.2s
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+// HMemoryUtils.trashcanNow. Engine heap size: 1,928 MB. GUI used memory: 49 MB. Current time: 11/12/20, 2:37:15 PM IST
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+setFileChooser("/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit");
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+// TclEventType: HW_DEVICE_CHANGE
+dismissDialog("Program Device"); // bC (cl)
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+// 'I' command handler elapsed time: 9 seconds
+dismissDialog("Program Device"); // by (cl)
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210183795152A 
+// n (cl): Close Hardware Target: addNotify
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// HMemoryUtils.trashcanNow. Engine heap size: 1,949 MB. GUI used memory: 51 MB. Current time: 11/12/20, 2:54:10 PM IST
+// WARNING: HEventQueue.dispatchEvent() is taking  6631206 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,949 MB. GUI used memory: 51 MB. Current time: 11/12/20, 4:44:43 PM IST
+// Elapsed time: 7651 seconds
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+dismissDialog("Close Hardware Target"); // n (cl)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,950 MB. GUI used memory: 50 MB. Current time: 11/12/20, 5:14:43 PM IST
+// WARNING: HEventQueue.dispatchEvent() is taking  4686 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,947 MB. GUI used memory: 45 MB. Current time: 11/12/20, 5:44:47 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,947 MB. GUI used memory: 45 MB. Current time: 11/12/20, 6:14:47 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,947 MB. GUI used memory: 45 MB. Current time: 11/12/20, 6:44:47 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,947 MB. GUI used memory: 45 MB. Current time: 11/12/20, 7:14:47 PM IST
+// WARNING: HEventQueue.dispatchEvent() is taking  8428194 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,947 MB. GUI used memory: 45 MB. Current time: 11/12/20, 9:35:19 PM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Elapsed time: 17508 seconds
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+// TclEventType: HW_DEVICE_CHANGE
+dismissDialog("Program Device"); // bC (cl)
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+// 'I' command handler elapsed time: 3 seconds
+dismissDialog("Program Device"); // by (cl)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,956 MB. GUI used memory: 45 MB. Current time: 11/12/20, 10:05:19 PM IST
+// WARNING: HEventQueue.dispatchEvent() is taking  1065 ms.
+// WARNING: HSwingWorker (Update Runs Swing Worker) is taking 1538 ms. Increasing delay to 3000 ms.
+// WARNING: HTimer (HSTRUtils Dump STR Log Timer) is taking 719ms to process. Increasing delay to 4000 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  1323 ms.
+// WARNING: HTimer (FileMgr Design Graph Update Timer) is taking 1404ms to process. Increasing delay to 3000 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  1404 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  1927 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  22161 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,956 MB. GUI used memory: 45 MB. Current time: 11/12/20, 10:35:43 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,956 MB. GUI used memory: 45 MB. Current time: 11/12/20, 11:05:23 PM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// WARNING: HEventQueue.dispatchEvent() is taking  2550 ms.
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// WARNING: HEventQueue.dispatchEvent() is taking  1076 ms.
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// WARNING: HEventQueue.dispatchEvent() is taking  1415 ms.
+// TclEventType: HW_TARGET_CLOSE
+// WARNING: updateGUI() is taking  2688 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  2997 ms.
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210183795152A 
+// TclEventType: HW_SERVER_UPDATE
+// n (cl): Close Hardware Target: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  1341 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,956 MB. GUI used memory: 46 MB. Current time: 11/12/20, 11:35:23 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,956 MB. GUI used memory: 46 MB. Current time: 11/13/20, 12:05:23 AM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Elapsed time: 9656 seconds
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+dismissDialog("Close Hardware Target"); // n (cl)
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+// Elapsed time: 17 seconds
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+dismissDialog("Program Device"); // bC (cl)
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// 'I' command handler elapsed time: 5 seconds
+dismissDialog("Program Device"); // by (cl)
+// WARNING: HEventQueue.dispatchEvent() is taking  1100 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 12:35:24 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 1:05:24 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 1:35:24 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 2:05:24 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 2:35:24 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 3:05:24 AM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210183795152A 
+// n (cl): Close Hardware Target: addNotify
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 46 MB. Current time: 11/13/20, 10:50:42 AM IST
+// Elapsed time: 37960 seconds
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+dismissDialog("Close Hardware Target"); // n (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // Z (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_CHECKPOINT, "Checkpoint"); // ae (cl, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceCommand.PACommandNames_EXIT, "Exit"); // ah (cl, Popup.HeavyWeightWindow)
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // Z (q, cl)
+// Run Command: PAResourceCommand.PACommandNames_EXIT
+// A (cl): Exit Vivado: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  2921 ms.
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a (A)
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a (A)
+// 'aD' command handler elapsed time: 5 seconds
+dismissDialog("Exit Vivado"); // A (cl)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 11:20:42 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 11:50:43 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 12:20:42 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 12:50:43 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 1:20:43 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 1:50:43 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 2:20:43 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 2:50:44 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,957 MB. GUI used memory: 45 MB. Current time: 11/13/20, 3:20:44 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 3:50:44 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 4:20:44 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 4:50:45 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 5:20:45 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 5:50:45 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 6:20:46 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 6:50:46 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 7:20:46 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 7:50:46 PM IST
+// WARNING: HEventQueue.dispatchEvent() is taking  2274 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/13/20, 8:20:48 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 2:45:34 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 3:15:35 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 3:45:35 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 4:15:35 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 4:45:35 PM IST
+// WARNING: HEventQueue.dispatchEvent() is taking  6776216 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 6:45:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 7:15:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 7:45:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 8:15:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 8:45:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 9:15:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 9:45:51 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 10:15:52 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 10:45:52 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 11:15:52 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/14/20, 11:45:52 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 12:15:52 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 12:45:52 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 1:15:52 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 1:45:52 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 2:15:52 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 2:45:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 3:15:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 3:45:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 4:15:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 4:45:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 5:15:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 5:45:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 6:15:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 6:45:53 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 7:15:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 7:45:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 8:15:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 8:45:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 9:15:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 9:45:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 10:15:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 10:45:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 11:15:54 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 11:45:55 AM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 12:15:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 12:45:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 1:15:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 1:45:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 2:15:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 2:45:55 PM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Elapsed time: 187631 seconds
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+dismissDialog("Program Device"); // bC (cl)
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+// 'I' command handler elapsed time: 5 seconds
+dismissDialog("Program Device"); // by (cl)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 3:15:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 3:45:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 4:15:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 4:45:55 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 5:15:56 PM IST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 5:45:56 PM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210183795152A 
+// n (cl): Close Hardware Target: addNotify
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// Elapsed time: 11844 seconds
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f (n)
+dismissDialog("Close Hardware Target"); // n (cl)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,958 MB. GUI used memory: 45 MB. Current time: 11/15/20, 6:15:56 PM IST
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// Elapsed time: 393 seconds
+selectButton(PAResourceOtoP.ProgramDebugTab_REFRESH_DEVICE, "Refresh device"); // h (cS, cl)
+selectButton(PAResourceOtoP.ProgramDebugTab_REFRESH_DEVICE, "Refresh device"); // h (cS, cl)
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+// Elapsed time: 11 seconds
+setFileChooser("/home/madhav/scratch/standalone_proto_with_L1_adc_inputs.bit");
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+// TclEventType: HW_DEVICE_CHANGE
+dismissDialog("Program Device"); // bC (cl)
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/scratch/standalone_proto_with_L1_adc_inputs.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// Tcl Message: ERROR: [Labtools 27-3303] Incorrect bitstream assigned to device. Bitfile is incompatible for this device. ERROR: [Labtools 27-3165] End of startup status: LOW 
+// Tcl Message: ERROR: [Common 17-39] 'program_hw_devices' failed due to earlier errors. 
+// CommandFailedException: ERROR: [Common 17-69] Command failed: ERROR: [Common 17-39] 'program_hw_devices' failed due to earlier errors.  
+// HOptionPane Error: 'ERROR: [Common 17-39] 'program_hw_devices' failed due to earlier errors.  (Program Device)'
+// 'I' command handler elapsed time: 20 seconds
+selectButton("OptionPane.button", "OK"); // JButton (A, G)
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7a35t_0 (1) ; Not programmed", 2, "xc7a35t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+setFileChooser("/home/madhav/scratch/basys3_top.bit");
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+// TclEventType: HW_DEVICE_CHANGE
+dismissDialog("Program Device"); // bC (cl)
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/scratch/basys3_top.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+// 'I' command handler elapsed time: 11 seconds
+dismissDialog("Program Device"); // by (cl)
+// PAPropertyPanels.initPanels (localhost:3121/xilinx_tcf/Digilent/210203826075A) elapsed time: 0.5s
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xilinx_tcf/Digilent/210203826075A (0) ; Closed", 4, "xilinx_tcf/Digilent/210203826075A (0)", 0, false); // t (O, cl)
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xilinx_tcf/Digilent/210203826075A (0) ; Closed", 4, "xilinx_tcf/Digilent/210203826075A (0)", 0, false, false, false, false, true, false); // t (O, cl) - Popup Trigger
+selectMenuItem(PAResourceCommand.PACommandNames_OPEN_TARGET, "Open Target"); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_TARGET
+selectButton("OptionPane.button", "OK"); // JButton (A, G)
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// by (cl):  Open Target : addNotify
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: close_hw_target {localhost:3121/xilinx_tcf/Digilent/210183795152A} 
+// Tcl Message: INFO: [Labtoolstcl 44-464] Closing hw_target localhost:3121/xilinx_tcf/Digilent/210183795152A 
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// Tcl Message: open_hw_target {localhost:3121/xilinx_tcf/Digilent/210203826075A} 
+// Tcl Message: INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210203826075A 
+// Tcl Message: current_hw_device [get_hw_devices xc7vx690t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7vx690t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1435] Device xc7vx690t (JTAG device index = 0) is not programmed (DONE status = 0). 
+dismissDialog("Open Target"); // by (cl)
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7vx690t_0 (1) ; Not programmed", 3, "xc7vx690t_0 (1)", 0, true); // t (O, cl) - Node
+selectTreeTable(PAResourceEtoH.HardwareTreePanel_HARDWARE_TREE_TABLE, "xc7vx690t_0 (1) ; Not programmed", 3, "xc7vx690t_0 (1)", 0, true, false, false, false, true, false); // t (O, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceCommand.PACommandNames_PROGRAM_FPGA, "Program Device..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+// bC (cl): Program Device: addNotify
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+setFileChooser("/home/madhav/scratch/standalone_proto_with_L1_adc_inputs.bit");
+selectButton(PAResourceOtoP.ProgramFpgaDialog_SPECIFY_BITSTREAM_FILE, (String) null); // q (al, bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program"); // a (bC)
+// by (cl):  Program Device : addNotify
+// TclEventType: HW_DEVICE_CHANGE
+dismissDialog("Program Device"); // bC (cl)
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7vx690t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7vx690t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {/home/madhav/scratch/standalone_proto_with_L1_adc_inputs.bit} [get_hw_devices xc7vx690t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7vx690t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// Tcl Message: program_hw_devices: Time (s): cpu = 00:00:17 ; elapsed = 00:00:16 . Memory (MB): peak = 7586.109 ; gain = 0.000 ; free physical = 1911 ; free virtual = 40430 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7vx690t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7vx690t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+// 'I' command handler elapsed time: 24 seconds
+// Elapsed time: 17 seconds
+dismissDialog("Program Device"); // by (cl)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,967 MB. GUI used memory: 47 MB. Current time: 11/15/20, 6:45:56 PM IST

@@ -1,0 +1,55 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Thu Nov 12 14:36:22 2020
+# Process ID: 4931
+# Current directory: /home/madhav/ecg/implementation_v2/hw/basys3/bit_file
+# Command line: vivado
+# Log file: /home/madhav/ecg/implementation_v2/hw/basys3/bit_file/vivado.log
+# Journal file: /home/madhav/ecg/implementation_v2/hw/basys3/bit_file/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_hw
+connect_hw_server
+open_hw_target
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/madhav/ecg/implementation_v2/hw/basys3/bit_file/ecg.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/madhav/scratch/standalone_proto_with_L1_adc_inputs.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {/home/madhav/scratch/basys3_top.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+close_hw_target {localhost:3121/xilinx_tcf/Digilent/210183795152A}
+open_hw_target {localhost:3121/xilinx_tcf/Digilent/210203826075A}
+current_hw_device [get_hw_devices xc7vx690t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7vx690t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7vx690t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7vx690t_0]
+set_property PROGRAM.FILE {/home/madhav/scratch/standalone_proto_with_L1_adc_inputs.bit} [get_hw_devices xc7vx690t_0]
+program_hw_devices [get_hw_devices xc7vx690t_0]
+refresh_hw_device [lindex [get_hw_devices xc7vx690t_0] 0]

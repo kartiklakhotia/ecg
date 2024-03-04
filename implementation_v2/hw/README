@@ -1,0 +1,41 @@
+README
+	Run
+
+	./build_all.sh 
+
+	to do the following
+		- compile the C code 
+		   and build the "software" model
+		- compile the drivers for the basys3	
+		   board.
+		- generate vhdl
+		- synthesize
+		   (see basys3/run.sh for the synth
+			script).
+		  This generates the bit file, which
+		  is kept in the basys3/bit_file directory.
+
+
+
+	Run
+
+	./build_sw_only.sh
+
+	to generate only the software model.
+	
+Other directories here.
+	100.dat/
+		data from MIT DB
+
+	basys3/
+		basys3 related stuff.
+
+	bundle/
+		a bundle which collects stuff
+		in one place.
+	C/
+		software.
+	
+	dummy/
+		some stuff used for testing during
+		development.
