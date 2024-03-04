@@ -1,0 +1,44 @@
+-------------------------------------------------------------------
+1. What is new?
+-------------------------------------------------------------------
+	1. New AHIR release
+		ahir_release.tgz
+
+	2. Two new build scripts in hw/ directory
+		build_vhdlsim_only.sh
+		build_vhdlsim_only.gated_clock.sh
+
+	3. Added aa file gated_clock.aa in hw/C/Aa
+		which is used to define gated clocking
+		to be used in building vhdl.
+
+	4. Added compile script to build test-bench
+		for VHDL sim, in hw/C
+		
+		compile_vhdlsim_driver.sh
+
+	5.  Added VHDL generation script for gated clock
+		case in hw/C/generate_vhdl.gated_clock.sh
+
+	6.  VHDL simulation model build script
+		in hw/C/ghdl/ghdl.do
+
+Go to the hw/C directory and check out the HOWTO.TXT
+for more info.
+
+
+-------------------------------------------------------------------
+2. Single/Double precision builds
+-------------------------------------------------------------------
+	Currently, the scripts are setup to build
+	the single-precision version of the ECG chain.
+	To build the double-precision version, go to
+	the 
+		hw/C/generate_vhdl.sh
+	and
+		hw/C/generate_vhdl.gated_clock.sh
+
+	and replace NUSE_DOUBLE by USE_DOUBLE
+
+		
+
