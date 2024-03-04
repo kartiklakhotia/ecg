@@ -1,0 +1,6 @@
+$use_gated_clock initBandPassFilter
+$use_gated_clock applyBandPassFilter
+$use_gated_clock applyQrsDetector
+$use_gated_clock initializeHermitePolynomials
+$use_gated_clock x__InnerProduct__
+$use_gated_clock computeMSE

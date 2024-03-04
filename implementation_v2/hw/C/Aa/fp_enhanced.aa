@@ -2816,7 +2816,7 @@ $is
   $volatile 	$call round_fp_32 (extn_result_add ) (adds_result_fast ) 
   $guard (denormalize_flag_add) $call denormalize_fp_32 (extn_result_add ) (adds_result_slow ) 
   $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
-  $attribute input_buffering 0
+  $attribute input_buffering 2
 }
 
 $pipeline $depth 7 $fullrate $module [fp64_add_for_ecg]
@@ -2832,7 +2832,7 @@ $is
   $volatile 	$call round_fp_64 (extn_result_add ) (addd_result_fast ) 
   $guard (denormalize_flag_add) $call denormalize_fp_64 (extn_result_add ) (addd_result_slow ) 
   $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_add addd_result_slow  addd_result_fast )  ) $buffering 1
-  $attribute input_buffering 0
+  $attribute input_buffering 2
 }
 
 $pipeline $depth 7 $fullrate $module [fp32_mul_for_ecg]
@@ -2848,7 +2848,7 @@ $is
   $volatile 	$call round_fp_32 (extn_result_mul ) (muls_result_fast ) 
   $guard (denormalize_flag_mul) $call denormalize_fp_32 (extn_result_mul ) (muls_result_slow ) 
   $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_mul muls_result_slow  muls_result_fast )  ) $buffering 1
-  $attribute input_buffering 0
+  $attribute input_buffering 2
 }
 
 $pipeline $depth 7 $fullrate $module [fp64_mul_for_ecg]
@@ -2864,7 +2864,7 @@ $is
   $volatile 	$call round_fp_64 (extn_result_mul ) (muld_result_fast ) 
   $guard (denormalize_flag_mul) $call denormalize_fp_64 (extn_result_mul ) (muld_result_slow ) 
   $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_mul muld_result_slow  muld_result_fast )  ) $buffering 1
-  $attribute input_buffering 0
+  $attribute input_buffering 2
 }
 
 $pipeline $depth 7 $fullrate $module [fp32_sub_for_ecg]
@@ -2883,7 +2883,7 @@ $is
   $volatile 	$call round_fp_32 (extn_result_add ) (adds_result_fast ) 
   $guard (denormalize_flag_add) $call denormalize_fp_32 (extn_result_add ) (adds_result_slow ) 
   $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
-  $attribute input_buffering 0
+  $attribute input_buffering 2
 }
 
 $pipeline $depth 7 $fullrate $module [fp64_sub_for_ecg]
@@ -2902,7 +2902,7 @@ $is
   $volatile 	$call round_fp_64 (extn_result_add ) (addd_result_fast ) 
   $guard (denormalize_flag_add) $call denormalize_fp_64 (extn_result_add ) (addd_result_slow ) 
   $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_add addd_result_slow  addd_result_fast )  ) $buffering 1
-  $attribute input_buffering 0
+  $attribute input_buffering 2
 }
 
 $volatile $module [fpu_increment_64]
