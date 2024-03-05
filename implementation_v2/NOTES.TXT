@@ -1,5 +1,5 @@
 -------------------------------------------------------------------
-1. What is new?
+1. What is new (as of March 4, 2024) ?
 -------------------------------------------------------------------
 	1. New AHIR release
 		ahir_release.tgz
@@ -23,8 +23,9 @@
 	6.  VHDL simulation model build script
 		in hw/C/ghdl/ghdl.do
 
-Go to the hw/C directory and check out the HOWTO.TXT
-for more info.
+	7. FPGA related stuff in hw/fpga folder.  Includes
+		scripts and constraints for both the basys3
+		board, and the cw305 board.
 
 
 -------------------------------------------------------------------
@@ -42,3 +43,30 @@ for more info.
 
 		
 
+-------------------------------------------------------------------
+3. More instructions
+-------------------------------------------------------------------
+
+	Go to the hw/C directory and check out the HOWTO.TXT
+	for more info.
+
+	a. For building SW model and FPGA model, run
+
+	    hw/build_all.sh
+		(edit file for gated-clock/no-gated-clock builds)
+
+	b. For software model alone, run
+	     
+	    hw/build_sw_only.sh
+
+	c. For VHDL sim (gated clock case), run
+
+	    hw/build_vhdlsim_only.gated_clock.sh
+
+	d.  For VHDL sim (no gated clock), run
+
+            hw/build_vhdlsim_only.sh
+
+	e.  For cleaning up, run
+	    
+            hw/clean.sh
