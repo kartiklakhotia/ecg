@@ -47,6 +47,8 @@
 3. More instructions
 -------------------------------------------------------------------
 
+        The hw/ directory has a README.
+
 	Go to the hw/C directory and check out the HOWTO.TXT
 	for more info.
 
