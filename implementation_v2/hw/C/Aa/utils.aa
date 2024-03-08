@@ -1,0 +1,113 @@
+// Aa code produced by llvm2aa (version 1.0)
+$pipe in_data : $uint<8> $depth 1
+$pipe out_data : $uint<8> $depth 1
+$module [getUint8] 
+$in ()
+$out (ret_val__ : $uint<8>)
+$is 
+{
+  ret_val__ := in_data
+}
+
+$module [sendUint8] 
+$in (X : $uint<8> )
+$out ()
+$is 
+{
+  out_data := X
+}
+
+$module [getUint16] 
+$in ()
+$out (ret_val__ : $uint<16>)
+$is 
+{
+    $call getUint8 () (b0)
+    $call getUint8 () (b1)
+
+    ret_val__ := ($concat b0 b1)
+}
+
+$module [sendUint16] 
+$in (X : $uint<16> )
+$out ()
+$is 
+{
+	$volatile $split (X 8 8) (b0 b1)
+	$call sendUint8 (b0) ()
+	$call sendUint8 (b1) ()
+}
+
+$module [getUint32] 
+$in ()
+$out (ret_val__ : $uint<32>)
+$is 
+{
+	$call getUint16 () (h0)
+	$call getUint16 () (h1)
+
+	ret_val__ := ($concat h0 h1)
+}
+$module [sendUint32] 
+$in (X : $uint<32> )
+$out ()
+$is 
+{
+	$volatile $split (X 16 16) (h0 h1)
+	$call sendUint16 (h0) ()
+	$call sendUint16 (h1) ()
+}
+
+$module [getFloat] 
+$in ()
+$out (ret_val__ : $float<8,23>)
+$is 
+{
+	$call getUint32 () (u32)
+	ret_val__ := ($bitcast ($float<8,23>) u32)
+}
+$module [sendFloat] 
+$in (X : $float<8,23> )
+$out ()
+$is 
+{
+	$volatile u32 :=  ($bitcast ($uint<32>) X)
+	$call sendUint32 (u32) ()
+}
+$module [getUint64] 
+$in ()
+$out (ret_val__ : $uint<64>)
+$is 
+{
+	$call getUint32 () (w0)
+	$call getUint32 () (w1)
+
+	ret_val__ := ($concat w0 w1)
+}
+$module [sendUint64] 
+$in (X : $uint<64> )
+$out ()
+$is 
+{
+	$volatile $split (X 32 32) (w0 w1)
+
+	$call sendUint32 (w0) ()
+	$call sendUint32 (w1) ()
+
+}
+$module [getDouble] 
+$in ()
+$out (ret_val__ : $float<11,52>)
+$is 
+{
+    $call getUint64 ()  (X)
+    ret_val__ := ($bitcast ($float<11,52>) X)
+}
+$module [sendDouble] 
+$in (X : $float<11,52> )
+$out ()
+$is 
+{
+	$volatile u64 := ($bitcast ($uint<64>) X)
+	$call sendUint64 (u64) ()
+}

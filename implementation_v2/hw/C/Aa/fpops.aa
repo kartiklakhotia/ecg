@@ -1,0 +1,17 @@
+$module [fp__mul__]
+	$in (X Y: $float<11,52>) $out (R: $float <11,52>) $is
+{
+	R := (X * Y)
+}
+
+$module [fp__addsub__]
+	$in (X Y: $float<11,52> sub: $uint<8>) $out (R: $float <11,52>) $is
+{
+	$volatile uY := ($bitcast ($uint<64>) Y)
+	$volatile sY := (uY [] 63)
+	$volatile tY := ($concat (~sY) ($slice uY 62 0))
+	$volatile oY := ($bitcast ($float<11,52>) ($mux sY tY uY))
+		
+	R := (X + oY)
+}
+

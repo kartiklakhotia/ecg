@@ -1,0 +1,2022 @@
+$constant  ALL_ONE_11 : $uint<11>:= _h7ff  
+$constant  ALL_ONE_13 : $int<13>:= _h7ff  
+$constant  ALL_ONE_8 : $uint<8>:= _b11111111  
+$constant  ASI_AJIT_BRIDGE_CONFIG : $uint<8>:= _h30  
+$constant  ASI_BLOCK_COPY : $uint<8>:= _h17  
+$constant  ASI_BLOCK_FILL : $uint<8>:= _h1F  
+$constant  ASI_CACHE_DATA_I : $uint<8>:= _h0D  
+$constant  ASI_CACHE_DATA_I_D : $uint<8>:= _h0F  
+$constant  ASI_CACHE_TAG_I : $uint<8>:= _h0C  
+$constant  ASI_CACHE_TAG_I_D : $uint<8>:= _h0E  
+$constant  ASI_FLUSH_I_CONTEXT : $uint<8>:= _h1B  
+$constant  ASI_FLUSH_I_D_CONTEXT : $uint<8>:= _h13  
+$constant  ASI_FLUSH_I_D_PAGE : $uint<8>:= _h10  
+$constant  ASI_FLUSH_I_D_REGION : $uint<8>:= _h12  
+$constant  ASI_FLUSH_I_D_SEGMENT : $uint<8>:= _h11  
+$constant  ASI_FLUSH_I_D_USER : $uint<8>:= _h14  
+$constant  ASI_FLUSH_I_PAGE : $uint<8>:= _h18  
+$constant  ASI_FLUSH_I_REGION : $uint<8>:= _h1A  
+$constant  ASI_FLUSH_I_SEGMENT : $uint<8>:= _h19  
+$constant  ASI_FLUSH_I_USER : $uint<8>:= _h1C  
+$constant  ASI_MMU_DIAGNOSTIC_I : $uint<8>:= _h05  
+$constant  ASI_MMU_DIAGNOSTIC_IO : $uint<8>:= _h07  
+$constant  ASI_MMU_DIAGNOSTIC_I_D : $uint<8>:= _h06  
+$constant  ASI_MMU_FLUSH_PROBE : $uint<8>:= _h03  
+$constant  ASI_MMU_REGISTER : $uint<8>:= _h04  
+$constant  ASI_SUPERVISOR_DATA : $uint<8>:= _h0B  
+$constant  ASI_SUPERVISOR_INSTRUCTION : $uint<8>:= _h09  
+$constant  ASI_USER_DATA : $uint<8>:= _h0A  
+$constant  ASI_USER_INSTRUCTION : $uint<8>:= _h08  
+$constant  CACHE_ARRAY_NOP : $uint<3>:= 4  
+$constant  CACHE_ARRAY_READ_DWORD : $uint<3>:= 1  
+$constant  CACHE_ARRAY_WRITE_DWORD : $uint<3>:= 2  
+$constant  CACHE_ARRAY_WRITE_LINE : $uint<3>:= 3  
+$constant  CACHE_TAG_CLEAR_ALL : $uint<3>:= 4  
+$constant  CACHE_TAG_CLEAR_LINE : $uint<3>:= 3  
+$constant  CACHE_TAG_INSERT : $uint<3>:= 2  
+$constant  CACHE_TAG_LOOKUP : $uint<3>:= 1  
+$constant  CACHE_TAG_NOP : $uint<3>:= 5  
+$constant  DEBUG_MODE_MASK : $uint<8>:= 2  
+$constant  DP_round_mid : $uint<10>:= _h200  
+$constant  FOUR_3 : $uint<3>:= 4  
+$constant  GDB_DBG_CONNECT : $uint<8>:= 14  
+$constant  GDB_DBG_CONTINUE : $uint<8>:= 16  
+$constant  GDB_DBG_DETACH : $uint<8>:= 15  
+$constant  GDB_DBG_KILL : $uint<8>:= 19  
+$constant  GDB_DBG_READ_CONTROL_REG : $uint<8>:= 13  
+$constant  GDB_DBG_READ_CPUNIT_REG : $uint<8>:= 17  
+$constant  GDB_DBG_READ_FPUNIT_REG : $uint<8>:= 3  
+$constant  GDB_DBG_READ_IUNIT_REG : $uint<8>:= 1  
+$constant  GDB_DBG_READ_MEM : $uint<8>:= 6  
+$constant  GDB_DBG_REMOVE_BREAK_POINT : $uint<8>:= 9  
+$constant  GDB_DBG_REMOVE_WATCH_POINT : $uint<8>:= 11  
+$constant  GDB_DBG_SET_BREAK_POINT : $uint<8>:= 8  
+$constant  GDB_DBG_SET_WATCH_POINT : $uint<8>:= 10  
+$constant  GDB_DBG_WRITE_CONTROL_REG : $uint<8>:= 20  
+$constant  GDB_DBG_WRITE_CPUNIT_REG : $uint<8>:= 18  
+$constant  GDB_DBG_WRITE_FPUNIT_REG : $uint<8>:= 4  
+$constant  GDB_DBG_WRITE_IUNIT_REG : $uint<8>:= 2  
+$constant  GDB_DBG_WRITE_MEM : $uint<8>:= 7  
+$constant  HARD_RESET_MASK : $uint<8>:= 1  
+$constant  KILL_STREAM_MASK : $uint<8>:= 128  
+$constant  KILL_THREAD_MASK : $uint<8>:= 128  
+$constant  LOGGER_ACTIVE_MASK : $uint<8>:= 8  
+$constant  MMU_PASS_THROUGH_HLIMIT : $uint<8>:= _h2F  
+$constant  MMU_PASS_THROUGH_LLIMIT : $uint<8>:= _h20  
+$constant  MMU_READ_DWORD : $uint<8>:= 2  
+$constant  MMU_READ_LINE : $uint<8>:= 3  
+$constant  MMU_WRITE_DWORD : $uint<8>:= 1  
+$constant  MMU_WRITE_DWORD_NO_RESPONSE : $uint<8>:= 5  
+$constant  MMU_WRITE_FSR : $uint<8>:= 4  
+$constant  NEW_STREAM_MASK : $uint<8>:= 128  
+$constant  NEW_THREAD_MASK : $uint<8>:= 128  
+$constant  NPC_RESET_VALUE : $uint<32>:= 4  
+$constant  NWINDOWS : $uint<32>:= 8  
+$constant  NWINDOWS_MOD_MASK_32 : $uint<32>:= _b111  
+$constant  NWINDOWS_MOD_MASK_5 : $uint<5>:= _b111  
+$constant  NWINDOWSx16 : $uint<32>:= 128  
+$constant  NWINDOWSx16_MOD_MASK_32 : $uint<32>:= 127  
+$constant  NWINDOWSx2 : $uint<32>:= 16  
+$constant  ONE_1 : $uint<1>:= 1  
+$constant  ONE_10 : $uint<10>:= 1  
+$constant  ONE_11 : $uint<11>:= 1  
+$constant  ONE_12 : $uint<12>:= 1  
+$constant  ONE_128 : $uint<128>:= 1  
+$constant  ONE_13 : $uint<13>:= 1  
+$constant  ONE_14 : $uint<14>:= 1  
+$constant  ONE_16 : $uint<16>:= 1  
+$constant  ONE_17 : $uint<17>:= 1  
+$constant  ONE_18 : $uint<18>:= 1  
+$constant  ONE_19 : $uint<19>:= 1  
+$constant  ONE_2 : $uint<2>:= 1  
+$constant  ONE_20 : $uint<20>:= 1  
+$constant  ONE_23 : $uint<23>:= 1  
+$constant  ONE_24 : $uint<24>:= 1  
+$constant  ONE_25 : $uint<25>:= 1  
+$constant  ONE_256 : $uint<256>:= 1  
+$constant  ONE_29 : $uint<29>:= 1  
+$constant  ONE_3 : $uint<3>:= 1  
+$constant  ONE_31 : $uint<31>:= 1  
+$constant  ONE_32 : $uint<32>:= 1  
+$constant  ONE_36 : $uint<36>:= 1  
+$constant  ONE_4 : $uint<4>:= 1  
+$constant  ONE_48 : $uint<48>:= 1  
+$constant  ONE_5 : $uint<5>:= 1  
+$constant  ONE_52 : $uint<52>:= 1  
+$constant  ONE_54 : $uint<54>:= _b1  
+$constant  ONE_6 : $uint<6>:= 1  
+$constant  ONE_62 : $uint<62>:= 1  
+$constant  ONE_63 : $uint<63>:= 1  
+$constant  ONE_64 : $uint<64>:= 1  
+$constant  ONE_65 : $uint<65>:= _b1  
+$constant  ONE_7 : $uint<7>:= 1  
+$constant  ONE_8 : $uint<8>:= 1  
+$constant  ONE_9 : $uint<9>:= 1  
+$constant  PC_RESET_VALUE : $uint<32>:= 0  
+$constant  PROCESSOR_ERROR_MODE : $uint<2>:= 3  
+$constant  PROCESSOR_EXECUTE_MODE : $uint<2>:= 2  
+$constant  PROCESSOR_RESET_MODE : $uint<2>:= 1  
+$constant  PROCESSOR_UNDEFINED_MODE : $uint<2>:= 0  
+$constant  PSR_RESET_VALUE : $uint<32>:= _h000010c0  
+$constant  REQUEST_TYPE_BRIDGE_CONFIG_READ : $uint<4>:= 9  
+$constant  REQUEST_TYPE_BRIDGE_CONFIG_WRITE : $uint<4>:= 8  
+$constant  REQUEST_TYPE_CCU_CACHE_READ : $uint<4>:= 5  
+$constant  REQUEST_TYPE_CCU_CACHE_WRITE : $uint<4>:= 6  
+$constant  REQUEST_TYPE_IFETCH : $uint<4>:= 0  
+$constant  REQUEST_TYPE_NOP : $uint<4>:= 7  
+$constant  REQUEST_TYPE_READ : $uint<4>:= 1  
+$constant  REQUEST_TYPE_STBAR : $uint<4>:= 3  
+$constant  REQUEST_TYPE_WRFSRFAR : $uint<4>:= 4  
+$constant  REQUEST_TYPE_WRITE : $uint<4>:= 2  
+$constant  SINGLE_STEP_MASK : $uint<8>:= 4  
+$constant  SP_round_mid : $uint<39>:= _h4000000000  
+$constant  THREE_2 : $uint<2>:= 3  
+$constant  THREE_3 : $uint<3>:= 3  
+$constant  TRACE_ON : $uint<1>:= 1  
+$constant  TWO_2 : $uint<2>:= 2  
+$constant  TWO_3 : $uint<3>:= 2  
+$constant  WIM_MASK : $uint<32>:= _h000000ff  
+$constant  ZERO_1 : $uint<1>:= 0  
+$constant  ZERO_10 : $uint<10>:= 0  
+$constant  ZERO_106 : $uint<106>:= _b0  
+$constant  ZERO_11 : $uint<11>:= 0  
+$constant  ZERO_12 : $uint<12>:= 0  
+$constant  ZERO_128 : $uint<128>:= 0  
+$constant  ZERO_13 : $uint<13>:= 0  
+$constant  ZERO_14 : $uint<14>:= 0  
+$constant  ZERO_16 : $uint<16>:= _b0  
+$constant  ZERO_17 : $uint<17>:= 0  
+$constant  ZERO_18 : $uint<18>:= 0  
+$constant  ZERO_19 : $uint<19>:= 0  
+$constant  ZERO_2 : $uint<2>:= _b0  
+$constant  ZERO_20 : $uint<20>:= 0  
+$constant  ZERO_22 : $uint<22>:= _b0  
+$constant  ZERO_23 : $uint<23>:= 0  
+$constant  ZERO_24 : $uint<24>:= 0  
+$constant  ZERO_25 : $uint<25>:= 0  
+$constant  ZERO_256 : $uint<256>:= 0  
+$constant  ZERO_29 : $uint<29>:= 0  
+$constant  ZERO_3 : $uint<3>:= 0  
+$constant  ZERO_31 : $uint<31>:= 0  
+$constant  ZERO_32 : $uint<32>:= _b0  
+$constant  ZERO_36 : $uint<36>:= 0  
+$constant  ZERO_4 : $uint<4>:= _b0  
+$constant  ZERO_42 : $uint<42>:= _b0  
+$constant  ZERO_48 : $uint<48>:= 0  
+$constant  ZERO_5 : $uint<5>:= 0  
+$constant  ZERO_51 : $uint<51>:= _b0  
+$constant  ZERO_52 : $uint<52>:= 0  
+$constant  ZERO_54 : $uint<54>:= _b0  
+$constant  ZERO_6 : $uint<6>:= _b0  
+$constant  ZERO_61 : $uint<61>:= 0  
+$constant  ZERO_62 : $uint<62>:= 0  
+$constant  ZERO_63 : $uint<63>:= 0  
+$constant  ZERO_64 : $uint<64>:= _b0  
+$constant  ZERO_7 : $uint<7>:= _b0  
+$constant  ZERO_8 : $uint<8>:= _b0  
+$constant  ZERO_9 : $uint<9>:= 0  
+$constant  exp_base_0 : $int<13>:= _h00  
+$constant  exp_base_1 : $int<13>:= _h01  
+$constant  exp_base_1022 : $int<13>:= _h3fe  
+$constant  exp_base_1023 : $int<13>:= _h3ff  
+$constant  exp_base_126 : $int<13>:= _h7e  
+$constant  exp_base_127 : $int<13>:= _h7f  
+$constant  exp_base_24 : $int<13>:= _h18  
+$constant  exp_base_254 : $int<13>:= _hfe  
+$constant  exp_base_53 : $int<13>:= _h35  
+$constant  exp_base_neg_1022 : $int<13>:= _h1C02  
+$constant  exp_base_neg_126 : $int<13>:= _h1F82  
+$constant  value_24 : $uint<7>:= _h18  
+$constant  value_38 : $uint<6>:= _h26  
+$constant  value_53 : $uint<7>:= _h35  
+$constant  value_62 : $uint<6>:= _h3e  
+$constant  value_9 : $uint<6>:= _h9  
+$volatile $module [DoubleToExtendedFp]
+$in ( uf1_d : $uint<64>   f1_d_class : $uint<10>  )
+$out ( result : $uint<67>  )
+$is
+{
+  sign_d := (uf1_d [] 63 ) $buffering 1
+  exp_d := ( $slice uf1_d 62 52 )  $buffering 1
+  mant_d := ( $slice uf1_d 51 0 )  $buffering 1
+  f1_pos_normal := ( $slice f1_d_class 9 9 )  $buffering 1
+  f1_neg_normal := ( $slice f1_d_class 8 8 )  $buffering 1
+  f1_pos_denormal := ( $slice f1_d_class 7 7 )  $buffering 1
+  f1_neg_denormal := ( $slice f1_d_class 6 6 )  $buffering 1
+  f1_qnan := ( $slice f1_d_class 5 5 )  $buffering 1
+  f1_snan := ( $slice f1_d_class 4 4 )  $buffering 1
+  f1_pos_inf := ( $slice f1_d_class 3 3 )  $buffering 1
+  f1_neg_inf := ( $slice f1_d_class 2 2 )  $buffering 1
+  f1_pos_zero := ( $slice f1_d_class 1 1 )  $buffering 1
+  f1_neg_zero := ( $slice f1_d_class 0 0 )  $buffering 1
+  f1_normal := (f1_pos_normal | f1_neg_normal) $buffering 1
+  f1_denormal := (f1_pos_denormal | f1_neg_denormal) $buffering 1
+  f1_nan := (f1_qnan | f1_snan) $buffering 1
+  f1_inf := (f1_pos_inf | f1_neg_inf) $buffering 1
+  f1_zero := (f1_pos_zero | f1_neg_zero) $buffering 1
+  bias := ( $mux f1_denormal exp_base_1022  exp_base_1023 )  $buffering 1
+  exp_a := ($bitcast ($uint<13>) (($bitcast ($int<13>) exp_d ) - bias) ) $buffering 1
+  man_52 := mant_d $buffering 1
+  top_bit := (( ~ f1_denormal ) & ( ~ f1_zero )) $buffering 1
+  result := ((sign_d && exp_a) && (top_bit && man_52)) $buffering 1
+}
+$volatile $module [classFpBase]
+$in ( sign : $uint<1>   exp_all_ones : $uint<1>   exp_all_zeros : $uint<1>   mant_a_zero : $uint<1>   mant_top_bit : $uint<1>  )
+$out ( pos_normal : $uint<1>   neg_normal : $uint<1>   pos_denormal : $uint<1>   neg_denormal : $uint<1>   qnan : $uint<1>   snan : $uint<1>   pos_inf : $uint<1>   neg_inf : $uint<1>   pos_zero : $uint<1>   neg_zero : $uint<1>  )
+$is
+{
+  snan := ((exp_all_ones & ( ~ mant_a_zero )) & ( ~ mant_top_bit )) $buffering 1
+  qnan := ((exp_all_ones & ( ~ mant_a_zero )) & mant_top_bit) $buffering 1
+  pos_inf := ((exp_all_ones & mant_a_zero) & ( ~ sign )) $buffering 1
+  neg_inf := ((exp_all_ones & mant_a_zero) & sign) $buffering 1
+  pos_zero := ((exp_all_zeros & mant_a_zero) & ( ~ sign )) $buffering 1
+  neg_zero := ((exp_all_zeros & mant_a_zero) & sign) $buffering 1
+  pos_denormal := ((exp_all_zeros & ( ~ mant_a_zero )) & ( ~ sign )) $buffering 1
+  neg_denormal := ((exp_all_zeros & ( ~ mant_a_zero )) & sign) $buffering 1
+  pos_normal := ((( ~ exp_all_zeros ) & ( ~ exp_all_ones )) & ( ~ sign )) $buffering 1
+  neg_normal := ((( ~ exp_all_zeros ) & ( ~ exp_all_ones )) & sign) $buffering 1
+}
+$volatile $module [classFp64]
+$in ( a : $float<11,52>  )
+$out ( pos_normal : $uint<1>   neg_normal : $uint<1>   pos_denormal : $uint<1>   neg_denormal : $uint<1>   qnan : $uint<1>   snan : $uint<1>   pos_inf : $uint<1>   neg_inf : $uint<1>   pos_zero : $uint<1>   neg_zero : $uint<1>  )
+$is
+{
+  $report (fpunit_exec classFp64_input__ 	 a a )
+  ua := ($bitcast ($uint<64>) a ) $buffering 1
+  $report (fpunit_exec classFp64_trace__ 	 ua ua )
+  sign := (ua [] 63 ) $buffering 1
+  $report (fpunit_exec classFp64_trace__ 	 sign sign )
+  exp_a := ( $slice ua 62 52 )  $buffering 1
+  mant_a := ( $slice ua 51 0 )  $buffering 1
+  $report (fpunit_exec classFp64_trace__ 	 exp_a exp_a 	 mant_a mant_a )
+  exp_all_ones := (exp_a == ( ~ 0  )) $buffering 1
+  exp_all_zeros := (exp_a == 0 ) $buffering 1
+  $report (fpunit_exec classFp64_trace__ 	 exp_all_ones exp_all_ones 	 exp_all_zeros exp_all_zeros )
+  mant_a_zero := (mant_a == 0 ) $buffering 1
+  mant_top_bit := (mant_a [] 51 ) $buffering 1
+  $report (fpunit_exec classFp64_trace__ 	 mant_a_zero mant_a_zero 	 mant_top_bit mant_top_bit )
+  $volatile 	$call classFpBase (sign exp_all_ones exp_all_zeros mant_a_zero mant_top_bit ) (pos_normal neg_normal pos_denormal neg_denormal qnan snan pos_inf neg_inf pos_zero neg_zero ) 
+}
+$volatile $module [classify_64]
+$in ( f1_d : $float<11,52>  )
+$out ( f1_zero : $uint<1>   f1_normal : $uint<1>   f1_denormal : $uint<1>   f1_inf : $uint<1>   f1_nan : $uint<1>  )
+$is
+{
+  $volatile 	$call classFp64 (f1_d ) (f1_d_pos_normal f1_d_neg_normal f1_d_pos_denormal f1_d_neg_denormal f1_d_qnan f1_d_snan f1_d_pos_inf f1_d_neg_inf f1_d_pos_zero f1_d_neg_zero ) 
+  $volatile f1_zero := (f1_d_pos_zero | f1_d_neg_zero) $buffering 1
+  $volatile f1_normal := (f1_d_pos_normal | f1_d_neg_normal) $buffering 1
+  $volatile f1_denormal := (f1_d_pos_denormal | f1_d_neg_denormal) $buffering 1
+  $volatile f1_inf := (f1_d_pos_inf | f1_d_neg_inf) $buffering 1
+  $volatile f1_nan := (f1_d_snan | f1_d_qnan) $buffering 1
+}
+$volatile $module [find_left_4]
+$in ( fp_4 : $uint<4>  )
+$out ( position : $uint<2>   found : $uint<1>  )
+$is
+{
+  $volatile x3 := ( $slice fp_4 3 3 )  $buffering 1
+  $volatile x2 := ( $slice fp_4 2 2 )  $buffering 1
+  $volatile x1 := ( $slice fp_4 1 1 )  $buffering 1
+  $volatile x0 := ( $slice fp_4 0 0 )  $buffering 1
+  $volatile found := ((x3 | x2) | (x1 | x0)) $buffering 1
+  $volatile y1 := (x3 | x2) $buffering 1
+  $volatile y0 := (x3 | (x1 & ( ~ x2 ))) $buffering 1
+  $volatile position := (y1 && y0) $buffering 1
+}
+$volatile $module [find_left_8]
+$in ( fp_8 : $uint<8>  )
+$out ( position : $uint<3>   found : $uint<1>  )
+$is
+{
+  $volatile fp_4_upper := ( $slice fp_8 7 4 )  $buffering 1
+  $volatile fp_4_lower := ( $slice fp_8 3 0 )  $buffering 1
+  $volatile 	$call find_left_4 (fp_4_upper ) (fp_4_upper_index found_upper ) 
+  $volatile 	$call find_left_4 (fp_4_lower ) (fp_4_lower_index found_lower ) 
+  $volatile position := ( $mux found_upper (ONE_1 && fp_4_upper_index)  ( $mux found_lower (ZERO_1 && fp_4_lower_index)  ZERO_3 )  )  $buffering 1
+  $volatile found := (found_upper | found_lower) $buffering 1
+}
+$volatile $module [find_left_24]
+$in ( fp_24 : $uint<24>  )
+$out ( position : $uint<5>   found : $uint<1>  )
+$is
+{
+  $volatile fp_2 := ( $slice fp_24 23 16 )  $buffering 1
+  $volatile fp_1 := ( $slice fp_24 15 8 )  $buffering 1
+  $volatile fp_0 := ( $slice fp_24 7 0 )  $buffering 1
+  $volatile 	$call find_left_8 (fp_2 ) (pos_2 found_2 ) 
+  $volatile 	$call find_left_8 (fp_1 ) (pos_1 found_1 ) 
+  $volatile 	$call find_left_8 (fp_0 ) (pos_0 found_0 ) 
+  found := ((found_2 | found_1) | found_0) $buffering 1
+  position := ( $mux found_2 ((ONE_1 && ZERO_1) && pos_2)  ( $mux found_1 ((ZERO_1 && ONE_1) && pos_1)  ( $mux found_0 ((ZERO_1 && ZERO_1) && pos_0)  0  )  )  )  $buffering 1
+}
+$volatile $module [find_left_53]
+$in ( fp_53 : $uint<53>  )
+$out ( position : $uint<6>   found : $uint<1>  )
+$is
+{
+  $volatile fp_3 := ( $slice fp_53 52 52 )  $buffering 1
+  $volatile fp_2 := ( $slice fp_53 51 48 )  $buffering 1
+  $volatile fp_1 := ( $slice fp_53 47 24 )  $buffering 1
+  $volatile fp_0 := ( $slice fp_53 23 0 )  $buffering 1
+  $volatile 	$call find_left_4 (fp_2 ) (pos_2 found_2 ) 
+  $volatile 	$call find_left_24 (fp_1 ) (pos_1 found_1 ) 
+  $volatile 	$call find_left_24 (fp_0 ) (pos_0 found_0 ) 
+  found := ((fp_3 | found_2) | (found_1 | found_0)) $buffering 1
+  position := ( $mux fp_3 52   ( $mux found_2 (($bitcast ($uint<6>) pos_2 ) + 48 )  ( $mux found_1 (($bitcast ($uint<6>) pos_1 ) + 24 )  ( $mux found_0 ($bitcast ($uint<6>) pos_0 )  0  )  )  )  )  $buffering 1
+}
+$volatile $module [i53_sll]
+$in ( X : $uint<53>   S : $uint<6>  )
+$out ( Y : $uint<53>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 51 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 50 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 48 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 44 0 )  && ZERO_8)  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (( $slice X3 36 0 )  && ZERO_16)  X3 )  $buffering 1
+  Y := ( $mux (S [] 5 ) (( $slice X4 20 0 )  && ZERO_32)  X4 )  $buffering 1
+}
+$pipeline $depth 3 $buffering 1 $fullrate $deterministic $operator $module [DoubleToSingle]
+$in ( f1_d : $float<11,52>  )
+$out ( needs_norm : $uint<1>   extn_result : $uint<81>  )
+$is
+{
+  $volatile uf1_d := ($bitcast ($uint<64>) f1_d ) $buffering 1
+  $volatile sign_d := (uf1_d [] 63 ) $buffering 1
+  $volatile exp_d := ( $slice uf1_d 62 52 )  $buffering 1
+  $volatile mant_d := ( $slice uf1_d 51 0 )  $buffering 1
+  $volatile 	$call classify_64 (f1_d ) (f1_zero f1_normal f1_denormal f1_inf f1_nan ) 
+  $volatile bias := ( $mux f1_denormal exp_base_1022  exp_base_1023 )  $buffering 1
+  $volatile exp_without_bias := (($bitcast ($int<13>) exp_d ) - bias) $buffering 1
+  $volatile mantissa_msb := ( $mux f1_denormal ZERO_1  ONE_1 )  $buffering 1
+  $volatile mantissa_53_bits := (mantissa_msb && mant_d) $buffering 1
+  $volatile 	$call find_left_53 (mantissa_53_bits ) (top_bit_pos top_bit_found ) 
+  shift_amount := (52  - top_bit_pos) $buffering 1// bits of buffering = 6. 
+  $volatile 	$call i53_sll (mantissa_53_bits shift_amount ) (mantissa_53_aligned ) 
+  $volatile exp_without_bias_adjusted := (exp_without_bias - ($bitcast ($int<13>) shift_amount )) $buffering 1
+  $volatile overflow := (exp_without_bias_adjusted > 127 ) $buffering 1
+  $volatile underflow := (exp_without_bias_adjusted < (0  - 126 )) $buffering 1
+  $volatile mantissa_62 := (( $slice mantissa_53_aligned 51 0 )  && ZERO_10) $buffering 1
+  $volatile exponent_to_be_passed := ((( $mux f1_nan ALL_ONE_13  _b0  )  | ( $mux (f1_inf | overflow) ALL_ONE_13  _b0  ) ) | (( $mux f1_zero ($bitcast ($int<13>) ZERO_13 )  _b0  )  | ( $mux (( ~ overflow ) & (f1_normal | f1_denormal)) exp_without_bias_adjusted  _b0  ) )) $buffering 1
+  $volatile mantissa_to_be_passed := ((( $mux f1_nan (ONE_1 && ZERO_61)  _b0  )  | ( $mux (f1_inf | overflow) ZERO_62  _b0  ) ) | (( $mux f1_zero ZERO_62  _b0  )  | ( $mux (( ~ overflow ) & (f1_normal | f1_denormal)) mantissa_62  _b0  ) )) $buffering 1
+  needs_norm := (((underflow & ( ~ f1_nan )) & ( ~ f1_inf )) & (( ~ f1_zero ) & ( ~ overflow ))) $buffering 1// bits of buffering = 1. 
+  extn_result := (((ZERO_1 && ZERO_1) && (sign_d && f1_nan)) && (((f1_inf | overflow) && f1_zero) && (($bitcast ($uint<13>) exponent_to_be_passed ) && mantissa_to_be_passed))) $buffering 1// bits of buffering = 81. 
+  $attribute delay 2
+}
+$volatile $module [classFp32]
+$in ( a : $float<8,23>  )
+$out ( pos_normal : $uint<1>   neg_normal : $uint<1>   pos_denormal : $uint<1>   neg_denormal : $uint<1>   qnan : $uint<1>   snan : $uint<1>   pos_inf : $uint<1>   neg_inf : $uint<1>   pos_zero : $uint<1>   neg_zero : $uint<1>  )
+$is
+{
+  ua := ($bitcast ($uint<32>) a ) $buffering 1
+  sign := (ua [] 31 ) $buffering 1
+  exp_a := ( $slice ua 30 23 )  $buffering 1
+  mant_a := ( $slice ua 22 0 )  $buffering 1
+  exp_all_ones := (exp_a == ( ~ 0  )) $buffering 1
+  exp_all_zeros := (exp_a == 0 ) $buffering 1
+  mant_a_zero := (mant_a == 0 ) $buffering 1
+  mant_top_bit := (mant_a [] 22 ) $buffering 1
+  $volatile 	$call classFpBase (sign exp_all_ones exp_all_zeros mant_a_zero mant_top_bit ) (pos_normal neg_normal pos_denormal neg_denormal qnan snan pos_inf neg_inf pos_zero neg_zero ) 
+  $report (fpunit_exec classFp32_trace__ 	 ua ua 	 sign sign 	 exp_a exp_a 	 mant_a mant_a 	 exp_all_ones exp_all_ones 	 exp_all_zeros exp_all_zeros 	 mant_a_zero mant_a_zero 	 mant_top_bit mant_top_bit 	 qnan qnan 	 snan snan )
+}
+$volatile $module [classify_32]
+$in ( f1_s : $float<8,23>  )
+$out ( f1_zero : $uint<1>   f1_normal : $uint<1>   f1_denormal : $uint<1>   f1_inf : $uint<1>   f1_nan : $uint<1>  )
+$is
+{
+  $volatile 	$call classFp32 (f1_s ) (f1_s_pos_normal f1_s_neg_normal f1_s_pos_denormal f1_s_neg_denormal f1_s_qnan f1_s_snan f1_s_pos_inf f1_s_neg_inf f1_s_pos_zero f1_s_neg_zero ) 
+  $volatile f1_zero := (f1_s_pos_zero | f1_s_neg_zero) $buffering 1
+  $volatile f1_normal := (f1_s_pos_normal | f1_s_neg_normal) $buffering 1
+  $volatile f1_denormal := (f1_s_pos_denormal | f1_s_neg_denormal) $buffering 1
+  $volatile f1_inf := (f1_s_pos_inf | f1_s_neg_inf) $buffering 1
+  $volatile f1_nan := (f1_s_snan | f1_s_qnan) $buffering 1
+}
+$volatile $module [i24_sll]
+$in ( X : $uint<24>   S : $uint<5>  )
+$out ( Y : $uint<24>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 22 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 21 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 19 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 15 0 )  && ZERO_8)  X2 )  $buffering 1
+  Y := ( $mux (S [] 4 ) (( $slice X3 7 0 )  && ZERO_16)  X3 )  $buffering 1
+}
+$volatile $module [SingleToDouble]
+$in ( f1_s : $float<8,23>  )
+$out ( f1_d : $float<11,52>  )
+$is
+{
+  $volatile uf1_s := ($bitcast ($uint<32>) f1_s ) $buffering 1
+  $volatile sign_s := (uf1_s [] 31 ) $buffering 1
+  $volatile exp_s := ( $slice uf1_s 30 23 )  $buffering 1
+  $volatile mant_s := ( $slice uf1_s 22 0 )  $buffering 1
+  $volatile 	$call classify_32 (f1_s ) (f1_zero f1_normal f1_denormal f1_inf f1_nan ) 
+  $volatile mantissa_msb := ( $mux f1_denormal ZERO_1  ONE_1 )  $buffering 1
+  $volatile frac := (mantissa_msb && mant_s) $buffering 1
+  $volatile bias := ( $mux f1_denormal exp_base_126  exp_base_127 )  $buffering 1
+  $volatile exp_a := (($bitcast ($int<13>) exp_s ) - bias) $buffering 1
+  $volatile 	$call find_left_24 (frac ) (position found ) 
+  $volatile left_shifts_required := (23  - position) $buffering 1
+  $volatile 	$call i24_sll (frac left_shifts_required ) (frac_shifted ) 
+  $volatile expon_normalized := (exp_a - ($bitcast ($int<13>) left_shifts_required )) $buffering 1
+  $volatile exp_11 := ($bitcast ($uint<11>) (expon_normalized + exp_base_1023) ) $buffering 1
+  $volatile man_52 := (( $slice frac_shifted 22 0 )  && ZERO_29) $buffering 1
+  $volatile result_norm_denorm := ((sign_s && exp_11) && man_52) $buffering 1
+  $volatile result_qnan := ((ZERO_1 && ALL_ONE_11) && (ONE_1 && ZERO_51)) $buffering 1
+  $volatile result_zero := (sign_s && ZERO_63) $buffering 1
+  $volatile result_infinity := ((sign_s && ALL_ONE_11) && ZERO_52) $buffering 1
+  $volatile result := ((( $mux (f1_normal | f1_denormal) result_norm_denorm  _b0  )  | ( $mux f1_nan result_qnan  _b0  ) ) | (( $mux f1_zero result_zero  _b0  )  | ( $mux f1_inf result_infinity  _b0  ) )) $buffering 1
+  $volatile f1_d := ($bitcast ($float<11,52>) result ) $buffering 1
+}
+$volatile $module [SingleToExtendedFp]
+$in ( uf1_s : $uint<32>   f1_s_class : $uint<10>  )
+$out ( result : $uint<67>  )
+$is
+{
+  $report (fpunit_exec SingleToExtendedFp_in_args 	 uf1_s uf1_s 	 f1_s_class f1_s_class )
+  sign_s := (uf1_s [] 31 ) $buffering 1
+  exp_s := ( $slice uf1_s 30 23 )  $buffering 1
+  mant_s := ( $slice uf1_s 22 0 )  $buffering 1
+  f1_pos_normal := ( $slice f1_s_class 9 9 )  $buffering 1
+  f1_neg_normal := ( $slice f1_s_class 8 8 )  $buffering 1
+  f1_pos_denormal := ( $slice f1_s_class 7 7 )  $buffering 1
+  f1_neg_denormal := ( $slice f1_s_class 6 6 )  $buffering 1
+  f1_qnan := ( $slice f1_s_class 5 5 )  $buffering 1
+  f1_snan := ( $slice f1_s_class 4 4 )  $buffering 1
+  f1_pos_inf := ( $slice f1_s_class 3 3 )  $buffering 1
+  f1_neg_inf := ( $slice f1_s_class 2 2 )  $buffering 1
+  f1_pos_zero := ( $slice f1_s_class 1 1 )  $buffering 1
+  f1_neg_zero := ( $slice f1_s_class 0 0 )  $buffering 1
+  f1_normal := (f1_pos_normal | f1_neg_normal) $buffering 1
+  f1_denormal := (f1_pos_denormal | f1_neg_denormal) $buffering 1
+  f1_nan := (f1_qnan | f1_snan) $buffering 1
+  f1_inf := (f1_pos_inf | f1_neg_inf) $buffering 1
+  f1_zero := (f1_pos_zero | f1_neg_zero) $buffering 1
+  bias := ( $mux f1_denormal exp_base_126  exp_base_127 )  $buffering 1
+  $report (fpunit_exec SingleToExtendedFp_bias 	 f1_denormal f1_denormal 	 exp_base_126 exp_base_126 	 exp_base_127 exp_base_127 	 bias bias )
+  top_bit := (( ~ f1_denormal ) & ( ~ f1_zero )) $buffering 1
+  exp_a := ($bitcast ($uint<13>) (($bitcast ($int<13>) exp_s ) - bias) ) $buffering 1
+  man_52 := (mant_s && ZERO_29) $buffering 1
+  $report (fpunit_exec SingleToExtendedFp_extended_result 	 exp_s exp_s 	 bias bias 	 exp_a exp_a 	 man_52 man_52 )
+  result := ((sign_s && exp_a) && (top_bit && man_52)) $buffering 1
+}
+$volatile $module [adder_11]
+$in ( A : $uint<10>   B : $uint<10>   CIN : $uint<1>  )
+$out ( SUM : $uint<10>   COUT : $uint<1>  )
+$is
+{
+  $volatile operand_A := ((ZERO_1 && A) && CIN) $buffering 1
+  $volatile operand_B := ((ZERO_1 && B) && CIN) $buffering 1
+  $volatile add_result := (operand_A + operand_B) $buffering 1
+  $volatile SUM := ( $slice add_result 10 1 )  $buffering 1
+  $volatile COUT := (add_result [] 11 ) $buffering 1
+}
+$volatile $module [adder_18]
+$in ( A : $uint<16>   B : $uint<16>   CIN : $uint<1>  )
+$out ( SUM : $uint<16>   COUT : $uint<1>  )
+$is
+{
+  $volatile operand_A := ((ZERO_1 && A) && CIN) $buffering 1
+  $volatile operand_B := ((ZERO_1 && B) && CIN) $buffering 1
+  $volatile add_result := (operand_A + operand_B) $buffering 1
+  $volatile SUM := ( $slice add_result 16 1 )  $buffering 1
+  $volatile COUT := (add_result [] 17 ) $buffering 1
+}
+$volatile $module [adder_19]
+$in ( A : $uint<17>   B : $uint<17>   CIN : $uint<1>  )
+$out ( SUM : $uint<17>   COUT : $uint<1>  )
+$is
+{
+  $volatile operand_A := ((ZERO_1 && A) && CIN) $buffering 1
+  $volatile operand_B := ((ZERO_1 && B) && CIN) $buffering 1
+  $volatile add_result := (operand_A + operand_B) $buffering 1
+  $volatile SUM := ( $slice add_result 17 1 )  $buffering 1
+  $volatile COUT := (add_result [] 18 ) $buffering 1
+}
+$volatile $module [adder_35_with_carry]
+$in ( A : $uint<35>   B : $uint<35>   CIN : $uint<1>  )
+$out ( SUM : $uint<35>   COUT : $uint<1>  )
+$is
+{
+  S37 := (((ZERO_1 && A) && CIN) + ((ZERO_1 && B) && CIN)) $buffering 1
+  SUM := ( $slice S37 35 1 )  $buffering 1
+  COUT := (S37 [] 36 ) $buffering 1
+}
+$volatile $module [adder_58_with_carry]
+$in ( A : $uint<58>   B : $uint<58>   CIN : $uint<1>  )
+$out ( SUM : $uint<58>   COUT : $uint<1>  )
+$is
+{
+  $volatile A0 := ( $slice A 15 0 )  $buffering 1
+  $volatile A1 := ( $slice A 31 16 )  $buffering 1
+  $volatile A2 := ( $slice A 47 32 )  $buffering 1
+  $volatile A3 := ( $slice A 57 48 )  $buffering 1
+  $volatile B0 := ( $slice B 15 0 )  $buffering 1
+  $volatile B1 := ( $slice B 31 16 )  $buffering 1
+  $volatile B2 := ( $slice B 47 32 )  $buffering 1
+  $volatile B3 := ( $slice B 57 48 )  $buffering 1
+  $volatile 	$call adder_18 (A0 B0 CIN ) (CIN0_S0 CIN0_C0 ) 
+  $volatile 	$call adder_18 (A1 B1 ZERO_1 ) (CIN0_S1 CIN0_C1 ) 
+  $volatile 	$call adder_18 (A1 B1 ONE_1 ) (CIN1_S1 CIN1_C1 ) 
+  $volatile 	$call adder_18 (A2 B2 ZERO_1 ) (CIN0_S2 CIN0_C2 ) 
+  $volatile 	$call adder_18 (A2 B2 ONE_1 ) (CIN1_S2 CIN1_C2 ) 
+  $volatile 	$call adder_11 (A3 B3 ZERO_1 ) (CIN0_S3 CIN0_C3 ) 
+  $volatile 	$call adder_11 (A3 B3 ONE_1 ) (CIN1_S3 CIN1_C3 ) 
+  $volatile sum_0 := CIN0_S0 $buffering 1
+  $volatile carry_0 := CIN0_C0 $buffering 1
+  $volatile sum_1 := ( $mux carry_0 CIN1_S1  CIN0_S1 )  $buffering 1
+  $volatile carry_1 := ( $mux carry_0 CIN1_C1  CIN0_C1 )  $buffering 1
+  $volatile sum_2 := ( $mux carry_1 CIN1_S2  CIN0_S2 )  $buffering 1
+  $volatile carry_2 := ( $mux carry_1 CIN1_C2  CIN0_C2 )  $buffering 1
+  $volatile sum_3 := ( $mux carry_2 CIN1_S3  CIN0_S3 )  $buffering 1
+  $volatile carry_3 := ( $mux carry_2 CIN1_C3  CIN0_C3 )  $buffering 1
+  SUM := ((sum_3 && sum_2) && (sum_1 && sum_0)) $buffering 1
+  COUT := carry_3 $buffering 1
+}
+$volatile $module [adder_64_with_carry]
+$in ( A : $uint<64>   B : $uint<64>   CIN : $uint<1>  )
+$out ( SUM : $uint<64>   COUT : $uint<1>  )
+$is
+{
+  $volatile A0 := ( $slice A 15 0 )  $buffering 1
+  $volatile A1 := ( $slice A 31 16 )  $buffering 1
+  $volatile A2 := ( $slice A 47 32 )  $buffering 1
+  $volatile A3 := ( $slice A 63 48 )  $buffering 1
+  $volatile B0 := ( $slice B 15 0 )  $buffering 1
+  $volatile B1 := ( $slice B 31 16 )  $buffering 1
+  $volatile B2 := ( $slice B 47 32 )  $buffering 1
+  $volatile B3 := ( $slice B 63 48 )  $buffering 1
+  $volatile 	$call adder_18 (A0 B0 CIN ) (CIN0_S0 CIN0_C0 ) 
+  $volatile 	$call adder_18 (A1 B1 ZERO_1 ) (CIN0_S1 CIN0_C1 ) 
+  $volatile 	$call adder_18 (A1 B1 ONE_1 ) (CIN1_S1 CIN1_C1 ) 
+  $volatile 	$call adder_18 (A2 B2 ZERO_1 ) (CIN0_S2 CIN0_C2 ) 
+  $volatile 	$call adder_18 (A2 B2 ONE_1 ) (CIN1_S2 CIN1_C2 ) 
+  $volatile 	$call adder_18 (A3 B3 ZERO_1 ) (CIN0_S3 CIN0_C3 ) 
+  $volatile 	$call adder_18 (A3 B3 ONE_1 ) (CIN1_S3 CIN1_C3 ) 
+  $volatile sum_0 := CIN0_S0 $buffering 1
+  $volatile carry_0 := CIN0_C0 $buffering 1
+  $volatile sum_1 := ( $mux carry_0 CIN1_S1  CIN0_S1 )  $buffering 1
+  $volatile carry_1 := ( $mux carry_0 CIN1_C1  CIN0_C1 )  $buffering 1
+  $volatile sum_2 := ( $mux carry_1 CIN1_S2  CIN0_S2 )  $buffering 1
+  $volatile carry_2 := ( $mux carry_1 CIN1_C2  CIN0_C2 )  $buffering 1
+  $volatile sum_3 := ( $mux carry_2 CIN1_S3  CIN0_S3 )  $buffering 1
+  $volatile carry_3 := ( $mux carry_2 CIN1_C3  CIN0_C3 )  $buffering 1
+  SUM := ((sum_3 && sum_2) && (sum_1 && sum_0)) $buffering 1
+  COUT := carry_3 $buffering 1
+}
+$volatile $module [adder_65]
+$in ( A : $uint<65>   B : $uint<65>  )
+$out ( SUM : $uint<65>  )
+$is
+{
+  $volatile A0 := ( $slice A 15 0 )  $buffering 1
+  $volatile A1 := ( $slice A 31 16 )  $buffering 1
+  $volatile A2 := ( $slice A 47 32 )  $buffering 1
+  $volatile A3 := ( $slice A 64 48 )  $buffering 1
+  $volatile B0 := ( $slice B 15 0 )  $buffering 1
+  $volatile B1 := ( $slice B 31 16 )  $buffering 1
+  $volatile B2 := ( $slice B 47 32 )  $buffering 1
+  $volatile B3 := ( $slice B 64 48 )  $buffering 1
+  $volatile 	$call adder_18 (A0 B0 ZERO_1 ) (CIN0_S0 CIN0_C0 ) 
+  $volatile 	$call adder_18 (A1 B1 ZERO_1 ) (CIN0_S1 CIN0_C1 ) 
+  $volatile 	$call adder_18 (A1 B1 ONE_1 ) (CIN1_S1 CIN1_C1 ) 
+  $volatile 	$call adder_18 (A2 B2 ZERO_1 ) (CIN0_S2 CIN0_C2 ) 
+  $volatile 	$call adder_18 (A2 B2 ONE_1 ) (CIN1_S2 CIN1_C2 ) 
+  $volatile 	$call adder_19 (A3 B3 ZERO_1 ) (CIN0_S3 CIN0_C3 ) 
+  $volatile 	$call adder_19 (A3 B3 ONE_1 ) (CIN1_S3 CIN1_C3 ) 
+  $volatile sum_0 := CIN0_S0 $buffering 1
+  $volatile carry_0 := CIN0_C0 $buffering 1
+  $volatile sum_1 := ( $mux carry_0 CIN1_S1  CIN0_S1 )  $buffering 1
+  $volatile carry_1 := ( $mux carry_0 CIN1_C1  CIN0_C1 )  $buffering 1
+  $volatile sum_2 := ( $mux carry_1 CIN1_S2  CIN0_S2 )  $buffering 1
+  $volatile carry_2 := ( $mux carry_1 CIN1_C2  CIN0_C2 )  $buffering 1
+  $volatile sum_3 := ( $mux carry_2 CIN1_S3  CIN0_S3 )  $buffering 1
+  $volatile carry_3 := ( $mux carry_2 CIN1_C3  CIN0_C3 )  $buffering 1
+  SUM := ((sum_3 && sum_2) && (sum_1 && sum_0)) $buffering 1
+}
+$volatile $module [find_left_16]
+$in ( fp_16 : $uint<16>  )
+$out ( position : $uint<4>   found : $uint<1>  )
+$is
+{
+  $volatile fp_8_upper := ( $slice fp_16 15 8 )  $buffering 1
+  $volatile fp_8_lower := ( $slice fp_16 7 0 )  $buffering 1
+  $volatile 	$call find_left_8 (fp_8_upper ) (fp_8_upper_index found_upper ) 
+  $volatile 	$call find_left_8 (fp_8_lower ) (fp_8_lower_index found_lower ) 
+  $volatile position := ( $mux found_upper (ONE_1 && fp_8_upper_index)  ( $mux found_lower (ZERO_1 && fp_8_lower_index)  ZERO_4 )  )  $buffering 1
+  $volatile found := (found_upper | found_lower) $buffering 1
+}
+$volatile $module [find_left_32]
+$in ( fp_32 : $uint<32>  )
+$out ( position : $uint<5>   found : $uint<1>  )
+$is
+{
+  $volatile fp_16_upper := ( $slice fp_32 31 16 )  $buffering 1
+  $volatile fp_16_lower := ( $slice fp_32 15 0 )  $buffering 1
+  $volatile 	$call find_left_16 (fp_16_upper ) (fp_16_upper_index found_upper ) 
+  $volatile 	$call find_left_16 (fp_16_lower ) (fp_16_lower_index found_lower ) 
+  $volatile position := ( $mux found_upper (ONE_1 && fp_16_upper_index)  ( $mux found_lower (ZERO_1 && fp_16_lower_index)  ZERO_5 )  )  $buffering 1
+  $volatile found := (found_upper | found_lower) $buffering 1
+}
+$volatile $module [find_leftmost_64]
+$in ( fp_64 : $uint<64>  )
+$out ( position : $uint<6>   found : $uint<1>  )
+$is
+{
+  $volatile fp_32_upper := ( $slice fp_64 63 32 )  $buffering 1
+  $volatile fp_32_lower := ( $slice fp_64 31 0 )  $buffering 1
+  $volatile 	$call find_left_32 (fp_32_upper ) (fp_32_upper_index found_upper ) 
+  $volatile 	$call find_left_32 (fp_32_lower ) (fp_32_lower_index found_lower ) 
+  $volatile position := ( $mux found_upper (ONE_1 && fp_32_upper_index)  ( $mux found_lower (ZERO_1 && fp_32_lower_index)  ZERO_6 )  )  $buffering 1
+  $volatile found := (found_upper | found_lower) $buffering 1
+}
+$volatile $module [u_cmp_32]
+$in ( a : $uint<32>   b : $uint<32>  )
+$out ( l : $uint<1>   g : $uint<1>   e : $uint<1>  )
+$is
+{
+  al := ( $slice a 15 0 )  $buffering 1
+  ah := ( $slice a 31 16 )  $buffering 1
+  bl := ( $slice b 15 0 )  $buffering 1
+  bh := ( $slice b 31 16 )  $buffering 1
+  ll := (al < bl) $buffering 1
+  gl := (al > bl) $buffering 1
+  el := (al == bl) $buffering 1
+  lh := (ah < bh) $buffering 1
+  gh := (ah > bh) $buffering 1
+  eh := (ah == bh) $buffering 1
+  l := (lh | (eh & ll)) $buffering 1
+  e := (eh & el) $buffering 1
+  g := (gh | (eh & gl)) $buffering 1
+}
+$volatile $module [u_cmp_64]
+$in ( a : $uint<64>   b : $uint<64>  )
+$out ( l : $uint<1>   g : $uint<1>   e : $uint<1>  )
+$is
+{
+  al := ( $slice a 31 0 )  $buffering 1
+  ah := ( $slice a 63 32 )  $buffering 1
+  bl := ( $slice b 31 0 )  $buffering 1
+  bh := ( $slice b 63 32 )  $buffering 1
+  $volatile 	$call u_cmp_32 (al bl ) (ll gl el ) 
+  $volatile 	$call u_cmp_32 (ah bh ) (lh gh eh ) 
+  l := (lh | (eh & ll)) $buffering 1
+  e := (eh & el) $buffering 1
+  g := (gh | (eh & gl)) $buffering 1
+}
+$volatile $module [u_set_index_64]
+$in ( idx : $uint<6>  )
+$out ( x : $uint<64>  )
+$is
+{
+  idx_16 := ($bitcast ($uint<16>) idx ) $buffering 1
+  x00 := (($bitcast ($uint<16>) 1  ) << idx_16) $buffering 1
+  x01 := ( $mux (idx_16 >= 16 ) (($bitcast ($uint<16>) 1  ) << (idx_16 - 16 ))  ZERO_16 )  $buffering 1
+  x10 := ( $mux (idx_16 >= 32 ) (($bitcast ($uint<16>) 1  ) << (idx_16 - 32 ))  ZERO_16 )  $buffering 1
+  x11 := ( $mux (idx_16 >= 48 ) (($bitcast ($uint<16>) 1  ) << (idx_16 - 48 ))  ZERO_16 )  $buffering 1
+  x := ((x11 && x10) && (x01 && x00)) $buffering 1
+}
+$pipeline $depth 3 $buffering 1 $fullrate $operator $module [alignDivisorToDividend]
+$in ( DIVIDEND : $uint<64>   udivisor : $uint<64>  )
+$out ( SSD : $uint<64>   CCQ : $uint<64>  )
+$is
+{
+  $volatile 	$call find_leftmost_64 (DIVIDEND ) (l_DIVIDEND z_DIVIDEND ) 
+  $volatile 	$call find_leftmost_64 (udivisor ) (l_udivisor z_udivisor ) 
+  $assert (udivisor > 0 ) $report (iu_exec alignDivisorToDividend__udivisor_Is_Zero )
+  $volatile shift_amount := (l_DIVIDEND - l_udivisor) $buffering 1
+  shifted_udivisor := (udivisor << ($bitcast ($uint<64>) shift_amount )) $buffering 1// bits of buffering = 64. 
+  $volatile 	$call u_cmp_64 (shifted_udivisor DIVIDEND ) (l g e ) 
+  $volatile shift_ok := (l | e) $buffering 1
+  $volatile ccq_shift_amount := ( $mux shift_ok ($bitcast ($uint<6>) shift_amount )  ($bitcast ($uint<6>) (shift_amount - 1 ) ) )  $buffering 1
+  $volatile 	$call u_set_index_64 (ccq_shift_amount ) (ccq_v ) 
+  CCQ := ccq_v $buffering 1// bits of buffering = 64. 
+  SSD := ( $mux shift_ok shifted_udivisor  (ZERO_1 && ( $slice shifted_udivisor 63 1 ) ) )  $buffering 1// bits of buffering = 64. 
+  $attribute output_buffering 0
+}
+$volatile $module [classify_utility]
+$in ( use_single_precision_inputs : $uint<1>   f1_s_class : $uint<10>   f1_d_class : $uint<10>  )
+$out ( f1_zero : $uint<1>   f1_normal : $uint<1>   f1_denormal : $uint<1>   f1_nan : $uint<1>   f1_inf : $uint<1>   f1_pos_inf : $uint<1>   f1_neg_inf : $uint<1>  )
+$is
+{
+  $volatile f1_s_pos_normal := ( $slice f1_s_class 9 9 )  $buffering 1
+  $volatile f1_s_neg_normal := ( $slice f1_s_class 8 8 )  $buffering 1
+  $volatile f1_s_pos_denormal := ( $slice f1_s_class 7 7 )  $buffering 1
+  $volatile f1_s_neg_denormal := ( $slice f1_s_class 6 6 )  $buffering 1
+  $volatile f1_s_qnan := ( $slice f1_s_class 5 5 )  $buffering 1
+  $volatile f1_s_snan := ( $slice f1_s_class 4 4 )  $buffering 1
+  $volatile f1_s_pos_inf := ( $slice f1_s_class 3 3 )  $buffering 1
+  $volatile f1_s_neg_inf := ( $slice f1_s_class 2 2 )  $buffering 1
+  $volatile f1_s_pos_zero := ( $slice f1_s_class 1 1 )  $buffering 1
+  $volatile f1_s_neg_zero := ( $slice f1_s_class 0 0 )  $buffering 1
+  $volatile f1_d_pos_normal := ( $slice f1_d_class 9 9 )  $buffering 1
+  $volatile f1_d_neg_normal := ( $slice f1_d_class 8 8 )  $buffering 1
+  $volatile f1_d_pos_denormal := ( $slice f1_d_class 7 7 )  $buffering 1
+  $volatile f1_d_neg_denormal := ( $slice f1_d_class 6 6 )  $buffering 1
+  $volatile f1_d_qnan := ( $slice f1_d_class 5 5 )  $buffering 1
+  $volatile f1_d_snan := ( $slice f1_d_class 4 4 )  $buffering 1
+  $volatile f1_d_pos_inf := ( $slice f1_d_class 3 3 )  $buffering 1
+  $volatile f1_d_neg_inf := ( $slice f1_d_class 2 2 )  $buffering 1
+  $volatile f1_d_pos_zero := ( $slice f1_d_class 1 1 )  $buffering 1
+  $volatile f1_d_neg_zero := ( $slice f1_d_class 0 0 )  $buffering 1
+  $volatile f1_zero := ( $mux use_single_precision_inputs (f1_s_pos_zero | f1_s_neg_zero)  (f1_d_pos_zero | f1_d_neg_zero) )  $buffering 1
+  $volatile f1_normal := ( $mux use_single_precision_inputs ((f1_s_pos_normal | f1_s_pos_denormal) | (f1_s_neg_normal | f1_s_neg_denormal))  (f1_d_pos_normal | f1_d_neg_normal) )  $buffering 1
+  $volatile f1_denormal := ( $mux use_single_precision_inputs ZERO_1  (f1_d_pos_denormal | f1_d_neg_denormal) )  $buffering 1
+  $volatile f1_inf := ( $mux use_single_precision_inputs (f1_s_pos_inf | f1_s_neg_inf)  (f1_d_pos_inf | f1_d_neg_inf) )  $buffering 1
+  $volatile f1_nan := ( $mux use_single_precision_inputs (f1_s_qnan | f1_s_snan)  (f1_d_snan | f1_d_qnan) )  $buffering 1
+  $volatile f1_pos_inf := ( $mux use_single_precision_inputs f1_s_pos_inf  f1_d_pos_inf )  $buffering 1
+  $volatile f1_neg_inf := ( $mux use_single_precision_inputs f1_s_neg_inf  f1_d_neg_inf )  $buffering 1
+}
+$volatile $module [compare4]
+$in ( X : $uint<4>   Y : $uint<4>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  X3 := ( $slice X 3 3 )  $buffering 1
+  X2 := ( $slice X 2 2 )  $buffering 1
+  X1 := ( $slice X 1 1 )  $buffering 1
+  X0 := ( $slice X 0 0 )  $buffering 1
+  Y3 := ( $slice Y 3 3 )  $buffering 1
+  Y2 := ( $slice Y 2 2 )  $buffering 1
+  Y1 := ( $slice Y 1 1 )  $buffering 1
+  Y0 := ( $slice Y 0 0 )  $buffering 1
+  G3 := (X3 & ( ~ Y3 )) $buffering 1
+  E3 := (X3 == Y3) $buffering 1
+  G2 := (X2 & ( ~ Y2 )) $buffering 1
+  E2 := (X2 == Y2) $buffering 1
+  G1 := (X1 & ( ~ Y1 )) $buffering 1
+  E1 := (X1 == Y1) $buffering 1
+  G0 := (X0 & ( ~ Y0 )) $buffering 1
+  E0 := (X0 == Y0) $buffering 1
+  G := ((G3 | (E3 & G2)) | (((E3 & E2) & G1) | ((E3 & E2) & (E1 & G0)))) $buffering 1
+  E := ((E3 & E2) & (E1 & E0)) $buffering 1
+}
+$volatile $module [compare8]
+$in ( X : $uint<8>   Y : $uint<8>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 7 4 )  $buffering 1
+  XL := ( $slice X 3 0 )  $buffering 1
+  YH := ( $slice Y 7 4 )  $buffering 1
+  YL := ( $slice Y 3 0 )  $buffering 1
+  $volatile 	$call compare4 (XH YH ) (GH EH ) 
+  $volatile 	$call compare4 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$volatile $module [compare11]
+$in ( X : $uint<11>   Y : $uint<11>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 10 8 )  $buffering 1
+  XL := ( $slice X 7 0 )  $buffering 1
+  YH := ( $slice Y 10 8 )  $buffering 1
+  YL := ( $slice Y 7 0 )  $buffering 1
+  GH := (XH > YH) $buffering 1
+  EH := (XH == YH) $buffering 1
+  $volatile 	$call compare8 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$volatile $module [compare16]
+$in ( X : $uint<16>   Y : $uint<16>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 15 8 )  $buffering 1
+  XL := ( $slice X 7 0 )  $buffering 1
+  YH := ( $slice Y 15 8 )  $buffering 1
+  YL := ( $slice Y 7 0 )  $buffering 1
+  $volatile 	$call compare8 (XH YH ) (GH EH ) 
+  $volatile 	$call compare8 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$volatile $module [compare24]
+$in ( X : $uint<24>   Y : $uint<24>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 23 16 )  $buffering 1
+  XL := ( $slice X 15 0 )  $buffering 1
+  YH := ( $slice Y 23 16 )  $buffering 1
+  YL := ( $slice Y 15 0 )  $buffering 1
+  $volatile 	$call compare8 (XH YH ) (GH EH ) 
+  $volatile 	$call compare16 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$volatile $module [compare32]
+$in ( X : $uint<32>   Y : $uint<32>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 31 16 )  $buffering 1
+  XL := ( $slice X 15 0 )  $buffering 1
+  YH := ( $slice Y 31 16 )  $buffering 1
+  YL := ( $slice Y 15 0 )  $buffering 1
+  $volatile 	$call compare16 (XH YH ) (GH EH ) 
+  $volatile 	$call compare16 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$volatile $module [compare35]
+$in ( X : $uint<35>   Y : $uint<35>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 34 32 )  $buffering 1
+  XL := ( $slice X 31 0 )  $buffering 1
+  YH := ( $slice Y 34 32 )  $buffering 1
+  YL := ( $slice Y 31 0 )  $buffering 1
+  GH := (XH > YH) $buffering 1
+  EH := (XH == YH) $buffering 1
+  $volatile 	$call compare32 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$volatile $module [compare53]
+$in ( X : $uint<53>   Y : $uint<53>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XHH := ( $slice X 52 48 )  $buffering 1
+  XH := ( $slice X 47 32 )  $buffering 1
+  XL := ( $slice X 31 0 )  $buffering 1
+  YHH := ( $slice Y 52 48 )  $buffering 1
+  YH := ( $slice Y 47 32 )  $buffering 1
+  YL := ( $slice Y 31 0 )  $buffering 1
+  GHH := (XHH > YHH) $buffering 1
+  EHH := (XHH == YHH) $buffering 1
+  $volatile 	$call compare16 (XH YH ) (GH EH ) 
+  $volatile 	$call compare32 (XL YL ) (GL EL ) 
+  G := (GHH | (EHH & (GH | (EH & GL)))) $buffering 1
+  E := ((EHH & EH) & EL) $buffering 1
+}
+$volatile $module [compare64]
+$in ( X : $uint<64>   Y : $uint<64>  )
+$out ( G : $uint<1>   E : $uint<1>  )
+$is
+{
+  XH := ( $slice X 63 32 )  $buffering 1
+  XL := ( $slice X 31 0 )  $buffering 1
+  YH := ( $slice Y 63 32 )  $buffering 1
+  YL := ( $slice Y 31 0 )  $buffering 1
+  $volatile 	$call compare32 (XH YH ) (GH EH ) 
+  $volatile 	$call compare32 (XL YL ) (GL EL ) 
+  G := (GH | (EH & GL)) $buffering 1
+  E := (EH & EL) $buffering 1
+}
+$pipeline $depth 7 $buffering 1 $fullrate $operator $module [delay_32_2]
+$in ( X : $uint<32>  )
+$out ( Y : $uint<32>  )
+$is
+{
+  Y := X $buffering 2// bits of buffering = 64. 
+  $attribute delay 2
+}
+$pipeline $depth 7 $buffering 1 $fullrate $operator $module [delay_64_3]
+$in ( X : $uint<64>  )
+$out ( Y : $uint<64>  )
+$is
+{
+  Y := X $buffering 3// bits of buffering = 192. 
+  $attribute delay 3
+}
+$volatile $module [i32_srl]
+$in ( X : $uint<32>   S : $uint<5>  )
+$out ( Y : $uint<32>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (ZERO_1 && ( $slice X 31 1 ) )  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (ZERO_2 && ( $slice X0 31 2 ) )  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (ZERO_4 && ( $slice X1 31 4 ) )  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (ZERO_8 && ( $slice X2 31 8 ) )  X2 )  $buffering 1
+  Y := ( $mux (S [] 4 ) (ZERO_16 && ( $slice X3 31 16 ) )  X3 )  $buffering 1
+}
+$volatile $module [denormalize_32]
+$in ( sign : $uint<1>   biased_exp : $uint<13>   mantissa : $uint<23>  )
+$out ( result : $uint<32>  )
+$is
+{
+  $volatile s_biased_exp := ($bitcast ($int<13>) biased_exp ) $buffering 1
+  $volatile needs_denormalization := (s_biased_exp < 1 ) $buffering 1
+  $volatile denorm_shift_amount := (1  - s_biased_exp) $buffering 1
+  $volatile is_denormalizable := (needs_denormalization & (denorm_shift_amount <= 24 )) $buffering 1
+  $volatile p := ((ONE_1 && mantissa) && ZERO_8) $buffering 1
+  $volatile q := ($bitcast ($uint<5>) denorm_shift_amount ) $buffering 1
+  $volatile 	$call i32_srl (p q ) (shifted ) 
+  mantissa_denorm_final := ( $slice shifted 30 8 )  $buffering 1
+  $volatile result_denormal := ((sign && ZERO_8) && mantissa_denorm_final) $buffering 1
+  $volatile result_zero := (sign && ZERO_31) $buffering 1
+  $volatile result_normal := ((sign && ( $slice biased_exp 7 0 ) ) && mantissa) $buffering 1
+  result := ( $mux needs_denormalization ( $mux is_denormalizable result_denormal  result_zero )   result_normal )  $buffering 1
+}
+$volatile $module [i64_srl]
+$in ( X : $uint<64>   S : $uint<6>  )
+$out ( Y : $uint<64>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (ZERO_1 && ( $slice X 63 1 ) )  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (ZERO_2 && ( $slice X0 63 2 ) )  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (ZERO_4 && ( $slice X1 63 4 ) )  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (ZERO_8 && ( $slice X2 63 8 ) )  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (ZERO_16 && ( $slice X3 63 16 ) )  X3 )  $buffering 1
+  Y := ( $mux (S [] 5 ) (ZERO_32 && ( $slice X4 63 32 ) )  X4 )  $buffering 1
+}
+$volatile $module [denormalize_64]
+$in ( sign : $uint<1>   biased_exp : $uint<13>   mantissa : $uint<52>  )
+$out ( result : $uint<64>  )
+$is
+{
+  $volatile s_biased_exp := ($bitcast ($int<13>) biased_exp ) $buffering 1
+  $volatile needs_denormalization := (s_biased_exp < 1 ) $buffering 1
+  $volatile denorm_shift_amount := (1  - s_biased_exp) $buffering 1
+  $volatile is_denormalizable := (needs_denormalization & (denorm_shift_amount <= 52 )) $buffering 1
+  $volatile p := ((ONE_1 && mantissa) && ZERO_11) $buffering 1
+  $volatile q := ($bitcast ($uint<6>) denorm_shift_amount ) $buffering 1
+  $volatile 	$call i64_srl (p q ) (shifted ) 
+  mantissa_denorm_final := ( $slice shifted 62 11 )  $buffering 1
+  $volatile result_denormal := ((sign && ZERO_11) && mantissa_denorm_final) $buffering 1
+  $volatile result_zero := (sign && ZERO_63) $buffering 1
+  $volatile result_normal := ((sign && ( $slice biased_exp 10 0 ) ) && mantissa) $buffering 1
+  result := ( $mux needs_denormalization ( $mux is_denormalizable result_denormal  result_zero )   result_normal )  $buffering 1
+}
+$volatile $module [round_32_extn]
+$in ( sticky : $uint<1>   apply_sticky_correction : $uint<1>   unbiased_exp_13 : $uint<13>   mantissa_62 : $uint<62>  )
+$out ( sp_biased_exp_13_post_round : $uint<13>   sp_mantissa_23_post_round : $uint<23>  )
+$is
+{
+  $report (fpunit_exec round_32_extn_in_args 	 sticky sticky 	 unbiased_exp_13 unbiased_exp_13 	 mantissa_62 mantissa_62 )
+  s_exp_13 := ($bitcast ($uint<13>) unbiased_exp_13 ) $buffering 1
+  SP_frac_temp := ((ZERO_1 && ONE_1) && ( $slice mantissa_62 61 39 ) ) $buffering 1
+  SP_lsb_frac := (mantissa_62 [] 39 ) $buffering 1
+  SP_round_bits := ( $slice mantissa_62 38 0 )  $buffering 1
+  SP_round_value_equal := (SP_round_bits == SP_round_mid) $buffering 1
+  SP_round_value_greater := (SP_round_bits > SP_round_mid) $buffering 1
+  SP_need_to_round := ((SP_round_value_greater | ((SP_round_value_equal & SP_lsb_frac) & ( ~ apply_sticky_correction ))) | ((SP_round_value_equal & sticky) & ( ~ apply_sticky_correction ))) $buffering 1
+  SP_round_operator := ( $mux SP_need_to_round ONE_25  ZERO_25 )  $buffering 1
+  SP_fraction_rounded := (SP_frac_temp + SP_round_operator) $buffering 1
+  SP_increase_exponent := ((( ~ ( $slice SP_frac_temp 22 0 )  ) == _b0 ) & SP_need_to_round) $buffering 1
+  $report (fpunit_exec round_32_extn_increase_exponent 	 SP_frac_temp SP_frac_temp 	 SP_increase_exponent SP_increase_exponent 	 SP_fraction_rounded SP_fraction_rounded 	 SP_frac_temp SP_frac_temp )
+  sp_mantissa_23_post_round := ( $mux SP_increase_exponent ( $slice SP_fraction_rounded 23 1 )   ( $slice SP_fraction_rounded 22 0 )  )  $buffering 1
+  sp_biased_exp_13_post_round := ($bitcast ($uint<13>) (s_exp_13 + ( $mux SP_increase_exponent 128   127  ) ) ) $buffering 1
+}
+$volatile $module [round_64_extn]
+$in ( sticky : $uint<1>   apply_sticky_correction : $uint<1>   unbiased_exp_13 : $uint<13>   mantissa_62 : $uint<62>  )
+$out ( dp_biased_exp_13_post_round : $uint<13>   dp_mantissa_52_post_round : $uint<52>  )
+$is
+{
+  s_exp_13 := ($bitcast ($int<13>) unbiased_exp_13 ) $buffering 1
+  DP_frac_temp := ((ZERO_1 && ONE_1) && ( $slice mantissa_62 61 10 ) ) $buffering 1
+  DP_lsb_frac := (mantissa_62 [] 10 ) $buffering 1
+  DP_round_bits := ( $slice mantissa_62 9 0 )  $buffering 1
+  DP_round_value_equal := (DP_round_bits == DP_round_mid) $buffering 1
+  DP_round_value_greater := (DP_round_bits > DP_round_mid) $buffering 1
+  DP_need_to_round := ((DP_round_value_greater | ((DP_round_value_equal & DP_lsb_frac) & ( ~ apply_sticky_correction ))) | ((DP_round_value_equal & sticky) & ( ~ apply_sticky_correction ))) $buffering 1
+  DP_round_operator := ( $mux DP_need_to_round ONE_54  ZERO_54 )  $buffering 1
+  DP_fraction_rounded := (DP_frac_temp + DP_round_operator) $buffering 1
+  DP_increase_exponent := ((( ~ ( $slice DP_frac_temp 51 0 )  ) == _b0 ) & DP_need_to_round) $buffering 1
+  dp_biased_exp_13_post_round := ($bitcast ($uint<13>) (s_exp_13 + ( $mux DP_increase_exponent 1024   1023  ) ) ) $buffering 1
+  dp_mantissa_52_post_round := ( $mux DP_increase_exponent ( $slice DP_fraction_rounded 52 1 )   ( $slice DP_fraction_rounded 51 0 )  )  $buffering 1
+}
+$pipeline $depth 3 $buffering 1 $fullrate $operator $module [denormalize_fp]
+$in ( double_precision : $uint<1>   extn_result : $uint<81>  )
+$out ( f32_result : $uint<32>   f64_result : $uint<64>  )
+$is
+{
+  $volatile EXTENDED_RESULT := extn_result $buffering 1
+  $volatile sticky := ( $slice EXTENDED_RESULT 80 80 )  $buffering 1
+  $volatile apply_sticky_correction := ( $slice EXTENDED_RESULT 79 79 )  $buffering 1
+  $volatile sign := ( $slice EXTENDED_RESULT 78 78 )  $buffering 1
+  $volatile nan := ( $slice EXTENDED_RESULT 77 77 )  $buffering 1
+  $volatile inf := ( $slice EXTENDED_RESULT 76 76 )  $buffering 1
+  $volatile zero := ( $slice EXTENDED_RESULT 75 75 )  $buffering 1
+  $volatile u_exp_13 := ( $slice EXTENDED_RESULT 74 62 )  $buffering 1
+  $volatile mantissa_62 := ( $slice EXTENDED_RESULT 61 0 )  $buffering 1
+  $volatile 	$call round_32_extn (sticky apply_sticky_correction u_exp_13 mantissa_62 ) (sp_exp_13_post_round sp_mantissa_23_post_round ) 
+  $volatile 	$call denormalize_32 (sign sp_exp_13_post_round sp_mantissa_23_post_round ) (f32_normalized ) 
+  $volatile 	$call round_64_extn (sticky apply_sticky_correction u_exp_13 mantissa_62 ) (dp_exp_13_post_round dp_mantissa_52_post_round ) 
+  $volatile 	$call denormalize_64 (sign dp_exp_13_post_round dp_mantissa_52_post_round ) (f64_normalized ) 
+  f64_result := f64_normalized $buffering 1// bits of buffering = 64. 
+  f32_result := f32_normalized $buffering 1// bits of buffering = 32. 
+  $attribute delay 1
+}
+$volatile $module [expDiffDouble]
+$in ( uf1_d : $uint<64>   uf2_d : $uint<64>  )
+$out ( exp_a_greater_than_exp_b_d : $uint<1>   exp_a_equal_exp_b_d : $uint<1>   exp_ab_d : $int<13>  )
+$is
+{
+  ea := ( $slice uf1_d 62 52 )  $buffering 1
+  eb := ( $slice uf2_d 62 52 )  $buffering 1
+  $volatile 	$call compare11 (ea eb ) (exp_a_greater_than_exp_b_d exp_a_equal_exp_b_d ) 
+  eab := (ea - eb) $buffering 1
+  eba := (eb - ea) $buffering 1
+  exp_ab_d := ($bitcast ($int<13>) ( $mux exp_a_greater_than_exp_b_d eab  eba )  ) $buffering 1
+}
+$volatile $module [expDiffSingle]
+$in ( uf1_s : $uint<32>   uf2_s : $uint<32>  )
+$out ( exp_a_greater_than_exp_b_s : $uint<1>   exp_a_equal_exp_b_s : $uint<1>   exp_ab_s : $int<13>  )
+$is
+{
+  ea := ( $slice uf1_s 30 23 )  $buffering 1
+  eb := ( $slice uf2_s 30 23 )  $buffering 1
+  $volatile 	$call compare8 (ea eb ) (exp_a_greater_than_exp_b_s exp_a_equal_exp_b_s ) 
+  eab := (ea - eb) $buffering 1
+  eba := (eb - ea) $buffering 1
+  exp_ab_s := ($bitcast ($int<13>) ( $mux exp_a_greater_than_exp_b_s eab  eba )  ) $buffering 1
+}
+$pipeline $depth 3 $buffering 1 $fullrate $operator $module [fdtoi_op]
+$in ( X : $float<11,52>  )
+$out ( Y : $int<32>  )
+$is
+{
+  Y := ($cast ($int<32>) X ) $buffering 2// bits of buffering = 64. 
+  $attribute delay 2
+}
+$module [fdtoi_wrap]
+$in ( X : $float<11,52>  )
+$out ( Y : $int<32>  )
+$is
+{
+  $call fdtoi_op (X ) (Y ) 
+}
+$volatile $module [round_fp]
+$in ( EXTENDED_RESULT : $uint<81>   round_to_double : $uint<1>  )
+$out ( RESULT_32 : $uint<32>   RESULT_64 : $uint<64>  )
+$is
+{
+  $volatile sticky := ( $slice EXTENDED_RESULT 80 80 )  $buffering 1
+  $volatile apply_sticky_correction := ( $slice EXTENDED_RESULT 79 79 )  $buffering 1
+  $volatile sign := ( $slice EXTENDED_RESULT 78 78 )  $buffering 1
+  $volatile nan := ( $slice EXTENDED_RESULT 77 77 )  $buffering 1
+  $volatile inf := ( $slice EXTENDED_RESULT 76 76 )  $buffering 1
+  $volatile zero := ( $slice EXTENDED_RESULT 75 75 )  $buffering 1
+  $volatile unbiased_exp_13 := ( $slice EXTENDED_RESULT 74 62 )  $buffering 1
+  $volatile mantissa_62 := ( $slice EXTENDED_RESULT 61 0 )  $buffering 1
+  $report (fpunit_exec round_fp_in_args 	 sticky sticky 	 apply_sticky_correction apply_sticky_correction 	 sign sign 	 nan nan 	 inf inf 	 zero zero 	 unbiased_exp_13 unbiased_exp_13 	 mantissa_62 mantissa_62 )
+  $volatile 	$call round_64_extn (sticky apply_sticky_correction unbiased_exp_13 mantissa_62 ) (dp_biased_exp_13_post_round dp_mantissa_52_post_round ) 
+  RESULT_64 := ( $mux ((nan | inf) | zero) ((sign && ( $slice unbiased_exp_13 10 0 ) ) && ( $slice mantissa_62 61 10 ) )  ((sign && ( $slice dp_biased_exp_13_post_round 10 0 ) ) && dp_mantissa_52_post_round) )  $buffering 1
+  $volatile 	$call round_32_extn (sticky apply_sticky_correction unbiased_exp_13 mantissa_62 ) (sp_biased_exp_13_post_round sp_mantissa_23_post_round ) 
+  RESULT_32 := ( $mux ((nan | inf) | zero) ((sign && ( $slice unbiased_exp_13 7 0 ) ) && ( $slice mantissa_62 61 39 ) )  ((sign && ( $slice sp_biased_exp_13_post_round 7 0 ) ) && sp_mantissa_23_post_round) )  $buffering 1
+}
+$module [fdtos_wrap]
+$in ( X : $float<11,52>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $call DoubleToSingle (X ) (needs_denorm extn_result ) 
+  $volatile 	$call round_fp (extn_result ZERO_1 ) (s_result_fast d_result_fast ) 
+  $guard (needs_denorm) $call denormalize_fp (ZERO_1 extn_result ) (s_result_slow d_result_slow ) 
+  RESULT := ($bitcast ($float<8,23>) ( $mux needs_denorm s_result_slow  s_result_fast )  ) $buffering 1// bits of buffering = 32. 
+}
+$volatile $module [find_leftmost_35]
+$in ( fp_35 : $uint<35>  )
+$out ( position : $uint<6>   found : $uint<1>  )
+$is
+{
+  $volatile fp_3_upper := ( $slice fp_35 34 32 )  $buffering 1
+  fp_34 := ( $slice fp_3_upper 2 2 )  $buffering 1
+  fp_33 := ( $slice fp_3_upper 1 1 )  $buffering 1
+  fp_32 := ( $slice fp_3_upper 0 0 )  $buffering 1
+  found_upper := (fp_3_upper != 0 ) $buffering 1
+  fp_upper_index := ( $mux fp_34 ($bitcast ($uint<6>) _b100010  )  ( $mux fp_33 ($bitcast ($uint<6>) _b100001  )  ($bitcast ($uint<6>) _b100000  ) )  )  $buffering 1
+  $volatile fp_32_lower := ( $slice fp_35 31 0 )  $buffering 1
+  $volatile 	$call find_left_32 (fp_32_lower ) (fp_32_lower_index found_lower ) 
+  $volatile position := ( $mux found_upper fp_upper_index  ( $mux found_lower (ZERO_1 && fp_32_lower_index)  ZERO_6 )  )  $buffering 1
+  $volatile found := (found_upper | found_lower) $buffering 1
+}
+$volatile $module [increment_32]
+$in ( A : $uint<32>  )
+$out ( B : $uint<32>  )
+$is
+{
+  AH := ( $slice A 31 16 )  $buffering 1
+  AL := ( $slice A 15 0 )  $buffering 1
+  BL := (AL + 1 ) $buffering 1
+  tBH := (AH + 1 ) $buffering 1
+  B := (( $mux (( ~ AL ) == 0 ) tBH  AH )  && BL) $buffering 1
+}
+$volatile $module [i32_sll]
+$in ( X : $uint<32>   S : $uint<6>  )
+$out ( Y : $uint<32>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 30 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 29 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 27 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 23 0 )  && ZERO_8)  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (( $slice X3 15 0 )  && ZERO_16)  X3 )  $buffering 1
+  Y := ( $mux (S [] 5 ) 0   X4 )  $buffering 1
+}
+$volatile $module [fitod64]
+$in ( X : $uint<32>  )
+$out ( Y : $float<11,52>  )
+$is
+{
+  $volatile S := (X [] 31 ) $buffering 1
+  $volatile notX := ( ~ X ) $buffering 1
+  $volatile 	$call increment_32 (notX ) (twosComplX ) 
+  $volatile iX := ( $mux S twosComplX  X )  $buffering 1
+  $volatile 	$call find_left_32 (iX ) (idx_raw found ) 
+  $volatile exponent := ((ZERO_1 && ( ~ ZERO_10 )) + ($bitcast ($uint<11>) idx_raw )) $buffering 1
+  $volatile ls_amount := (32  - ($bitcast ($uint<6>) idx_raw )) $buffering 1
+  $volatile 	$call i32_sll (iX ls_amount ) (ix_shifted ) 
+  $volatile mantissa := (ix_shifted && ZERO_20) $buffering 1
+  $volatile uY := ( $mux found ((S && exponent) && mantissa)  ZERO_64 )  $buffering 1
+  $volatile Y := ($bitcast ($float<11,52>) uY ) $buffering 2
+}
+$module [fitod64_wrap]
+$in ( X : $uint<32>  )
+$out ( Y : $float<11,52>  )
+$is
+{
+  $volatile 	$call fitod64 (X ) (uY ) 
+  Y := uY $buffering 1// bits of buffering = 64. 
+}
+$module [fitos32_wrap]
+$in ( X : $uint<32>  )
+$out ( Y : $float<8,23>  )
+$is
+{
+  $volatile 	$call fitod64 (X ) (dY ) 
+  $call DoubleToSingle (dY ) (denorm_dY extn_dY ) 
+  $volatile 	$call round_fp (extn_dY ZERO_1 ) (rY rdY ) 
+  $guard (denorm_dY) $call denormalize_fp (ZERO_1 extn_dY ) (nrY nrdY ) 
+  Y := ($bitcast ($float<8,23>) ( $mux denorm_dY nrY  rY )  ) $buffering 1// bits of buffering = 32. 
+}
+$volatile $module [fnegs_64]
+$in ( f : $float<11,52>  )
+$out ( nf : $float<11,52>  )
+$is
+{
+  uf := ($bitcast ($uint<64>) f ) $buffering 1
+  nuf := (( ~ (uf [] 63 ) ) && ( $slice uf 62 0 ) ) $buffering 1
+  nf := ($bitcast ($float<11,52>) nuf ) $buffering 1
+}
+$volatile $module [u35_sr_special]
+$in ( X : $uint<35>   S : $uint<6>  )
+$out ( Y : $uint<35>   sticky : $uint<1>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (ZERO_1 && ( $slice X 34 1 ) )  X )  $buffering 1
+  t0 := ( $mux (S [] 0 ) (X [] 0 )  _b0  )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (ZERO_2 && ( $slice X0 34 2 ) )  X0 )  $buffering 1
+  t1 := ( $mux (S [] 1 ) ( ~ (( $slice X0 1 0 )  == 0 ) )  _b0  )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (ZERO_4 && ( $slice X1 34 4 ) )  X1 )  $buffering 1
+  t2 := ( $mux (S [] 2 ) ( ~ (( $slice X1 3 0 )  == 0 ) )  _b0  )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (ZERO_8 && ( $slice X2 34 8 ) )  X2 )  $buffering 1
+  t3 := ( $mux (S [] 3 ) ( ~ (( $slice X2 7 0 )  == 0 ) )  _b0  )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (ZERO_16 && ( $slice X3 34 16 ) )  X3 )  $buffering 1
+  t4 := ( $mux (S [] 4 ) ( ~ (( $slice X3 15 0 )  == 0 ) )  _b0  )  $buffering 1
+  Y := ( $mux (S [] 5 ) (ZERO_32 && ( $slice X4 34 32 ) )  X4 )  $buffering 1
+  t5 := ( $mux (S [] 5 ) ( ~ (( $slice X4 31 0 )  == 0 ) )  _b0  )  $buffering 1
+  sticky := (((t0 | t1) | t2) | ((t3 | t4) | t5)) $buffering 1
+}
+$volatile $module [i35_sll]
+$in ( X : $uint<35>   S : $uint<6>  )
+$out ( Y : $uint<35>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 33 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 32 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 30 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 26 0 )  && ZERO_8)  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (( $slice X3 18 0 )  && ZERO_16)  X3 )  $buffering 1
+  Y := ( $mux (S [] 5 ) (( $slice X4 2 0 )  && ZERO_32)  X4 )  $buffering 1
+}
+$pipeline $depth 7 $buffering 1 $fullrate $deterministic $operator $module [fpadd32_op]
+$in ( uf1_s : $uint<32>   f1_s_class : $uint<10>   uf2_s : $uint<32>   f2_s_class : $uint<10>  )
+$out ( needs_norm : $uint<1>   extn_result : $uint<81>  )
+$is
+{
+  $volatile 	$call SingleToExtendedFp (uf1_s f1_s_class ) (uf1_s_efp ) 
+  $volatile 	$call SingleToExtendedFp (uf2_s f2_s_class ) (uf2_s_efp ) 
+  $volatile sign_uf1_d := ( $slice uf1_s_efp 66 66 )  $buffering 1
+  $volatile f1_exp13_unbiased := ( $slice uf1_s_efp 65 53 )  $buffering 1
+  $volatile f1_top_bit := ( $slice uf1_s_efp 52 52 )  $buffering 1
+  $volatile f1_fraction := ( $slice uf1_s_efp 51 29 )  $buffering 1
+  $volatile f1_unused := ( $slice uf1_s_efp 28 0 )  $buffering 1
+  $volatile sign_uf2_d := ( $slice uf2_s_efp 66 66 )  $buffering 1
+  $volatile f2_exp13_unbiased := ( $slice uf2_s_efp 65 53 )  $buffering 1
+  $volatile f2_top_bit := ( $slice uf2_s_efp 52 52 )  $buffering 1
+  $volatile f2_fraction := ( $slice uf2_s_efp 51 29 )  $buffering 1
+  $volatile f2_unused := ( $slice uf2_s_efp 28 0 )  $buffering 1
+  $volatile 	$call classify_utility (ONE_1 f1_s_class _b0  ) (f1_zero f1_normal f1_denormal f1_nan f1_inf f1_pos_inf f1_neg_inf ) 
+  $volatile 	$call classify_utility (ONE_1 f2_s_class _b0  ) (f2_zero f2_normal f2_denormal f2_nan f2_inf f2_pos_inf f2_neg_inf ) 
+  $volatile f1_frac := (f1_top_bit && f1_fraction) $buffering 1
+  $volatile f2_frac := (f2_top_bit && f2_fraction) $buffering 1
+  $report (fpunit_exec fpadd32_op_fractions 	 f1_frac f1_frac 	 f2_frac f2_frac )
+  $volatile exp_a := ($bitcast ($int<13>) f1_exp13_unbiased ) $buffering 1
+  $volatile exp_b := ($bitcast ($int<13>) f2_exp13_unbiased ) $buffering 1
+  $volatile 	$call expDiffSingle (uf1_s uf2_s ) (exp_a_greater_than_exp_b exp_a_equal_exp_b exp_ab ) 
+  $report (fpunit_exec fpadd32_op_exponents 	 exp_a exp_a 	 exp_b exp_b 	 exp_a_greater_than_exp_b exp_a_greater_than_exp_b 	 exp_a_equal_exp_b exp_a_equal_exp_b )
+  $volatile mantissa_a_pre_shift_35 := ((ZERO_1 && f1_frac) && ZERO_10) $buffering 1
+  $volatile mantissa_b_pre_shift_35 := ((ZERO_1 && f2_frac) && ZERO_10) $buffering 1
+  $volatile to_be_shifted_35 := ( $mux exp_a_greater_than_exp_b mantissa_b_pre_shift_35  mantissa_a_pre_shift_35 )  $buffering 1
+  $volatile exp_ab_6 := ($mux (exp_ab > 32) 32 ($bitcast ($uint<6>) exp_ab )) $buffering 1
+  $volatile 	$call u35_sr_special (to_be_shifted_35 exp_ab_6 ) (shifted_output_temp_35 sticky_temp ) 
+  $volatile shifted_output_35 := ( $mux ( ~ exp_a_equal_exp_b ) shifted_output_temp_35  ($bitcast ($uint<35>) _b0  ) )  $buffering 1
+  $volatile mantissa_a_post_shift_35 := ( $mux (exp_a_greater_than_exp_b | exp_a_equal_exp_b) mantissa_a_pre_shift_35  shifted_output_35 )  $buffering 1
+  $volatile mantissa_b_post_shift_35 := ( $mux exp_a_greater_than_exp_b shifted_output_35  mantissa_b_pre_shift_35 )  $buffering 1
+  $volatile exponent_post_align := ( $mux exp_a_greater_than_exp_b exp_a  exp_b )  $buffering 1
+  $report (fpunit_exec fpadd32_op_post_shift 	 mantissa_a_post_shift_35 mantissa_a_post_shift_35 	 mantissa_b_post_shift_35 mantissa_b_post_shift_35 	 exponent_post_align exponent_post_align )
+  $volatile 	$call compare24 (f1_frac f2_frac ) (G E ) 
+  $volatile a_frac_ge_b_frac := ( $mux exp_a_equal_exp_b (G | E)  exp_a_greater_than_exp_b )  $buffering 1
+  $volatile need_to_take_twos_complement_a := (((sign_uf1_d & ( ~ sign_uf2_d )) & ( ~ a_frac_ge_b_frac )) | ((( ~ sign_uf1_d ) & sign_uf2_d) & ( ~ a_frac_ge_b_frac ))) $buffering 1
+  $volatile need_to_take_twos_complement_b := (((sign_uf2_d & ( ~ sign_uf1_d )) & a_frac_ge_b_frac) | ((( ~ sign_uf2_d ) & sign_uf1_d) & a_frac_ge_b_frac)) $buffering 1
+  $volatile carry_in := (need_to_take_twos_complement_a | need_to_take_twos_complement_b) $buffering 1
+  $volatile mantissa_operand_a_35 := ( $mux need_to_take_twos_complement_a ( ~ mantissa_a_post_shift_35 )  mantissa_a_post_shift_35 )  $buffering 1
+  $volatile mantissa_operand_b_35 := ( $mux need_to_take_twos_complement_b ( ~ mantissa_b_post_shift_35 )  mantissa_b_post_shift_35 )  $buffering 1
+  $volatile 	$call adder_35_with_carry (mantissa_operand_a_35 mantissa_operand_b_35 carry_in ) (mantissa_added_35 carry_out ) 
+  $volatile sign_result := (((sign_uf1_d & sign_uf2_d) | ((sign_uf1_d & ( ~ sign_uf2_d )) & a_frac_ge_b_frac)) | ((( ~ sign_uf1_d ) & sign_uf2_d) & ( ~ a_frac_ge_b_frac ))) $buffering 1
+  $report (fpunit_exec fpadd32_op_mantissa_added 	 mantissa_operand_a_35 mantissa_operand_a_35 	 mantissa_operand_b_35 mantissa_operand_b_35 	 carry_in carry_in 	 mantissa_added_35 mantissa_added_35 	 carry_out carry_out 	 sign_result sign_result )
+  $volatile sign_from_addition := sign_result $buffering 1
+  $volatile mantissa_out_35 := mantissa_added_35 $buffering 1
+  $volatile need_to_shift := (( ~ carry_in ) & (mantissa_out_35 [] 34 )) $buffering 1
+  $volatile mantissa_out_shifted_34 := ( $slice mantissa_out_35 34 1 )  $buffering 1
+  $volatile mantissa_35_bits := ( $mux need_to_shift (ZERO_1 && mantissa_out_shifted_34)  (ZERO_1 && ( $slice mantissa_out_35 33 0 ) ) )  $buffering 1
+  $report (fpunit_exec fpadd32_op_final_mantissa_35 	 mantissa_35_bits mantissa_35_bits )
+  $volatile 	$call find_leftmost_35 (mantissa_35_bits ) (position_of_one one_found ) 
+  $volatile left_shift_amount := ($bitcast ($uint<6>) (33  - position_of_one) ) $buffering 1
+  $volatile add_result_zero := ( ~ one_found ) $buffering 1
+  $volatile 	$call i35_sll (mantissa_35_bits left_shift_amount ) (final_mantissa_aligned_35 ) 
+  $volatile final_mantissa_33_aligned := ( $slice final_mantissa_aligned_35 32 0 )  $buffering 1
+  $volatile final_mantissa_62_aligned := (final_mantissa_33_aligned && ($bitcast ($uint<29>) _b0  )) $buffering 1
+  $volatile exponent_correction := (( $mux need_to_shift exp_base_1  exp_base_0 )  - ( $mux one_found ($bitcast ($int<13>) left_shift_amount )  _b0  ) ) $buffering 1
+  $volatile final_exponent_without_bias := (exponent_post_align + exponent_correction) $buffering 1
+  $report (fpunit_exec fpadd32_op_final_exponent_without_bias 	 exponent_post_align exponent_post_align 	 exponent_correction exponent_correction 	 final_exponent_without_bias final_exponent_without_bias )
+  $volatile SP_exp_overflow := (final_exponent_without_bias > 127 ) $buffering 1
+  $volatile SP_exp_underflow := (final_exponent_without_bias < -126 ) $buffering 1
+  $volatile underflow_SP := (SP_exp_underflow & ( ~ add_result_zero )) $buffering 1
+  $volatile overflow_SP := (SP_exp_overflow & ( ~ add_result_zero )) $buffering 1
+  $volatile overflow := overflow_SP $buffering 1
+  $volatile condition_nan := ((f1_nan | f2_nan) | ((f1_pos_inf & f2_neg_inf) | (f1_neg_inf & f2_pos_inf))) $buffering 1
+  $volatile condition_inf := (((f1_pos_inf & f2_pos_inf) | (f1_neg_inf & f2_neg_inf)) | overflow) $buffering 1
+  $volatile condition_zero := ((f1_zero & f2_zero) | add_result_zero) $buffering 1
+  $volatile underflow := (( ~ condition_zero ) & underflow_SP) $buffering 1
+  $report (fpunit_exec fpadd32_op_final_exceptions 	 SP_exp_overflow SP_exp_overflow 	 SP_exp_underflow SP_exp_underflow 	 underflow_SP underflow_SP 	 overflow_SP overflow_SP 	 condition_nan condition_nan 	 condition_inf condition_inf 	 condition_zero condition_zero )
+  $volatile SP_nothing_to_be_done_condition_normal := (((( ~ overflow ) & ( ~ underflow )) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile SP_normalization_required := (((overflow | underflow) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile normalization_required := SP_normalization_required $buffering 1
+  $volatile nothing_to_be_done_condition_normal := SP_nothing_to_be_done_condition_normal $buffering 1
+  $volatile exponent_to_be_passed := (((( $mux condition_nan ALL_ONE_13  _b0  )  | ( $mux condition_inf ALL_ONE_13  _b0  ) ) | ( $mux condition_zero ($bitcast ($int<13>) ZERO_13 )  _b0  ) ) | (( $mux nothing_to_be_done_condition_normal final_exponent_without_bias  _b0  )  | ( $mux normalization_required final_exponent_without_bias  _b0  ) )) $buffering 1
+  $volatile mantissa_to_be_passed := ((( $mux condition_nan (ONE_1 && ZERO_61)  _b0  )  | ( $mux (condition_inf | condition_zero) ZERO_62  _b0  ) ) | ( $mux (nothing_to_be_done_condition_normal | normalization_required) final_mantissa_62_aligned  _b0  ) ) $buffering 1
+  $volatile a_was_shifted := ( ~ exp_a_greater_than_exp_b ) $buffering 1
+  $volatile a_negative := need_to_take_twos_complement_a $buffering 1
+  $volatile b_was_shifted := exp_a_greater_than_exp_b $buffering 1
+  $volatile b_negative := need_to_take_twos_complement_b $buffering 1
+  $volatile condition_to_pass_sticky_bit := ((((a_was_shifted & a_negative) & b_negative) | ((a_was_shifted & ( ~ a_negative )) & ( ~ b_negative ))) | (((b_was_shifted & a_negative) & b_negative) | ((b_was_shifted & ( ~ a_negative )) & ( ~ b_negative )))) $buffering 1
+  $volatile sticky := (((sticky_temp & condition_to_pass_sticky_bit) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  needs_norm := ((normalization_required & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 2// bits of buffering = 2. 
+  extn_result := (((sticky && nothing_to_be_done_condition_normal) && (sign_result && condition_nan)) && ((condition_inf && condition_zero) && (($bitcast ($uint<13>) exponent_to_be_passed ) && mantissa_to_be_passed))) $buffering 2// bits of buffering = 162. 
+  $report (fpunit_exec fpadd32_op_final_results 	 exponent_to_be_passed exponent_to_be_passed 	 mantissa_to_be_passed mantissa_to_be_passed )
+}
+$volatile $module [u64_sr_special]
+$in ( X : $uint<64>   S : $uint<7>  )
+$out ( Y : $uint<64>   sticky : $uint<1>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (ZERO_1 && ( $slice X 63 1 ) )  X )  $buffering 1
+  t0 := ( $mux (S [] 0 ) (X [] 0 )  _b0  )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (ZERO_2 && ( $slice X0 63 2 ) )  X0 )  $buffering 1
+  t1 := ( $mux (S [] 1 ) ( ~ (( $slice X0 1 0 )  == 0 ) )  _b0  )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (ZERO_4 && ( $slice X1 63 4 ) )  X1 )  $buffering 1
+  t2 := ( $mux (S [] 2 ) ( ~ (( $slice X1 3 0 )  == 0 ) )  _b0  )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (ZERO_8 && ( $slice X2 63 8 ) )  X2 )  $buffering 1
+  t3 := ( $mux (S [] 3 ) ( ~ (( $slice X2 7 0 )  == 0 ) )  _b0  )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (ZERO_16 && ( $slice X3 63 16 ) )  X3 )  $buffering 1
+  t4 := ( $mux (S [] 4 ) ( ~ (( $slice X3 15 0 )  == 0 ) )  _b0  )  $buffering 1
+  X5 := ( $mux (S [] 5 ) (ZERO_32 && ( $slice X4 63 32 ) )  X4 )  $buffering 1
+  t5 := ( $mux (S [] 5 ) ( ~ (( $slice X4 31 0 )  == 0 ) )  _b0  )  $buffering 1
+  Y := ( $mux (S [] 6 ) _b0   X5 )  $buffering 1
+  sticky := (((t0 | t1) | t2) | ((t3 | t4) | t5)) $buffering 1
+}
+$volatile $module [i64_sll]
+$in ( X : $uint<64>   S : $uint<6>  )
+$out ( Y : $uint<64>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 62 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 61 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 59 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 55 0 )  && ZERO_8)  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (( $slice X3 47 0 )  && ZERO_16)  X3 )  $buffering 1
+  Y := ( $mux (S [] 5 ) (( $slice X4 31 0 )  && ZERO_32)  X4 )  $buffering 1
+}
+$pipeline $depth 7 $buffering 1 $fullrate $deterministic $operator $module [fpadd64_op]
+$in ( use_single_precision_inputs : $uint<1>   double_precision_outputs : $uint<1>   uf1_s : $uint<32>   f1_s_class : $uint<10>   uf2_s : $uint<32>   f2_s_class : $uint<10>   uf1_d_i : $uint<64>   f1_d_class : $uint<10>   uf2_d_i : $uint<64>   f2_d_class : $uint<10>  )
+$out ( needs_norm : $uint<1>   extn_result : $uint<81>  )
+$is
+{
+  $volatile 	$call SingleToExtendedFp (uf1_s f1_s_class ) (uf1_s_efp ) 
+  $volatile 	$call SingleToExtendedFp (uf2_s f2_s_class ) (uf2_s_efp ) 
+  $volatile 	$call DoubleToExtendedFp (uf1_d_i f1_d_class ) (uf1_d_i_efp ) 
+  $volatile 	$call DoubleToExtendedFp (uf2_d_i f2_d_class ) (uf2_d_i_efp ) 
+  $volatile uf1_d_efp := ( $mux use_single_precision_inputs uf1_s_efp  uf1_d_i_efp )  $buffering 1
+  $volatile uf2_d_efp := ( $mux use_single_precision_inputs uf2_s_efp  uf2_d_i_efp )  $buffering 1
+  $volatile sign_uf1_d := ( $slice uf1_d_efp 66 66 )  $buffering 1
+  $volatile f1_exp13_unbiased := ( $slice uf1_d_efp 65 53 )  $buffering 1
+  $volatile f1_top_bit := ( $slice uf1_d_efp 52 52 )  $buffering 1
+  $volatile f1_fraction := ( $slice uf1_d_efp 51 0 )  $buffering 1
+  $volatile sign_uf2_d := ( $slice uf2_d_efp 66 66 )  $buffering 1
+  $volatile f2_exp13_unbiased := ( $slice uf2_d_efp 65 53 )  $buffering 1
+  $volatile f2_top_bit := ( $slice uf2_d_efp 52 52 )  $buffering 1
+  $volatile f2_fraction := ( $slice uf2_d_efp 51 0 )  $buffering 1
+  $volatile 	$call classify_utility (use_single_precision_inputs f1_s_class f1_d_class ) (f1_zero f1_normal f1_denormal f1_nan f1_inf f1_pos_inf f1_neg_inf ) 
+  $volatile 	$call classify_utility (use_single_precision_inputs f2_s_class f2_d_class ) (f2_zero f2_normal f2_denormal f2_nan f2_inf f2_pos_inf f2_neg_inf ) 
+  $volatile f1_frac := (f1_top_bit && f1_fraction) $buffering 1
+  $volatile f2_frac := (f2_top_bit && f2_fraction) $buffering 1
+  $report (fpunit_exec fpadd64_op_fractions 	 f1_frac f1_frac 	 f2_frac f2_frac )
+  $volatile exp_a := ($bitcast ($int<13>) f1_exp13_unbiased ) $buffering 1
+  $volatile exp_b := ($bitcast ($int<13>) f2_exp13_unbiased ) $buffering 1
+  $volatile 	$call expDiffDouble (uf1_d_i uf2_d_i ) (exp_a_greater_than_exp_b_d exp_a_equal_exp_b_d exp_ab_d ) 
+  $volatile 	$call expDiffSingle (uf1_s uf2_s ) (exp_a_greater_than_exp_b_s exp_a_equal_exp_b_s exp_ab_s ) 
+  $volatile exp_ab := ( $mux use_single_precision_inputs exp_ab_s  exp_ab_d )  $buffering 1
+  $volatile exp_a_greater_than_exp_b := ( $mux use_single_precision_inputs exp_a_greater_than_exp_b_s  exp_a_greater_than_exp_b_d )  $buffering 1
+  $volatile exp_a_equal_exp_b := ( $mux use_single_precision_inputs exp_a_equal_exp_b_s  exp_a_equal_exp_b_d )  $buffering 1
+  $report (fpunit_exec fpadd64_op_exponents 	 exp_a exp_a 	 exp_b exp_b 	 exp_a_greater_than_exp_b exp_a_greater_than_exp_b 	 exp_a_equal_exp_b exp_a_equal_exp_b 	 exp_ab exp_ab )
+  $volatile mantissa_a_pre_shift := ((ZERO_1 && f1_frac) && ZERO_10) $buffering 1
+  $volatile mantissa_b_pre_shift := ((ZERO_1 && f2_frac) && ZERO_10) $buffering 1
+  $volatile to_be_shifted := ( $mux exp_a_greater_than_exp_b mantissa_b_pre_shift  mantissa_a_pre_shift )  $buffering 1
+  $volatile exp_ab_7 := ($mux (exp_ab > 64) 64 ($bitcast ($uint<7>) exp_ab )) $buffering 1
+  $volatile 	$call u64_sr_special (to_be_shifted exp_ab_7 ) (shifted_output sticky_temp ) 
+  $volatile mantissa_a_pre_shift_d := ((ZERO_1 && f1_frac) && ZERO_10) $buffering 1
+  $volatile mantissa_b_pre_shift_d := ((ZERO_1 && f2_frac) && ZERO_10) $buffering 1
+  $volatile mantissa_a_post_shift := ( $mux (exp_a_greater_than_exp_b | exp_a_equal_exp_b) mantissa_a_pre_shift_d  shifted_output )  $buffering 1
+  $volatile mantissa_b_post_shift := ( $mux exp_a_greater_than_exp_b shifted_output  mantissa_b_pre_shift_d )  $buffering 1
+  $volatile exponent_post_align := ( $mux exp_a_greater_than_exp_b exp_a  exp_b )  $buffering 1
+  $report (fpunit_exec fpadd64_op_post_shift 	 mantissa_a_post_shift mantissa_a_post_shift 	 mantissa_b_post_shift mantissa_b_post_shift 	 exponent_post_align exponent_post_align )
+  $volatile 	$call compare53 (f1_frac f2_frac ) (G E ) 
+  $volatile a_frac_ge_b_frac := ( $mux exp_a_equal_exp_b (G | E)  exp_a_greater_than_exp_b )  $buffering 1
+  $volatile a_frac_gt_b_frac := ( $mux exp_a_equal_exp_b G  exp_a_greater_than_exp_b )  $buffering 1
+  $volatile need_to_take_twos_complement_a := (((sign_uf1_d & ( ~ sign_uf2_d )) & ( ~ a_frac_ge_b_frac )) | ((( ~ sign_uf1_d ) & sign_uf2_d) & ( ~ a_frac_ge_b_frac ))) $buffering 1
+  $volatile need_to_take_twos_complement_b := (((sign_uf2_d & ( ~ sign_uf1_d )) & a_frac_ge_b_frac) | ((( ~ sign_uf2_d ) & sign_uf1_d) & a_frac_ge_b_frac)) $buffering 1
+  $volatile a_was_shifted := ( ~ exp_a_greater_than_exp_b ) $buffering 1
+  $volatile a_negative := need_to_take_twos_complement_a $buffering 1
+  $volatile b_was_shifted := exp_a_greater_than_exp_b $buffering 1
+  $volatile b_negative := need_to_take_twos_complement_b $buffering 1
+  $volatile apply_sticky_correction := (sticky_temp & ((a_was_shifted & a_negative) | (b_was_shifted & b_negative))) $buffering 1
+  $volatile carry_in := (need_to_take_twos_complement_a | need_to_take_twos_complement_b) $buffering 1
+  $volatile mantissa_operand_a := ( $mux need_to_take_twos_complement_a ( ~ mantissa_a_post_shift )  mantissa_a_post_shift )  $buffering 1
+  $volatile mantissa_operand_b := ( $mux need_to_take_twos_complement_b ( ~ mantissa_b_post_shift )  mantissa_b_post_shift )  $buffering 1
+  $volatile 	$call adder_64_with_carry (mantissa_operand_a mantissa_operand_b carry_in ) (mantissa_added carry_out ) 
+  $volatile sign_result := (((sign_uf1_d & sign_uf2_d) | ((sign_uf1_d & ( ~ sign_uf2_d )) & a_frac_gt_b_frac)) | ((( ~ sign_uf1_d ) & sign_uf2_d) & ( ~ a_frac_ge_b_frac ))) $buffering 1
+  $report (fpunit_exec fpadd64_op_mantissa_added 	 mantissa_operand_a mantissa_operand_a 	 mantissa_operand_b mantissa_operand_b 	 carry_in carry_in 	 mantissa_added mantissa_added 	 carry_out carry_out 	 sign_result sign_result )
+  mantissa_out := mantissa_added $buffering 1// bits of buffering = 64. 
+  sign_from_addition := sign_result $buffering 1// bits of buffering = 1.  Orphaned statement with target sign_from_addition ?? 
+  $volatile need_to_shift := (( ~ carry_in ) & (mantissa_out [] 63 )) $buffering 1
+  $volatile mantissa_out_shifted := ( $slice mantissa_out 63 1 )  $buffering 1
+  $volatile mantissa_64_bits := ( $mux need_to_shift (ZERO_1 && mantissa_out_shifted)  (ZERO_1 && ( $slice mantissa_out 62 0 ) ) )  $buffering 1
+  $report (fpunit_exec fpadd64_op_final_mantissa_64 	 mantissa_64_bits mantissa_64_bits )
+  $volatile 	$call find_leftmost_64 (mantissa_64_bits ) (position_of_one one_found ) 
+  $volatile left_shift_amount := ($bitcast ($uint<6>) (62  - position_of_one) ) $buffering 1
+  $volatile add_result_zero := ( ~ one_found ) $buffering 1
+  $volatile 	$call i64_sll (mantissa_64_bits left_shift_amount ) (final_mantissa_aligned ) 
+  $volatile final_mantissa_62_aligned := ( $slice final_mantissa_aligned 61 0 )  $buffering 1
+  $volatile exponent_correction := (( $mux need_to_shift exp_base_1  exp_base_0 )  - ( $mux one_found ($bitcast ($int<13>) left_shift_amount )  _b0  ) ) $buffering 1
+  $volatile final_exponent_without_bias := (exponent_post_align + exponent_correction) $buffering 1
+  $report (fpunit_exec fpadd64_op_final_exponent_without_bias 	 exponent_post_align exponent_post_align 	 exponent_correction exponent_correction 	 final_exponent_without_bias final_exponent_without_bias )
+  $volatile DP_exp_overflow := (final_exponent_without_bias > 1023 ) $buffering 1
+  $volatile DP_exp_underflow := (final_exponent_without_bias < -1022 ) $buffering 1
+  $volatile SP_exp_overflow := (final_exponent_without_bias > 127 ) $buffering 1
+  $volatile SP_exp_underflow := (final_exponent_without_bias < -126 ) $buffering 1
+  $volatile underflow_SP := (SP_exp_underflow & ( ~ add_result_zero )) $buffering 1
+  $volatile underflow_DP := (DP_exp_underflow & ( ~ add_result_zero )) $buffering 1
+  $volatile overflow_SP := (SP_exp_overflow & ( ~ add_result_zero )) $buffering 1
+  $volatile overflow_DP := (DP_exp_overflow & ( ~ add_result_zero )) $buffering 1
+  $volatile overflow := ( $mux double_precision_outputs overflow_DP  overflow_SP )  $buffering 1
+  $volatile condition_nan := ((f1_nan | f2_nan) | ((f1_pos_inf & f2_neg_inf) | (f1_neg_inf & f2_pos_inf))) $buffering 1
+  $volatile condition_inf := (((f1_pos_inf & f2_pos_inf) | (f1_neg_inf & f2_neg_inf)) | overflow) $buffering 1
+  $volatile condition_zero := ((f1_zero & f2_zero) | add_result_zero) $buffering 1
+  $volatile underflow := (( ~ condition_zero ) & ( $mux double_precision_outputs underflow_DP  underflow_SP ) ) $buffering 1
+  $report (fpunit_exec fpadd64_op_final_exceptions 	 DP_exp_overflow DP_exp_overflow 	 DP_exp_underflow DP_exp_underflow 	 SP_exp_overflow SP_exp_overflow 	 SP_exp_underflow SP_exp_underflow 	 underflow_SP underflow_SP 	 underflow_DP underflow_DP 	 overflow_SP overflow_SP 	 overflow_DP overflow_DP 	 condition_nan condition_nan 	 condition_inf condition_inf 	 condition_zero condition_zero )
+  $volatile SP_nothing_to_be_done_condition_normal := (((( ~ overflow ) & ( ~ underflow )) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile SP_normalization_required := (((overflow | underflow) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile DP_nothing_to_be_done_condition_normal := (((( ~ overflow ) & ( ~ underflow )) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile DP_normalization_required := (((overflow | underflow) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile normalization_required := ( $mux double_precision_outputs DP_normalization_required  SP_normalization_required )  $buffering 1
+  $volatile nothing_to_be_done_condition_normal := ( $mux double_precision_outputs DP_nothing_to_be_done_condition_normal  SP_nothing_to_be_done_condition_normal )  $buffering 1
+  $volatile exponent_to_be_passed := (((( $mux condition_nan ALL_ONE_13  _b0  )  | ( $mux condition_inf ALL_ONE_13  _b0  ) ) | ( $mux condition_zero ($bitcast ($int<13>) ZERO_13 )  _b0  ) ) | (( $mux nothing_to_be_done_condition_normal final_exponent_without_bias  _b0  )  | ( $mux normalization_required final_exponent_without_bias  _b0  ) )) $buffering 1
+  $volatile mantissa_to_be_passed := ((( $mux condition_nan (ONE_1 && ZERO_61)  _b0  )  | ( $mux (condition_inf | condition_zero) ZERO_62  _b0  ) ) | ( $mux (nothing_to_be_done_condition_normal | normalization_required) final_mantissa_62_aligned  _b0  ) ) $buffering 1
+  $volatile condition_to_pass_sticky_bit := ((((a_was_shifted & a_negative) & b_negative) | ((a_was_shifted & ( ~ a_negative )) & ( ~ b_negative ))) | (((b_was_shifted & a_negative) & b_negative) | ((b_was_shifted & ( ~ a_negative )) & ( ~ b_negative )))) $buffering 1
+  $volatile sticky := (((sticky_temp & condition_to_pass_sticky_bit) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  needs_norm := ((normalization_required & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 2// bits of buffering = 2. 
+  extn_result := (((sticky && apply_sticky_correction) && (sign_result && condition_nan)) && ((condition_inf && condition_zero) && (($bitcast ($uint<13>) exponent_to_be_passed ) && mantissa_to_be_passed))) $buffering 2// bits of buffering = 162. 
+  $report (fpunit_exec fpadd64_op_final_results 	 exponent_to_be_passed exponent_to_be_passed 	 mantissa_to_be_passed mantissa_to_be_passed )
+}
+$module [fpadd32_wrap]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpadd64_op (ONE_1 ZERO_1 ($bitcast ($uint<32>) X ) x_class ($bitcast ($uint<32>) Y ) y_class _b0  _b0  _b0  _b0  ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp (extn_result_add ZERO_1 ) (adds_result_fast addd_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp (ZERO_1 extn_result_add ) (adds_result_slow addd_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
+  $attribute input_buffering 0
+}
+$module [fp32_add_for_ecg]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpadd32_op (($bitcast ($uint<32>) X ) x_class ($bitcast ($uint<32>) Y ) y_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp (extn_result_add ZERO_1 ) (adds_result_fast addd_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp (ZERO_1 extn_result_add ) (adds_result_slow addd_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
+  $attribute input_buffering 0
+  $attribute delay 1
+}
+$module [fp64_add_for_ecg]
+$in ( X : $float<11,52>   Y : $float<11,52>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call classFp64 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp64 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpadd64_op (ZERO_1 ONE_1 _b0  _b0  _b0  _b0  ($bitcast ($uint<64>) X ) x_class ($bitcast ($uint<64>) Y ) y_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp (extn_result_add ONE_1 ) (adds_result_fast addd_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp (ONE_1 extn_result_add ) (adds_result_slow addd_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_add addd_result_slow  addd_result_fast )  ) $buffering 1
+  $attribute input_buffering 0
+  $attribute delay 1
+}
+$volatile $module [fpcmp32]
+$in ( a : $float<8,23>   b : $float<8,23>   e_flag : $uint<1>  )
+$out ( cmp_flags : $uint<2>  )
+$is
+{
+  cmp_flags := ((( $mux (a == b) 0   _b0  )  | ( $mux (a < b) 1   _b0  ) ) | (( $mux (a > b) 2   _b0  )  | ( $mux (a >< b) 3   _b0  ) )) $buffering 1
+  $report (fpunit_exec fpcmp32_trace__ 	 a a 	 b b 	 cmp_flags cmp_flags )
+}
+$volatile $module [fpcmp64]
+$in ( a : $float<11,52>   b : $float<11,52>   e_flag : $uint<1>  )
+$out ( cmp_flags : $uint<2>  )
+$is
+{
+  cmp_flags := ((( $mux (a == b) 0   _b0  )  | ( $mux (a < b) 1   _b0  ) ) | (( $mux (a > b) 2   _b0  )  | ( $mux (a >< b) 3   _b0  ) )) $buffering 1
+  $report (fpunit_exec fpcmp64_trace__ 	 a a 	 b b 	 cmp_flags cmp_flags )
+}
+$pipeline $depth 3 $buffering 1 $fullrate $deterministic $operator $module [mul24]
+$in ( L : $uint<24>   R : $uint<24>  )
+$out ( RESULT : $uint<48>  )
+$is
+{
+  $volatile A1 := ( $slice L 23 12 )  $buffering 1
+  $volatile A0 := ( $slice L 11 0 )  $buffering 1
+  $volatile B1 := ( $slice R 23 12 )  $buffering 1
+  $volatile B0 := ( $slice R 11 0 )  $buffering 1
+  $volatile a0b0 := (($bitcast ($uint<24>) A0 ) * ($bitcast ($uint<24>) B0 )) $buffering 1
+  $volatile a0b1 := (($bitcast ($uint<24>) A0 ) * ($bitcast ($uint<24>) B1 )) $buffering 1
+  $volatile a1b0 := (($bitcast ($uint<24>) A1 ) * ($bitcast ($uint<24>) B0 )) $buffering 1
+  $volatile a1b1 := (($bitcast ($uint<24>) A1 ) * ($bitcast ($uint<24>) B1 )) $buffering 1
+  $volatile a0b0_l := ( $slice a0b0 11 0 )  $buffering 1
+  $volatile a0b0_h := ( $slice a0b0 23 12 )  $buffering 1
+  $volatile a0b1_l := ( $slice a0b1 11 0 )  $buffering 1
+  $volatile a0b1_h := ( $slice a0b1 23 12 )  $buffering 1
+  $volatile a1b0_l := ( $slice a1b0 11 0 )  $buffering 1
+  $volatile a1b0_h := ( $slice a1b0 23 12 )  $buffering 1
+  $volatile a1b1_l := ( $slice a1b1 11 0 )  $buffering 1
+  $volatile a1b1_h := ( $slice a1b1 23 12 )  $buffering 1
+  $volatile P0 := a0b0_l $buffering 1
+  $volatile eP1 := (($bitcast ($uint<14>) a0b0_h ) + (($bitcast ($uint<14>) a0b1_l ) + ($bitcast ($uint<14>) a1b0_l ))) $buffering 1
+  $volatile P1 := ( $slice eP1 11 0 )  $buffering 1
+  $volatile cP1 := ($bitcast ($uint<14>) ( $slice eP1 13 12 )  ) $buffering 1
+  $volatile eP2 := ((($bitcast ($uint<14>) a1b0_h ) + ($bitcast ($uint<14>) a0b1_h )) + (($bitcast ($uint<14>) a1b1_l ) + cP1)) $buffering 1
+  $volatile P2 := ( $slice eP2 11 0 )  $buffering 1
+  $volatile cP2 := ($bitcast ($uint<12>) ( $slice eP2 13 12 )  ) $buffering 1
+  $volatile P3 := (($bitcast ($uint<12>) a1b1_h ) + cP2) $buffering 1
+  RESULT := ((P3 && P2) && (P1 && P0)) $buffering 1// bits of buffering = 48. 
+  $attribute delay 1
+}
+$pipeline $depth 7 $buffering 1 $fullrate $deterministic $operator $module [fpmul32_op]
+$in ( uf1_s : $uint<32>   f1_s_class : $uint<10>   uf2_s : $uint<32>   f2_s_class : $uint<10>  )
+$out ( needs_norm : $uint<1>   extn_result : $uint<81>  )
+$is
+{
+  $volatile 	$call classify_utility (ONE_1 f1_s_class 0  ) (f1_zero f1_normal f1_denormal f1_nan f1_inf f1_pos_inf f1_neg_inf ) 
+  $volatile 	$call classify_utility (ONE_1 f2_s_class 0  ) (f2_zero f2_normal f2_denormal f2_nan f2_inf f2_pos_inf f2_neg_inf ) 
+  $volatile 	$call SingleToExtendedFp (uf1_s f1_s_class ) (uf1_s_efp ) 
+  $volatile 	$call SingleToExtendedFp (uf2_s f2_s_class ) (uf2_s_efp ) 
+  $volatile sign_uf1_s := ( $slice uf1_s_efp 66 66 )  $buffering 1
+  $volatile f1_exp13_unbiased := ( $slice uf1_s_efp 65 53 )  $buffering 1
+  $volatile f1_top_bit := ( $slice uf1_s_efp 52 52 )  $buffering 1
+  $volatile f1_fraction := ( $slice uf1_s_efp 51 29 )  $buffering 1
+  $volatile f1_unused := ( $slice uf1_s_efp 28 0 )  $buffering 1
+  $volatile sign_uf2_s := ( $slice uf2_s_efp 66 66 )  $buffering 1
+  $volatile f2_exp13_unbiased := ( $slice uf2_s_efp 65 53 )  $buffering 1
+  $volatile f2_top_bit := ( $slice uf2_s_efp 52 52 )  $buffering 1
+  $volatile f2_fraction := ( $slice uf2_s_efp 51 29 )  $buffering 1
+  $volatile f2_unused := ( $slice uf2_s_efp 28 0 )  $buffering 1
+  $volatile sign_result := (sign_uf1_s ^ sign_uf2_s) $buffering 1
+  $volatile f1_frac_v := (f1_top_bit && f1_fraction) $buffering 1
+  $volatile f2_frac_v := (f2_top_bit && f2_fraction) $buffering 1
+  $volatile exp_a := ($bitcast ($int<13>) f1_exp13_unbiased ) $buffering 1
+  $volatile exp_b := ($bitcast ($int<13>) f2_exp13_unbiased ) $buffering 1
+  $volatile 	$call find_left_24 (f1_frac_v ) (f1_top_bit_pos f1_top_bit_found ) 
+  $volatile 	$call find_left_24 (f2_frac_v ) (f2_top_bit_pos f2_top_bit_found ) 
+  $volatile f1_left_shift_correction := ($bitcast ($int<13>) (23  - f1_top_bit_pos) ) $buffering 1
+  $volatile exp_a_corrected := (exp_a - f1_left_shift_correction) $buffering 1
+  $volatile f2_left_shift_correction := ($bitcast ($int<13>) (23  - f2_top_bit_pos) ) $buffering 1
+  $volatile exp_b_corrected := (exp_b - f2_left_shift_correction) $buffering 1
+  $volatile mul_result_left_shift_amount := (f1_left_shift_correction + f2_left_shift_correction) $buffering 1
+  $volatile f1_frac := f1_frac_v $buffering 1
+  $volatile f2_frac := f2_frac_v $buffering 1
+  $volatile exp_ab := (exp_a_corrected + exp_b_corrected) $buffering 1
+  $call mul24 (f1_frac f2_frac ) (frac_result_48bits ) 
+  $volatile frac_result_35 := ( $slice frac_result_48bits 47 13 )  $buffering 1
+  $volatile value_of_bits_thrown_away_greater_than_zero := ( ~ (( $slice frac_result_35 6 0 )  == 0 ) ) $buffering 1
+  $volatile implied_shift_amount := ($bitcast ($uint<6>) mul_result_left_shift_amount ) $buffering 1
+  $volatile 	$call i35_sll (frac_result_35 implied_shift_amount ) (frac_result_35_with_implied_shift ) 
+  $volatile shift_by_one := (frac_result_35_with_implied_shift [] 34 ) $buffering 1
+  $volatile thrown_away_bit := ( $mux shift_by_one (frac_result_35_with_implied_shift [] 0 )  _b0  )  $buffering 1
+  $volatile mantissa_33_bits := ( $mux shift_by_one ( $slice frac_result_35_with_implied_shift 33 1 )   ( $slice frac_result_35_with_implied_shift 32 0 )  )  $buffering 1
+  $volatile mantissa_62_bits := (mantissa_33_bits && ($bitcast ($uint<29>) _b0  )) $buffering 1
+  $volatile sticky_raw := (thrown_away_bit | value_of_bits_thrown_away_greater_than_zero) $buffering 1
+  $volatile exponent_correction := ( $mux shift_by_one exp_base_1  exp_base_0 )  $buffering 1
+  $volatile exponent_without_bias := (exp_ab + exponent_correction) $buffering 1
+  $volatile SP_overflow := (exponent_without_bias > 127 ) $buffering 1
+  $volatile SP_underflow := (exponent_without_bias < -126 ) $buffering 1
+  $volatile overflow := SP_overflow $buffering 1
+  $volatile condition_zero := (f1_zero | f2_zero) $buffering 1
+  $volatile condition_nan := ((f1_nan | f2_nan) | ((f1_zero & f2_inf) | (f1_inf & f2_zero))) $buffering 1
+  $volatile condition_inf := (((f1_inf & ((f2_inf | f2_normal) | f2_denormal)) | (f2_inf & ((f1_inf | f1_normal) | f1_denormal))) | overflow) $buffering 1
+  $volatile underflow := (( ~ condition_zero ) & SP_underflow) $buffering 1
+  $volatile sticky := ((sticky_raw & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile SP_nothing_to_be_done_condition_normal := (((( ~ overflow ) & ( ~ underflow )) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile SP_normalization_required := (((overflow | underflow) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile normalization_required := SP_normalization_required $buffering 1
+  $volatile nothing_to_be_done_condition_normal := SP_nothing_to_be_done_condition_normal $buffering 1
+  condition_nan_d := condition_nan $buffering 1// bits of buffering = 1. 
+  condition_zero_d := condition_zero $buffering 1// bits of buffering = 1. 
+  $volatile exponent_to_be_passed := ((( $mux (condition_nan_d | condition_inf) ALL_ONE_13  _b0  )  | ( $mux condition_zero_d ($bitcast ($int<13>) ZERO_13 )  _b0  ) ) | ( $mux (normalization_required | nothing_to_be_done_condition_normal) exponent_without_bias  _b0  ) ) $buffering 1
+  $volatile mantissa_to_be_passed := ((( $mux condition_nan_d (ONE_1 && ZERO_61)  _b0  )  | ( $mux condition_inf ZERO_62  _b0  ) ) | (( $mux condition_zero_d ZERO_62  _b0  )  | ( $mux (normalization_required | nothing_to_be_done_condition_normal) mantissa_62_bits  _b0  ) )) $buffering 1
+  needs_norm := ((normalization_required & ( ~ condition_zero_d )) & (( ~ condition_inf ) & ( ~ condition_nan_d ))) $buffering 2// bits of buffering = 2. 
+  extn_result := (((sticky && nothing_to_be_done_condition_normal) && (sign_result && condition_nan_d)) && ((condition_inf && condition_zero_d) && (($bitcast ($uint<13>) exponent_to_be_passed ) && mantissa_to_be_passed))) $buffering 2// bits of buffering = 162. 
+}
+$pipeline $depth 3 $buffering 2 $fullrate $deterministic $operator $module [mul53]
+$in ( L : $uint<53>   R : $uint<53>  )
+$out ( RESULT : $uint<106>  )
+$is
+{
+  $volatile A1 := (ZERO_1 && ( $slice L 52 27 ) ) $buffering 1
+  $volatile A0 := ( $slice L 26 0 )  $buffering 1
+  $volatile B1 := (ZERO_1 && ( $slice R 52 27 ) ) $buffering 1
+  $volatile B0 := ( $slice R 26 0 )  $buffering 1
+  a0b0 := (($bitcast ($uint<54>) A0 ) * ($bitcast ($uint<54>) B0 )) $buffering 1// bits of buffering = 54. 
+  a0b1 := (($bitcast ($uint<54>) A0 ) * ($bitcast ($uint<54>) B1 )) $buffering 1// bits of buffering = 54. 
+  a1b0 := (($bitcast ($uint<54>) A1 ) * ($bitcast ($uint<54>) B0 )) $buffering 1// bits of buffering = 54. 
+  a1b1 := (($bitcast ($uint<54>) A1 ) * ($bitcast ($uint<54>) B1 )) $buffering 1// bits of buffering = 54. 
+  $volatile a0b0_l := ( $slice a0b0 26 0 )  $buffering 1
+  $volatile a0b0_h := ( $slice a0b0 53 27 )  $buffering 1
+  $volatile a0b1_l := ( $slice a0b1 26 0 )  $buffering 1
+  $volatile a0b1_h := ( $slice a0b1 53 27 )  $buffering 1
+  $volatile a1b0_l := ( $slice a1b0 26 0 )  $buffering 1
+  $volatile a1b0_h := ( $slice a1b0 53 27 )  $buffering 1
+  $volatile a1b1_l := ( $slice a1b1 26 0 )  $buffering 1
+  $volatile a1b1_h := ( $slice a1b1 53 27 )  $buffering 1
+  $volatile P0 := a0b0_l $buffering 1
+  $volatile eP1 := (($bitcast ($uint<29>) a0b0_h ) + (($bitcast ($uint<29>) a0b1_l ) + ($bitcast ($uint<29>) a1b0_l ))) $buffering 1
+  $volatile P1 := ( $slice eP1 26 0 )  $buffering 1
+  $volatile cP1 := ($bitcast ($uint<29>) ( $slice eP1 28 27 )  ) $buffering 1
+  $volatile eP2 := ((($bitcast ($uint<29>) a1b0_h ) + ($bitcast ($uint<29>) a0b1_h )) + (($bitcast ($uint<29>) a1b1_l ) + cP1)) $buffering 1
+  $volatile P2 := ( $slice eP2 26 0 )  $buffering 1
+  $volatile cP2 := ($bitcast ($uint<25>) ( $slice eP2 28 27 )  ) $buffering 1
+  $volatile P3 := (($bitcast ($uint<25>) a1b1_h ) + cP2) $buffering 1
+  RESULT := ((P3 && P2) && (P1 && P0)) $buffering 1// bits of buffering = 106. 
+  $attribute delay 1
+}
+$pipeline $depth 7 $buffering 1 $fullrate $deterministic $operator $module [fpmul64_op]
+$in ( use_single_precision_inputs : $uint<1>   double_precision_outputs : $uint<1>   uf1_s : $uint<32>   f1_s_class : $uint<10>   uf2_s : $uint<32>   f2_s_class : $uint<10>   uf1_d_i : $uint<64>   f1_d_class : $uint<10>   uf2_d_i : $uint<64>   f2_d_class : $uint<10>  )
+$out ( needs_norm : $uint<1>   extn_result : $uint<81>  )
+$is
+{
+  $volatile 	$call classify_utility (use_single_precision_inputs f1_s_class f1_d_class ) (f1_zero f1_normal f1_denormal f1_nan f1_inf f1_pos_inf f1_neg_inf ) 
+  $volatile 	$call classify_utility (use_single_precision_inputs f2_s_class f2_d_class ) (f2_zero f2_normal f2_denormal f2_nan f2_inf f2_pos_inf f2_neg_inf ) 
+  $volatile 	$call SingleToExtendedFp (uf1_s f1_s_class ) (uf1_s_efp ) 
+  $volatile 	$call SingleToExtendedFp (uf2_s f2_s_class ) (uf2_s_efp ) 
+  $volatile 	$call DoubleToExtendedFp (uf1_d_i f1_d_class ) (uf1_d_i_efp ) 
+  $volatile 	$call DoubleToExtendedFp (uf2_d_i f2_d_class ) (uf2_d_i_efp ) 
+  $volatile uf1_d_efp := ( $mux use_single_precision_inputs uf1_s_efp  uf1_d_i_efp )  $buffering 1
+  $volatile uf2_d_efp := ( $mux use_single_precision_inputs uf2_s_efp  uf2_d_i_efp )  $buffering 1
+  $volatile sign_uf1_d := ( $slice uf1_d_efp 66 66 )  $buffering 1
+  $volatile f1_exp13_unbiased := ( $slice uf1_d_efp 65 53 )  $buffering 1
+  $volatile f1_top_bit := ( $slice uf1_d_efp 52 52 )  $buffering 1
+  $volatile f1_fraction := ( $slice uf1_d_efp 51 0 )  $buffering 1
+  $volatile sign_uf2_d := ( $slice uf2_d_efp 66 66 )  $buffering 1
+  $volatile f2_exp13_unbiased := ( $slice uf2_d_efp 65 53 )  $buffering 1
+  $volatile f2_top_bit := ( $slice uf2_d_efp 52 52 )  $buffering 1
+  $volatile f2_fraction := ( $slice uf2_d_efp 51 0 )  $buffering 1
+  $volatile sign_result := (sign_uf1_d ^ sign_uf2_d) $buffering 1
+  $volatile f1_frac_v := (f1_top_bit && f1_fraction) $buffering 1
+  $volatile f2_frac_v := (f2_top_bit && f2_fraction) $buffering 1
+  $volatile exp_a := ($bitcast ($int<13>) f1_exp13_unbiased ) $buffering 1
+  $volatile exp_b := ($bitcast ($int<13>) f2_exp13_unbiased ) $buffering 1
+  $volatile 	$call find_left_53 (f1_frac_v ) (f1_top_bit_pos f1_top_bit_found ) 
+  $volatile 	$call find_left_53 (f2_frac_v ) (f2_top_bit_pos f2_top_bit_found ) 
+  $volatile f1_left_shift_correction := ($bitcast ($int<13>) (52  - f1_top_bit_pos) ) $buffering 1
+  $volatile exp_a_corrected := (exp_a - f1_left_shift_correction) $buffering 1
+  $volatile f2_left_shift_correction := ($bitcast ($int<13>) (52  - f2_top_bit_pos) ) $buffering 1
+  $volatile exp_b_corrected := (exp_b - f2_left_shift_correction) $buffering 1
+  $volatile mul_result_left_shift_amount := (f1_left_shift_correction + f2_left_shift_correction) $buffering 1
+  $volatile exp_ab := (exp_a_corrected + exp_b_corrected) $buffering 1
+  $call mul53 (f1_frac_v f2_frac_v ) (frac_result_106bits ) 
+  $volatile frac_result_64 := ( $slice frac_result_106bits 105 42 )  $buffering 1
+  $volatile value_of_bits_thrown_away_greater_than_zero := ( ~ (( $slice frac_result_106bits 41 0 )  == 0 ) ) $buffering 1
+  $volatile implied_shift_amount := ($bitcast ($uint<6>) mul_result_left_shift_amount ) $buffering 1
+  $volatile 	$call i64_sll (frac_result_64 implied_shift_amount ) (frac_result_64_with_implied_shift ) 
+  $volatile shift_by_one := (frac_result_64_with_implied_shift [] 63 ) $buffering 1
+  $volatile thrown_away_bit := ( $mux shift_by_one (frac_result_64_with_implied_shift [] 0 )  _b0  )  $buffering 1
+  $volatile mantissa_62_bits := ( $mux shift_by_one ( $slice frac_result_64_with_implied_shift 62 1 )   ( $slice frac_result_64_with_implied_shift 61 0 )  )  $buffering 1
+  $volatile sticky_raw := (thrown_away_bit | value_of_bits_thrown_away_greater_than_zero) $buffering 1
+  $volatile exponent_correction := ( $mux shift_by_one exp_base_1  exp_base_0 )  $buffering 1
+  $volatile exponent_without_bias := (exp_ab + exponent_correction) $buffering 1
+  $volatile DP_overflow := (exponent_without_bias > 1023 ) $buffering 1
+  $volatile DP_underflow := (exponent_without_bias < -1022 ) $buffering 1
+  $volatile SP_overflow := (exponent_without_bias > 127 ) $buffering 1
+  $volatile SP_underflow := (exponent_without_bias < -126 ) $buffering 1
+  $volatile overflow := ( $mux double_precision_outputs DP_overflow  SP_overflow )  $buffering 1
+  $volatile condition_zero := (f1_zero | f2_zero) $buffering 1
+  $volatile condition_nan := ((f1_nan | f2_nan) | ((f1_zero & f2_inf) | (f1_inf & f2_zero))) $buffering 1
+  $volatile condition_inf := (((f1_inf & ((f2_inf | f2_normal) | f2_denormal)) | (f2_inf & ((f1_inf | f1_normal) | f1_denormal))) | overflow) $buffering 1
+  $volatile underflow := (( ~ condition_zero ) & ( $mux double_precision_outputs DP_underflow  SP_underflow ) ) $buffering 1
+  $volatile sticky := ((sticky_raw & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile SP_nothing_to_be_done_condition_normal := (((( ~ overflow ) & ( ~ underflow )) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile SP_normalization_required := (((overflow | underflow) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile DP_nothing_to_be_done_condition_normal := (((( ~ overflow ) & ( ~ underflow )) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile DP_normalization_required := (((overflow | underflow) & ( ~ condition_zero )) & (( ~ condition_inf ) & ( ~ condition_nan ))) $buffering 1
+  $volatile normalization_required := ( $mux double_precision_outputs DP_normalization_required  SP_normalization_required )  $buffering 1
+  $volatile nothing_to_be_done_condition_normal := ( $mux double_precision_outputs DP_nothing_to_be_done_condition_normal  SP_nothing_to_be_done_condition_normal )  $buffering 1
+  // begin inlined macro delay_1_1
+  condition_nan_d := condition_nan $buffering 1// bits of buffering = 1. 
+  // end inlined macro delay_1_1
+  // begin inlined macro delay_1_1
+  condition_zero_d := condition_zero $buffering 1// bits of buffering = 1. 
+  // end inlined macro delay_1_1
+  $volatile exponent_to_be_passed := ((( $mux (condition_nan_d | condition_inf) ALL_ONE_13  _b0  )  | ( $mux condition_zero_d ($bitcast ($int<13>) ZERO_13 )  _b0  ) ) | ( $mux (normalization_required | nothing_to_be_done_condition_normal) exponent_without_bias  _b0  ) ) $buffering 1
+  $volatile mantissa_to_be_passed := ((( $mux condition_nan_d (ONE_1 && ZERO_61)  _b0  )  | ( $mux condition_inf ZERO_62  _b0  ) ) | (( $mux condition_zero_d ZERO_62  _b0  )  | ( $mux (normalization_required | nothing_to_be_done_condition_normal) mantissa_62_bits  _b0  ) )) $buffering 1
+  needs_norm := ((normalization_required & ( ~ condition_zero_d )) & (( ~ condition_inf ) & ( ~ condition_nan_d ))) $buffering 2// bits of buffering = 2. 
+  extn_result := (((sticky && ZERO_1) && (sign_result && condition_nan_d)) && ((condition_inf && condition_zero_d) && (($bitcast ($uint<13>) exponent_to_be_passed ) && mantissa_to_be_passed))) $buffering 2// bits of buffering = 162. 
+}
+$module [fpmul32_wrap]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpmul64_op (ONE_1 ZERO_1 ($bitcast ($uint<32>) X ) x_class ($bitcast ($uint<32>) Y ) y_class _b0  _b0  _b0  _b0  ) (denormalize_flag_mul extn_result_mul ) 
+  $volatile 	$call round_fp (extn_result_mul ZERO_1 ) (muls_result_fast muld_result_fast ) 
+  $guard (denormalize_flag_mul) $call denormalize_fp (ZERO_1 extn_result_mul ) (muls_result_slow muld_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_mul muls_result_slow  muls_result_fast )  ) $buffering 1
+  $attribute input_buffering 0
+}
+$module [fp32_mul_for_ecg]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpmul32_op (($bitcast ($uint<32>) X ) x_class ($bitcast ($uint<32>) Y ) y_class ) (denormalize_flag_mul extn_result_mul ) 
+  $volatile 	$call round_fp (extn_result_mul ZERO_1 ) (muls_result_fast muld_result_fast ) 
+
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_mul 0  muls_result_fast)) $buffering 1
+  $attribute input_buffering 0
+  $attribute delay 1
+}
+$module [fp64_mul_for_ecg]
+$in ( X : $float<11,52>   Y : $float<11,52>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call classFp64 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp64 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpmul64_op (ZERO_1 ONE_1 _b0  _b0  _b0  _b0  ($bitcast ($uint<64>) X ) x_class ($bitcast ($uint<64>) Y ) y_class ) (denormalize_flag_mul extn_result_mul ) 
+  $volatile 	$call round_fp (extn_result_mul ONE_1 ) (muls_result_fast muld_result_fast ) 
+  $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_mul 0  muld_result_fast)) $buffering 1
+  $attribute input_buffering 0
+  $attribute delay 1
+}
+$volatile $module [negate_classification]
+$in ( C : $uint<10>  )
+$out ( NC : $uint<10>  )
+$is
+{
+  pn := ( $slice C 9 9 )  $buffering 1
+  nn := ( $slice C 8 8 )  $buffering 1
+  pd := ( $slice C 7 7 )  $buffering 1
+  nd := ( $slice C 6 6 )  $buffering 1
+  qn := ( $slice C 5 5 )  $buffering 1
+  sn := ( $slice C 4 4 )  $buffering 1
+  pi := ( $slice C 3 3 )  $buffering 1
+  ni := ( $slice C 2 2 )  $buffering 1
+  pz := ( $slice C 1 1 )  $buffering 1
+  nz := ( $slice C 0 0 )  $buffering 1
+  cn := (pn | nn) $buffering 1
+  cd := (pd | nd) $buffering 1
+  ci := (pi | ni) $buffering 1
+  cz := (pz | nz) $buffering 1
+  NC := (((((cn & ( ~ pn )) && (cn & ( ~ nn ))) && (cd & ( ~ pd ))) && ((cd & ( ~ nd )) && qn)) && (((sn && (ci & ( ~ pi ))) && (ci & ( ~ ni ))) && ((cz & ( ~ pz )) && (cz & ( ~ nz ))))) $buffering 1
+}
+$module [fpsub32_wrap]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call negate_classification (y_class ) (y_n_class ) 
+  uY := ($bitcast ($uint<32>) Y ) $buffering 1// bits of buffering = 32. 
+  unY := (( ~ (uY [] 31 ) ) && ( $slice uY 30 0 ) ) $buffering 1// bits of buffering = 32. 
+  $call fpadd64_op (ONE_1 ZERO_1 ($bitcast ($uint<32>) X ) x_class unY y_n_class _b0  _b0  _b0  _b0  ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp (extn_result_add ZERO_1 ) (adds_result_fast addd_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp (ZERO_1 extn_result_add ) (adds_result_slow addd_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
+  $attribute input_buffering 0
+}
+$module [fp32_addsub_for_ecg]
+$in ( X : $float<8,23>   Y : $float<8,23>  SUB: $uint<8>)
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile is_sub := (SUB != 0)
+  $volatile	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  $volatile x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_p_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+
+  $volatile 	$call negate_classification (y_p_class ) (y_n_class ) 
+  $volatile y_class := ($mux is_sub y_n_class y_p_class)
+  $volatile uY := ($bitcast ($uint<32>) Y ) $buffering 1// bits of buffering = 32. 
+  $volatile signY := (uY [] 31)
+  $volatile opY := (($mux is_sub (~ signY) signY)  && ($slice uY 30 0))
+
+  $call fpadd32_op (($bitcast ($uint<32>) X ) x_class opY y_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp (extn_result_add ZERO_1 ) (adds_result_fast addd_result_fast ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add 0 adds_result_fast)) $buffering 1
+
+  $attribute input_buffering 0
+}
+$module [fp64_addsub_for_ecg]
+$in ( X : $float<11,52>   Y : $float<11,52>  SUB: $uint<8> )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile is_sub := (SUB != 0)
+  $volatile 	$call classFp64 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp64 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_p_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call negate_classification (y_p_class ) (y_n_class ) 
+
+  $volatile y_class := ($mux is_sub y_n_class y_p_class)
+  $volatile uY := ($bitcast ($uint<64>) Y ) $buffering 1// bits of buffering = 32. 
+  $volatile signY := (uY [] 63)
+  $volatile opY := (($mux is_sub (~signY) signY)  && ($slice uY 62 0))
+
+  $call fpadd64_op (ZERO_1 ONE_1 _b0  _b0  _b0  _b0  ($bitcast ($uint<64>) X ) x_class opY y_class ) (denormalize_flag_add extn_result_add ) 
+
+  $volatile 	$call round_fp (extn_result_add ONE_1 ) (adds_result_fast addd_result_fast) 
+
+  // do not denormalize.. take denorm to be 0.
+  $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_add 0 addd_result_fast))
+  $attribute input_buffering 0
+
+}
+$volatile $module [fpu_increment_64]
+$in ( A : $uint<64>  )
+$out ( SUM : $uint<64>  )
+$is
+{
+  $volatile A0 := ( $slice A 15 0 )  $buffering 1
+  $volatile A1 := ( $slice A 31 16 )  $buffering 1
+  $volatile A2 := ( $slice A 47 32 )  $buffering 1
+  $volatile A3 := ( $slice A 63 48 )  $buffering 1
+  $volatile 	$call adder_18 (A0 0  ONE_1 ) (CIN1_S0 CIN1_C0 ) 
+  $volatile 	$call adder_18 (A1 0  ONE_1 ) (CIN1_S1 CIN1_C1 ) 
+  $volatile 	$call adder_18 (A2 0  ONE_1 ) (CIN1_S2 CIN1_C2 ) 
+  $volatile 	$call adder_18 (A3 0  ONE_1 ) (CIN1_S3 CIN1_C3 ) 
+  $volatile P0 := (A0 == ( ~ 0  )) $buffering 1
+  $volatile P1 := (A1 == ( ~ 0  )) $buffering 1
+  $volatile P2 := (A2 == ( ~ 0  )) $buffering 1
+  $volatile P3 := (A3 == ( ~ 0  )) $buffering 1
+  $volatile sum_0 := CIN1_S0 $buffering 1
+  $volatile carry_0 := P0 $buffering 1
+  $volatile sum_1 := ( $mux P0 CIN1_S1  A1 )  $buffering 1
+  $volatile carry_1 := (P1 & carry_0) $buffering 1
+  $volatile sum_2 := ( $mux carry_1 CIN1_S2  A2 )  $buffering 1
+  $volatile carry_2 := ((P0 & P1) & P2) $buffering 1
+  $volatile sum_3 := ( $mux carry_2 CIN1_S3  A3 )  $buffering 1
+  SUM := ((sum_3 && sum_2) && (sum_1 && sum_0)) $buffering 1
+}
+$module [fstod_wrap]
+$in ( X : $float<8,23>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call SingleToDouble (X ) (r ) 
+  RESULT := r $buffering 1// bits of buffering = 64. 
+}
+$module [fstoi_wrap]
+$in ( X : $float<8,23>  )
+$out ( Y : $int<32>  )
+$is
+{
+  $volatile 	$call SingleToDouble (X ) (Xd ) 
+  $call fdtoi_op (Xd ) (Y ) 
+}
+$module [global_storage_initializer_]
+$in ()
+$out ()
+$is
+{
+  $null
+}
+$volatile $module [increment_64]
+$in ( A : $uint<64>  )
+$out ( B : $uint<64>  )
+$is
+{
+  AH := ( $slice A 63 32 )  $buffering 1
+  AL := ( $slice A 31 0 )  $buffering 1
+  $volatile 	$call increment_32 (AL ) (BL ) 
+  $volatile 	$call increment_32 (AH ) (tBH ) 
+  B := (( $mux (( ~ AL ) == 0 ) tBH  AH )  && BL) $buffering 1
+}
+$volatile $module [isSnand]
+$in ( f : $float<11,52>  )
+$out ( is_snan : $uint<1>  )
+$is
+{
+  $volatile 	$call classFp64 (f ) (pos_normal neg_normal pos_denormal neg_denormal qnan is_snan pos_inf neg_inf pos_zero neg_zero ) 
+}
+$volatile $module [isSnans]
+$in ( f : $float<8,23>  )
+$out ( is_snan : $uint<1>  )
+$is
+{
+  $volatile 	$call classFp32 (f ) (pos_normal neg_normal pos_denormal neg_denormal qnan is_snan pos_inf neg_inf pos_zero neg_zero ) 
+}
+$volatile $module [round_e_32]
+$in ( sticky_flag : $uint<1>   signed_unbiased_exponent : $int<13>   padded_mantissa : $uint<32>  )
+$out ( result : $float<8,23>  )
+$is
+{
+  ue_13 := ($bitcast ($uint<13>) signed_unbiased_exponent ) $buffering 1
+  m_62 := (( $slice padded_mantissa 30 0 )  && ZERO_31) $buffering 1
+  $report (round_e_32 in_args__ 	 signed_unbiased_exponent signed_unbiased_exponent 	 padded_mantissa padded_mantissa 	 ue_13 ue_13 	 m_62 m_62 )
+  $volatile 	$call round_32_extn (sticky_flag ZERO_1 ue_13 m_62 ) (r_ue_13 r_m_23 ) 
+  ur32 := ((ZERO_1 && ( $slice r_ue_13 7 0 ) ) && r_m_23) $buffering 1
+  result := ($bitcast ($float<8,23>) ur32 ) $buffering 1
+  $report (round_e_32 out_args__ 	 ur32 ur32 )
+}
+$volatile $module [round_e_64]
+$in ( sticky_flag : $uint<1>   signed_unbiased_exponent : $int<13>   padded_mantissa : $uint<56>  )
+$out ( result : $float<11,52>  )
+$is
+{
+  ue_13 := ($bitcast ($uint<13>) signed_unbiased_exponent ) $buffering 1
+  m_62 := (( $slice padded_mantissa 54 0 )  && ZERO_7) $buffering 1
+  $report (round_e_64 in_args__ 	 signed_unbiased_exponent signed_unbiased_exponent 	 padded_mantissa padded_mantissa 	 ue_13 ue_13 	 m_62 m_62 )
+  $volatile 	$call round_64_extn (sticky_flag ZERO_1 ue_13 m_62 ) (r_ue_13 r_m_52 ) 
+  ur64 := ((ZERO_1 && ( $slice r_ue_13 10 0 ) ) && r_m_52) $buffering 1
+  result := ($bitcast ($float<11,52>) ur64 ) $buffering 1
+  $report (round_e_64 out_args__ 	 ur64 ur64 )
+}
+$volatile $module [twos_complement_32]
+$in ( A : $uint<32>  )
+$out ( B : $uint<32>  )
+$is
+{
+  cA := ( ~ A ) $buffering 1
+  $volatile 	$call increment_32 (cA ) (B ) 
+}
+$volatile $module [twos_complement_64]
+$in ( A : $uint<64>  )
+$out ( B : $uint<64>  )
+$is
+{
+  cA := ( ~ A ) $buffering 1
+  $volatile 	$call increment_64 (cA ) (B ) 
+}
+$volatile $module [u32_sll]
+$in ( X : $uint<32>   S : $uint<6>  )
+$out ( Y : $uint<32>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 30 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 29 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 27 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 23 0 )  && ZERO_8)  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (( $slice X3 15 0 )  && ZERO_16)  X3 )  $buffering 1
+  Y := ( $mux (S [] 5 ) _b0   X4 )  $buffering 1
+}
+$volatile $module [u64_sll]
+$in ( X : $uint<64>   S : $uint<7>  )
+$out ( Y : $uint<64>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (( $slice X 62 0 )  && ZERO_1)  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (( $slice X0 61 0 )  && ZERO_2)  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (( $slice X1 59 0 )  && ZERO_4)  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (( $slice X2 55 0 )  && ZERO_8)  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (( $slice X3 47 0 )  && ZERO_16)  X3 )  $buffering 1
+  X5 := ( $mux (S [] 5 ) (( $slice X4 31 0 )  && ZERO_32)  X4 )  $buffering 1
+  Y := ( $mux (S [] 6 ) _b0   X5 )  $buffering 1
+}
+$volatile $module [u64_srl]
+$in ( X : $uint<64>   S : $uint<7>  )
+$out ( Y : $uint<64>  )
+$is
+{
+  X0 := ( $mux (S [] 0 ) (ZERO_1 && ( $slice X 63 1 ) )  X )  $buffering 1
+  X1 := ( $mux (S [] 1 ) (ZERO_2 && ( $slice X0 63 2 ) )  X0 )  $buffering 1
+  X2 := ( $mux (S [] 2 ) (ZERO_4 && ( $slice X1 63 4 ) )  X1 )  $buffering 1
+  X3 := ( $mux (S [] 3 ) (ZERO_8 && ( $slice X2 63 8 ) )  X2 )  $buffering 1
+  X4 := ( $mux (S [] 4 ) (ZERO_16 && ( $slice X3 63 16 ) )  X3 )  $buffering 1
+  X5 := ( $mux (S [] 5 ) (ZERO_32 && ( $slice X4 63 32 ) )  X4 )  $buffering 1
+  Y := ( $mux (S [] 6 ) _b0   X5 )  $buffering 1
+}
+$pipeline $depth 3 $buffering 1 $fullrate $module [u64_shift]
+$in ( is_sll : $uint<1>   is_srl : $uint<1>   x : $uint<64>   shift_amount : $uint<7>  )
+$out ( result : $uint<64>  )
+$is
+{
+  $volatile 	$call u64_sll (x shift_amount ) (result_sll ) 
+  $volatile 	$call u64_srl (x shift_amount ) (result_srl ) 
+  result := ( $mux is_sll result_sll  result_srl )  $buffering 2// bits of buffering = 128. 
+}
+$volatile $module [u64_shift_sticky]
+$in ( is_sll : $uint<1>   is_srl : $uint<1>   x : $uint<64>   shift_amount : $uint<7>  )
+$out ( result : $uint<64>   sticky : $uint<1>  )
+$is
+{
+  $volatile 	$call u64_sll (x shift_amount ) (result_sll ) 
+  $volatile 	$call u64_sr_special (x shift_amount ) (result_srl shifted_bit_rep ) 
+  sticky := ( $mux is_srl shifted_bit_rep  _b0  )  $buffering 1
+  result := ( $mux is_sll result_sll  result_srl )  $buffering 1
+}
+$module [u64_true_divide]
+$in ( udividend : $uint<64>   udivisor : $uint<64>  )
+$out ( quotient : $uint<64>  )
+$is
+{
+  $branchblock [loop]
+  {
+    $dopipeline $depth 7 $buffering 2
+    $fullrate 
+    $merge $entry $loopback 
+    $phi QUOTIENT := 			  ZERO_64 $on   $entry 			  NQUOTIENT $on   $loopback 
+    // type of target is $uint<64>
+    $phi DIVIDEND := 			  udividend $on   $entry 			  NDIVIDEND $on   $loopback 
+    // type of target is $uint<64>
+    $endmerge
+    $report (iunit_exec true_divide 			 DIVIDEND DIVIDEND 			 QUOTIENT QUOTIENT )
+    $call alignDivisorToDividend (DIVIDEND udivisor ) (SD CQ ) 
+    NQUOTIENT := (QUOTIENT + CQ) $buffering 1// bits of buffering = 64. 
+    NDIVIDEND := (DIVIDEND - SD) $buffering 1// bits of buffering = 64. 
+    $while (DIVIDEND >= udivisor)
+  }
+  ( QUOTIENT => q )
+  $volatile quotient := q $buffering 1
+}
+$volatile $module [u_cmp_34]
+$in ( a : $uint<34>   b : $uint<34>  )
+$out ( l : $uint<1>   g : $uint<1>   e : $uint<1>  )
+$is
+{
+  al := ( $slice a 31 0 )  $buffering 1
+  ah := ( $slice a 33 32 )  $buffering 1
+  bl := ( $slice b 31 0 )  $buffering 1
+  bh := ( $slice b 33 32 )  $buffering 1
+  $volatile 	$call u_cmp_32 (al bl ) (ll gl el ) 
+  lh := (ah < bh) $buffering 1
+  gh := (ah > bh) $buffering 1
+  eh := (ah == bh) $buffering 1
+  l := (lh | (eh & ll)) $buffering 1
+  e := (eh & el) $buffering 1
+  g := (gh | (eh & gl)) $buffering 1
+}
