@@ -1,0 +1,11 @@
+run.sh
+	The run script to synthesize
+	This calls bitgen.tcl
+
+
+
+These are not too relevant right now.
+run_be.sh
+run_dummy.sh
+run_fe.sh
+vhdlgen.sh

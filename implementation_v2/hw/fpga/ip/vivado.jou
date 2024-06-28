@@ -1,0 +1,26 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sat Nov  7 16:46:41 2020
+# Process ID: 26415
+# Current directory: /home/madhav/ecg/implementation_v2/hw/basys3/ip
+# Command line: vivado
+# Log file: /home/madhav/ecg/implementation_v2/hw/basys3/ip/vivado.log
+# Journal file: /home/madhav/ecg/implementation_v2/hw/basys3/ip/vivado.jou
+#-----------------------------------------------------------
+start_gui
+create_project managed_ip_project /home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project -part xc7a35tcpg236-3 -ip
+set_property target_language VHDL [current_project]
+set_property simulator_language VHDL [current_project]
+set_property target_simulator ModelSim [current_project]
+create_ip -name clk_wiz -vendor xilinx.com -library ip -version 6.0 -module_name clk_wiz_0 -dir /home/madhav/ecg/implementation_v2/hw/basys3/ip
+set_property -dict [list CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {50.000} CONFIG.MMCM_CLKOUT0_DIVIDE_F {20.000} CONFIG.CLKOUT1_JITTER {151.636}] [get_ips clk_wiz_0]
+generate_target {instantiation_template} [get_files /home/madhav/ecg/implementation_v2/hw/basys3/ip/clk_wiz_0/clk_wiz_0.xci]
+generate_target all [get_files  /home/madhav/ecg/implementation_v2/hw/basys3/ip/clk_wiz_0/clk_wiz_0.xci]
+catch { config_ip_cache -export [get_ips -all clk_wiz_0] }
+export_ip_user_files -of_objects [get_files /home/madhav/ecg/implementation_v2/hw/basys3/ip/clk_wiz_0/clk_wiz_0.xci] -no_script -sync -force -quiet
+create_ip_run [get_files -of_objects [get_fileset sources_1] /home/madhav/ecg/implementation_v2/hw/basys3/ip/clk_wiz_0/clk_wiz_0.xci]
+launch_runs -jobs 2 clk_wiz_0_synth_1
+wait_on_run clk_wiz_0_synth_1
+export_simulation -of_objects [get_files /home/madhav/ecg/implementation_v2/hw/basys3/ip/clk_wiz_0/clk_wiz_0.xci] -directory /home/madhav/ecg/implementation_v2/hw/basys3/ip/ip_user_files/sim_scripts -ip_user_files_dir /home/madhav/ecg/implementation_v2/hw/basys3/ip/ip_user_files -ipstatic_source_dir /home/madhav/ecg/implementation_v2/hw/basys3/ip/ip_user_files/ipstatic -lib_map_path [list {modelsim=/home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project/managed_ip_project.cache/compile_simlib/modelsim} {questa=/home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project/managed_ip_project.cache/compile_simlib/questa} {ies=/home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project/managed_ip_project.cache/compile_simlib/ies} {xcelium=/home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project/managed_ip_project.cache/compile_simlib/xcelium} {vcs=/home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project/managed_ip_project.cache/compile_simlib/vcs} {riviera=/home/madhav/ecg/implementation_v2/hw/basys3/ip/managed_ip_project/managed_ip_project.cache/compile_simlib/riviera}] -use_ip_compiled_libs -force -quiet

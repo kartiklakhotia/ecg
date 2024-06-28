@@ -1,0 +1,22 @@
+Contents
+
+vhdl
+	VHDL of the ECG chain.
+
+vhdl_external
+	External VHDL libraries.
+
+vivado_synth/
+	vivado run scripts.  You will need to 
+	setup the vivado paths in run.sh and then
+	./run.sh
+	
+constraint
+	basys3 constraint.
+
+ip
+	clk divider IP from Xilinx to generate 50MHz
+	from 100MHz base clock.
+
+bit_file
+	last generated bit file.

@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../../clk_wiz_0/clk_wiz_0_sim_netlist.vhdl" \
+
+nosort
