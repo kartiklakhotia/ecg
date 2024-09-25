@@ -14,7 +14,7 @@ set_property part xc7a35tcpg236-3 [current_project]
 read_ip ../ip/clk_wiz_0/clk_wiz_0.xci 
 
 ############### SYNTHESIZE ##############
-synth_design -fsm_extraction off -flatten_hierarchy none -top basys3_top -part xc7a35tcpg236-3
+synth_design -fsm_extraction off -top basys3_top -part xc7a35tcpg236-3
 write_checkpoint -force PostSynthCheckpoint.dcp
 report_timing_summary -file timing.postsynth.rpt -nworst 4
 

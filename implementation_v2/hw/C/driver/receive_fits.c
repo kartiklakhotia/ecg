@@ -25,8 +25,9 @@ void Exit(int sig)
 	exit(0);
 }
 
-void readAndReportBeatResult()
+void readAndReportBeatResult(double initial_time)
 {
+
 	uint32_t beat_index = tbGetUint32();
 	uint32_t qrs_peak_index = tbGetUint32();
 	uint32_t best_sigma_index = tbGetUint32();
@@ -47,16 +48,21 @@ void readAndReportBeatResult()
 
 	struct timespec tval;
 	timespec_get(&tval, TIME_UTC);
+	double current_time = ((double) tval.tv_sec) + (1.0e-9 * tval.tv_nsec);
 	fprintf(stdout,"Info:readAndReportResult: for beat %d, arrival-time = %lf\n",
 				beat_index,
-				((double) tval.tv_sec) + (1.0e-9 * tval.tv_nsec));
+				(current_time - initial_time));
 }
 
 int main(int argc, char* argv[])
 {
+	struct timespec initial_tval;
+	timespec_get(&initial_tval, TIME_UTC);
+	double initial_time = ((double) initial_tval.tv_sec) + (1.0e-9 * initial_tval.tv_nsec);
+
 	while(1)
 	{
-		readAndReportBeatResult();
+		readAndReportBeatResult(initial_time);
 	}
 
 }

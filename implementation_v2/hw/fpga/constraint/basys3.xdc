@@ -41,7 +41,9 @@ set_property PACKAGE_PIN T18 [get_ports btnU]
 	#set_property IOSTANDARD LVCMOS33 [get_ports btnR]
 #set_property PACKAGE_PIN U17 [get_ports btnD]						
 	#set_property IOSTANDARD LVCMOS33 [get_ports btnD]
- 
+
+# allow suboptimal placement for BUFG-BUFG cascade pair.
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk_gen/inst/clk_out1] 
 
 
 ##Pmod Header JA
