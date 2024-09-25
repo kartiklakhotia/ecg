@@ -37,7 +37,7 @@ things.
 
 4.  Build the hardware setup:
 	Open the build_all.sh and edit the options
-	in that file as indicated.
+	in that file (for clock gating) as indicated.
 
 	Then run
 
