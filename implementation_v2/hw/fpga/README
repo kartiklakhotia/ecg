@@ -7,16 +7,28 @@ vhdl_external
 	External VHDL libraries.
 
 vivado_synth/
-	vivado run scripts.  You will need to 
+	vivado run scripts.  
+
+        To build the basys3 bit file, You will need to 
 	setup the vivado paths in run.sh and then
+
 	./run.sh
+
+        To build the cw305 bit file, You will need to 
+	setup the vivado paths in run_cw305.sh and then
+
+	./run_cw305.sh
+
+	
 	
 constraint
-	basys3 constraint.
+
+	basys3 constraint file is basys3.xdc
+	cw305  constraint file is cw305_main.xdc
 
 ip
 	clk divider IP from Xilinx to generate 50MHz
 	from 100MHz base clock.
 
 bit_file
-	last generated bit file.
+	last generated bit files.
