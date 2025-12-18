@@ -10,8 +10,8 @@
 #include "storage.h"
 #include "fpops.h"
 
-HermiteFit best_hermite_fit;
-REAL current_beat[144];
+extern HermiteFit best_hermite_fit;
+extern REAL current_beat[144];
 REAL err[NSIGMAS];
 
 REAL best_mse;

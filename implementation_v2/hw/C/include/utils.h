@@ -24,5 +24,6 @@ float  getFloatForHermiteFitter();
 void sendDoubleToHermiteFitter(double X);
 double  getDoubleForHermiteFitter();
 
+void   __vhdlsim_log (uint8_t code, uint32_t value);
 
 #endif

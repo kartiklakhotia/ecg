@@ -3,6 +3,13 @@
 
 #include "app_defines.h"
 
+#define __IN_LOG	 1
+#define __BPF_LOG        2
+#define __MAR_LOG        3
+#define __DERIVATIVE_LOG 4
+#define __QRS_PEAK_LOG   5
+#define __FIT_LOG        6
+
 #define RBUF_SIZE   2048
 
 typedef struct __FilterState128  {

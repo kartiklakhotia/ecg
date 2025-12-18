@@ -1,6 +1,6 @@
 #!/bin/bash
 DEFINES="-D FPGA -D NUSE_DOUBLE -D NMONITORBACKEND -D NMONITORFRONTEND -D NREADBACK -D FREADWRITE "
-INCLUDES="-I $AHIR_RELEASE/include -I include"
+INCLUDES="-I $AHIR_RELEASE/include -I include -I /usr/include/x86_64-linux-gnu "
 LIBPATH="-L $AHIR_RELEASE/lib "
 LIBS=" -lpthread -lPipeHandler -lm "
 CFLAGS=" -m32 -O3 -std=gnu89 -emit-llvm  "
@@ -60,7 +60,7 @@ opt --indvars --loopsimplify objvhdl/qrs_peak_detect.o -o objvhdl/qrs_peak_detec
 llvm-dis objvhdl/qrs_peak_detect.opt.o -o objvhdl/qrs_peak_detect.opt.o.ll
 llvm2aa $LLVM2AAOPTS  objvhdl/qrs_peak_detect.opt.o | vcFormat > .Aa/qrs_peak_detect.aa
 
-AaLinkExtMem .Aa/band_pass_filter.aa .Aa/result_buffer.aa .Aa/best_fit.aa .Aa/beat.aa .Aa/derivative.aa .Aa/frontend.aa .Aa/hermite_fitter.aa .Aa/moving_average.aa .Aa/qrs_peak_detect.aa Aa/utils.aa Aa/fp_enhanced.aa  | vcFormat > .Aa/ecg.linked.aa
+AaLinkExtMem .Aa/band_pass_filter.aa .Aa/result_buffer.aa .Aa/best_fit.aa .Aa/beat.aa .Aa/derivative.aa .Aa/frontend.aa .Aa/hermite_fitter.aa .Aa/moving_average.aa .Aa/qrs_peak_detect.aa Aa/utils.aa Aa/ajit_fpu.aa Aa/fp_for_ecg.aa   | vcFormat > .Aa/ecg.linked.aa
 AaOpt -C .Aa/ecg.linked.aa | vcFormat > .Aa/ecg.linked.optC.aa
 AaOpt -B .Aa/ecg.linked.optC.aa | vcFormat > .Aa/ecg.linked.opt.aa
 Aa2VC -O -C -r controllerDaemon -r hermiteFitterDaemon -r beatDaemon .Aa/ecg.linked.opt.aa | vcFormat > .vC/ecg.vc

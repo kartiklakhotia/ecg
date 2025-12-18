@@ -9,6 +9,8 @@
 #include <pipeHandler.h>
 
 #include "app_defines.h"
+#include "utils.h"
+#include "data_structs.h"
 #include "tb_utils.h"
 #include "hermite.h"
 #include "best_fit.h"
@@ -60,15 +62,16 @@ void sendBeats(FILE* fp)
 	{
 		int32_t X;
 		int n = fscanf(fp, "%d", &X);
+		I++;
 
 		if(n == 0)
 			break;
 		tbSendUint16((uint16_t) X);
-		I++;
 #ifdef DEBUGPRINT
-		fprintf(stderr,"Sent sample[%d] = 0x%x\n", I, X);
+		fprintf(stderr,"Sent sample[%d] = 0x%x\n", I-1, X);
 #endif
 	}
+	fprintf(stderr,"Info: finished sending beat samples (%d samples sent)\n", I);
 	fclose (fp);
 }
 
@@ -78,6 +81,8 @@ void Sender()
 }
 DEFINE_THREAD(Sender);
 
+// in util.h
+DEFINE_THREAD(vhdlsim_log_daemon);
 
 #ifdef SW
 
@@ -154,6 +159,12 @@ int main(int argc, char* argv[])
 
 #endif
 
+#ifdef VHDLSIM
+	fprintf(stderr,"Info: starting vhdlsim_log_daemon\n");
+	PTHREAD_DECL(vhdlsim_log_daemon);
+	PTHREAD_CREATE(vhdlsim_log_daemon);
+#endif
+
 
 	hw_config.moving_average_filter_order = atoi(argv[1]);
 	if(hw_config.moving_average_filter_order > 64)
@@ -189,6 +200,7 @@ int main(int argc, char* argv[])
 
 	register_pipe("in_data",8,8,0);
 	register_pipe("out_data",8,8,0);
+	register_pipe("log_data",1,64,0);
 	register_pipe("backend_monitor_pipe",1,32,0);
 
 #ifdef USE_DOUBLE
@@ -196,6 +208,7 @@ int main(int argc, char* argv[])
 #else
 	register_pipe("beat_to_hermite_fitter",2,32,0);
 #endif
+
 	register_pipe("current_peak_index_to_hermite_fitter",1,32,0);
 	register_pipe("qrs_detect_to_beat_daemon",1,32,0);
 
@@ -203,6 +216,7 @@ int main(int argc, char* argv[])
 
 	PTHREAD_DECL(controllerDaemon);
 	PTHREAD_CREATE(controllerDaemon);
+
 
 
 #ifndef FRONTEND

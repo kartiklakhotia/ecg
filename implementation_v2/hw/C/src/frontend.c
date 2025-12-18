@@ -127,11 +127,18 @@ void controllerDaemon ()
 		fprintf(stderr,"IN: %d %d\n", isample, sample);
 #endif
 
+#ifdef VHDLSIM
+		__vhdlsim_log (__IN_LOG, sample);
+#endif
+
 		int32_t filtered_sample = applyBandPassFilter(sample);
 #ifdef SW
 		fprintf(stderr,"BPF: %d\n", filtered_sample);
 #endif
 	
+#ifdef VHDLSIM
+		__vhdlsim_log (__BPF_LOG, filtered_sample);
+#endif
 		//
 		// filtered results are pushed. into the buffer for recovery 
 		// once a beat has been detected.
@@ -143,9 +150,17 @@ void controllerDaemon ()
 		fprintf(stderr,"DER: %d\n", derivative_sample);
 #endif
 
+#ifdef VHDLSIM
+		__vhdlsim_log (__DERIVATIVE_LOG, derivative_sample);
+#endif
+
 		int32_t moving_average_sample = applyMovingAverageFilter(derivative_sample);
 #ifdef SW
 		fprintf(stderr,"MAR: %d\n", moving_average_sample);
+#endif
+
+#ifdef VHDLSIM
+		__vhdlsim_log (__MAR_LOG, moving_average_sample);
 #endif
 
 		// returns -ve number if no peak found.
@@ -155,6 +170,10 @@ void controllerDaemon ()
 		{
 #ifdef SW
 			fprintf(stderr,"QRS: %d\n", qrs_peak);
+#endif
+
+#ifdef VHDLSIM
+			__vhdlsim_log (__QRS_PEAK_LOG, qrs_peak);
 #endif
 
 			corrected_qrs_peak = qrs_peak - inserted_qrs_delay;

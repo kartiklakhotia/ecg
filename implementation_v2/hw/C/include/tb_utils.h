@@ -19,6 +19,7 @@ void	 tbSendUint64(uint64_t X);
 double 	 tbGetDouble();
 void	 tbSendDouble(double X);
 
+void  vhdlsim_log_daemon ();
 
 
 #endif

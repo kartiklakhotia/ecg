@@ -1,0 +1,185 @@
+$pipeline $depth 7 $fullrate $module [fp16_add_for_ecg]
+$in ( f1 : $uint<16>   f2 : $uint<16>  )
+$out ( result : $uint<16>  )
+$is
+{
+  $call faddsub16 (f1 f2 ZERO_1 ) (result ) 
+}
+
+$pipeline $depth 7 $fullrate $module [fdtoi_for_ecg]
+$in ( X : $float<11,52>  )
+$out ( Y : $int<32>  )
+$is
+{
+  $call fdtoi_op (X ) (Y ) 
+}
+
+$pipeline $depth 7 $fullrate $module [fdtos_for_ecg]
+$in ( X : $float<11,52>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $call DoubleToSingle (X ) (needs_denorm extn_result ) 
+  $volatile 	$call round_fp_32 (extn_result ) (s_result_fast ) 
+  $guard (needs_denorm) $call denormalize_fp_32 (extn_result ) (s_result_slow ) 
+  RESULT := ($bitcast ($float<8,23>) ( $mux needs_denorm s_result_slow  s_result_fast )  ) $buffering 1// bits of buffering = 32. 
+}
+
+$pipeline $depth 7 $fullrate $module [fitod64_for_ecg]
+$in ( X : $uint<32>  )
+$out ( Y : $float<11,52>  )
+$is
+{
+  $volatile 	$call fitod64 (X ) (uY ) 
+  Y := uY $buffering 1// bits of buffering = 64. 
+}
+
+$pipeline $depth 7 $fullrate $module [fitos32_for_ecg]
+$in ( X : $uint<32>  )
+$out ( Y : $float<8,23>  )
+$is
+{
+  $volatile 	$call fitod64 (X ) (dY ) 
+  $call DoubleToSingle (dY ) (denorm_dY extn_dY ) 
+  $volatile 	$call round_fp_32 (extn_dY ) (rY ) 
+  $guard (denorm_dY) $call denormalize_fp_32 (extn_dY ) (nrY ) 
+  Y := ($bitcast ($float<8,23>) ( $mux denorm_dY nrY  rY )  ) $buffering 1// bits of buffering = 32. 
+}
+
+$pipeline $depth 7 $fullrate $module [fp16_mul_for_ecg]
+$in ( f1 : $uint<16>   f2 : $uint<16>  )
+$out ( result : $uint<16>  )
+$is
+{
+  $call fmul16 (f1 f2 ) (result ) 
+}
+
+$pipeline $depth 7 $fullrate $module [fp32_add_for_ecg]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpadd32_op (($bitcast ($uint<32>) X ) x_class ($bitcast ($uint<32>) Y ) y_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp_32 (extn_result_add ) (adds_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp_32 (extn_result_add ) (adds_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
+  $attribute input_buffering 2
+}
+
+$pipeline $depth 7 $fullrate $module [fp64_add_for_ecg]
+$in ( X : $float<11,52>   Y : $float<11,52>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call classFp64 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp64 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpadd64_op (ZERO_1 ONE_1 _b0  _b0  _b0  _b0  ($bitcast ($uint<64>) X ) x_class ($bitcast ($uint<64>) Y ) y_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp_64 (extn_result_add ) (addd_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp_64 (extn_result_add ) (addd_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_add addd_result_slow  addd_result_fast )  ) $buffering 1
+  $attribute input_buffering 2
+}
+
+$pipeline $depth 7 $fullrate $module [fp32_mul_for_ecg]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpmul32_op (($bitcast ($uint<32>) X ) x_class ($bitcast ($uint<32>) Y ) y_class ) (denormalize_flag_mul extn_result_mul ) 
+  $volatile 	$call round_fp_32 (extn_result_mul ) (muls_result_fast ) 
+  $guard (denormalize_flag_mul) $call denormalize_fp_32 (extn_result_mul ) (muls_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_mul muls_result_slow  muls_result_fast )  ) $buffering 1
+  $attribute input_buffering 2
+}
+
+$pipeline $depth 7 $fullrate $module [fp64_mul_for_ecg]
+$in ( X : $float<11,52>   Y : $float<11,52>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call classFp64 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp64 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $call fpmul64_op (ZERO_1 ONE_1 _b0  _b0  _b0  _b0  ($bitcast ($uint<64>) X ) x_class ($bitcast ($uint<64>) Y ) y_class ) (denormalize_flag_mul extn_result_mul ) 
+  $volatile 	$call round_fp_64 (extn_result_mul ) (muld_result_fast ) 
+  $guard (denormalize_flag_mul) $call denormalize_fp_64 (extn_result_mul ) (muld_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_mul muld_result_slow  muld_result_fast )  ) $buffering 1
+  $attribute input_buffering 2
+}
+
+$pipeline $depth 7 $fullrate $module [fp32_sub_for_ecg]
+$in ( X : $float<8,23>   Y : $float<8,23>  )
+$out ( RESULT : $float<8,23>  )
+$is
+{
+  $volatile 	$call classFp32 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp32 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call negate_classification (y_class ) (y_n_class ) 
+  uY := ($bitcast ($uint<32>) Y ) $buffering 1// bits of buffering = 32. 
+  unY := (( ~ (uY [] 31 ) ) && ( $slice uY 30 0 ) ) $buffering 1// bits of buffering = 32. 
+  $call fpadd32_op (($bitcast ($uint<32>) X ) x_class unY y_n_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp_32 (extn_result_add ) (adds_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp_32 (extn_result_add ) (adds_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<8,23>) ( $mux denormalize_flag_add adds_result_slow  adds_result_fast )  ) $buffering 1
+  $attribute input_buffering 2
+}
+
+$pipeline $depth 7 $fullrate $module [fp64_sub_for_ecg]
+$in ( X : $float<11,52>   Y : $float<11,52>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call classFp64 (X ) (xpn xnn xpd xnd xqnan xsnan xpi xni xpz xnz ) 
+  x_class := ((((xpn && xnn) && xpd) && (xnd && xqnan)) && (((xsnan && xpi) && xni) && (xpz && xnz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call classFp64 (Y ) (ypn ynn ypd ynd yqnan ysnan ypi yni ypz ynz ) 
+  y_class := ((((ypn && ynn) && ypd) && (ynd && yqnan)) && (((ysnan && ypi) && yni) && (ypz && ynz))) $buffering 1// bits of buffering = 10. 
+  $volatile 	$call negate_classification (y_class ) (y_n_class ) 
+  uY := ($bitcast ($uint<64>) Y ) $buffering 1// bits of buffering = 64. 
+  unY := (( ~ (uY [] 63 ) ) && ( $slice uY 62 0 ) ) $buffering 1// bits of buffering = 64. 
+  $call fpadd64_op (ZERO_1 ONE_1 _b0  _b0  _b0  _b0  ($bitcast ($uint<64>) X ) x_class unY y_n_class ) (denormalize_flag_add extn_result_add ) 
+  $volatile 	$call round_fp_64 (extn_result_add ) (addd_result_fast ) 
+  $guard (denormalize_flag_add) $call denormalize_fp_64 (extn_result_add ) (addd_result_slow ) 
+  $volatile RESULT := ($bitcast ($float<11,52>) ( $mux denormalize_flag_add addd_result_slow  addd_result_fast )  ) $buffering 1
+  $attribute input_buffering 2
+}
+
+
+$pipeline $depth 7 $fullrate $module [fstod_for_ecg]
+$in ( X : $float<8,23>  )
+$out ( RESULT : $float<11,52>  )
+$is
+{
+  $volatile 	$call SingleToDouble (X ) (r ) 
+  RESULT := r $buffering 1// bits of buffering = 64. 
+}
+
+$pipeline $depth 7 $fullrate $module [fstoi_for_ecg]
+$in ( X : $float<8,23>  )
+$out ( Y : $int<32>  )
+$is
+{
+  $volatile 	$call SingleToDouble (X ) (Xd ) 
+  $call fdtoi_op (Xd ) (Y ) 
+}
+
+$pipeline $depth 7 $fullrate $module [fp16_sub_for_ecg]
+$in ( f1 : $uint<16>   f2 : $uint<16>  )
+$out ( result : $uint<16>  )
+$is
+{
+  $call faddsub16 (f1 f2 ONE_1 ) (result ) 
+}
+

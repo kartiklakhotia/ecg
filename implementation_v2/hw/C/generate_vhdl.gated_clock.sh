@@ -60,7 +60,7 @@ opt --indvars --loopsimplify objvhdl/qrs_peak_detect.o -o objvhdl/qrs_peak_detec
 llvm-dis objvhdl/qrs_peak_detect.opt.o -o objvhdl/qrs_peak_detect.opt.o.ll
 llvm2aa $LLVM2AAOPTS  objvhdl/qrs_peak_detect.opt.o | vcFormat > .Aa/qrs_peak_detect.aa
 
-AaLinkExtMem .Aa/band_pass_filter.aa .Aa/result_buffer.aa .Aa/best_fit.aa .Aa/beat.aa .Aa/derivative.aa .Aa/frontend.aa .Aa/hermite_fitter.aa .Aa/moving_average.aa .Aa/qrs_peak_detect.aa Aa/utils.aa Aa/fp_enhanced.aa Aa/clock_gating.aa  | vcFormat > .Aa/ecg.linked.aa 
+AaLinkExtMem .Aa/band_pass_filter.aa .Aa/result_buffer.aa .Aa/best_fit.aa .Aa/beat.aa .Aa/derivative.aa .Aa/frontend.aa .Aa/hermite_fitter.aa .Aa/moving_average.aa .Aa/qrs_peak_detect.aa Aa/utils.aa Aa/ajit_fpu.aa Aa/fp_for_ecg.aa Aa/clock_gating.aa  | vcFormat > .Aa/ecg.linked.aa 
 AaOpt -C .Aa/ecg.linked.aa | vcFormat > .Aa/ecg.linked.optC.aa
 AaOpt -B .Aa/ecg.linked.optC.aa | vcFormat > .Aa/ecg.linked.opt.aa
 Aa2VC -O -C -r controllerDaemon -r hermiteFitterDaemon -r beatDaemon .Aa/ecg.linked.opt.aa | vcFormat > .vC/ecg.vc

@@ -9,6 +9,7 @@
 #include "hermite.h"
 #include "best_fit.h"
 #include "utils.h"
+#include "data_structs.h"
 #ifndef SW
 #ifdef  FPGA
 #include "uart_interface.h"
@@ -149,3 +150,24 @@ void	 tbSendDouble(double X)
 
 
 
+void  vhdlsim_log_daemon ()
+{
+	fprintf(stderr,"Info: entered vhdlsim_log_daemon\n");
+	while(1)
+	{
+		uint64_t v = read_uint64 ("log_data");
+		uint64_t code = (v >> 55) & 0xff;
+
+		fprintf(stderr, "log_data:= code=%d value=%d\n", (uint32_t) code, (int32_t) (v & 0xff));
+
+		switch(code)
+		{
+			case __IN_LOG:  fprintf(stderr,"IN %d\n", (uint32_t) (v & 0xff));	 break;
+			case __BPF_LOG:  fprintf(stderr,"BPF %d\n", (uint32_t) (v & 0xff));	 break;
+			case __MAR_LOG:  fprintf(stderr,"MAR %d\n", (uint32_t) (v & 0xff));	 break;
+			case __DERIVATIVE_LOG:  fprintf(stderr,"DER %d\n", (uint32_t) (v & 0xff));	 break;
+			case __QRS_PEAK_LOG:  fprintf(stderr,"QRS_PEAK %d\n", (uint32_t) (v & 0xff));	 break;
+			default: break;
+		}
+	}
+}
