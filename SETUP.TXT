@@ -1,0 +1,16 @@
+1. Clone this repository
+	git clone https://git@github.com:kartiklakhotia/ecg.git .
+
+2. Download clang + llvm (2.8) tar-ball.
+
+	https://releases.llvm.org/download.html
+	Clang Binaries for Linux/x86_64 (49M)
+
+	Untar and add to LD_LIBRARY_PATH, PATH.
+
+3. Get the AHIR release tgz, untar and source
+	ahir_bashrc in the release folder.
+
+
+4. Thats it.
+
